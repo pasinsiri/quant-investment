@@ -7,3 +7,4 @@ my_port.csv
 
 # temp exclusion
 data/2021*
+data/finno/*
