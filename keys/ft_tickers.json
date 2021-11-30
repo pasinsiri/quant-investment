@@ -1,0 +1,32 @@
+{
+    "funds": 
+        {
+            "url": "https://markets.ft.com/data/funds/tearsheet/holdings?s=[0]", 
+            "lists": {
+                "ONE-UGG-RA": "IE00BYQG5606:USD",
+                "K-CHANGE-A": "GB00BYVGKV59:GBX",
+                "KFUS-A": "IE00B8HW2209:USD",
+                "TMBGQG": "LU0629158030:USD",
+                "TMB-ES-GCORE": "LU0236212311:USD",
+                "K-USA-A": "LU0225737302:USD",
+                "WE-GSECURE": "LU0909471251:USD",
+                "KFGBRAND-A": "LU0360482987:USD",
+                "TMBCOF": "LU1017642064:USD",
+                "KT-Ashares-A": "LU1997246811:USD",
+                "WE-CHIG": "LU0721876877:USD",
+                "KT-FINANCE": "LU0971096721:USD",
+                "MRENEW-A": "LU0124384867:USD",
+                "KFHHCARE-A": "LU0432979614:USD",
+                "KFINFRA-A": "LU1692117366:USD",
+                "K-EUSMALL": "LU1775962217:USD"
+            }
+        },
+    "etf": {
+        "url": "https://markets.ft.com/data/etfs/tearsheet/holdings?s=[0]", 
+        "lists": {
+            "TMB-ES-GINNO": "ARKK:PCQ:USD", 
+            "TMB-ES-INTERNET": "ARKW:PCQ:USD", 
+            "P-CGREEN": "KGRN:PCQ:USD"
+        }
+    }
+}

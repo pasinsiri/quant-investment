@@ -1,0 +1,33 @@
+{
+    "annual": {
+        "Inflation by Consumer Price:US": "FPCPITOTLZGUSA",
+        "Inflation by Consumer Price:CHINA": "FPCPITOTLZGCHN",
+        "Inflation by Consumer Price:JAPAN": "FPCPITOTLZGJPN",
+        "GDP:CHINA": "MKTGDPCNA646NWDB"
+    },
+    "quarterly": {
+        "GDP": "GDP",
+        "Real GDP": "GDPC1",
+        "E-Commerce Retail Sales": "ECOMSA",
+        "Capital Expenditures": "BOGZ1FA895050005Q"
+    },
+    "monthly": {
+        "Non Farm Payrolls": "PAYEMS",
+        "CPI:US": "CPALTT01USM657N",
+        "CPI:CHINA": "CHNCPIALLMINMEI",
+        "CPI:JAPAN": "JPNCPIALLMINMEI",
+        "PCE": "PCE",
+        "Real PCE": "PCEC96",
+        "Industrial Production Index": "INDPRO",
+        "Unemployment Rate": "UNRATE",
+        "Treasury Yield: Money Market": "MMTY",
+        "Advance Retail Sales: Retail Trade": "RSXFS"
+    },
+    "weekly": {
+        "M1": "WM1NS",
+        "M2": "WM2NS"
+    },
+    "daily": {
+        "10-Year Breakeven Inflation": "T10YIE"
+    }
+}
