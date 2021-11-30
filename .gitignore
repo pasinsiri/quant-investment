@@ -4,3 +4,6 @@ test
 __pycache__
 test 
 my_port.csv
+
+# temp exclusion
+data/2021*
