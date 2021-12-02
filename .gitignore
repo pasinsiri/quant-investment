@@ -1,3 +1,4 @@
+.DS_Store
 *.ipynb
 env
 test
@@ -8,3 +9,5 @@ my_port.csv
 # temp exclusion
 data/2021*
 data/finno/*
+data/ft-funds/*
+data/fred/*
