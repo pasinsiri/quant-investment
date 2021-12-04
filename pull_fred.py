@@ -6,7 +6,7 @@ import datetime as dt
 with open('./keys/fred_quotes.json', 'r') as f:
     fred_key = json.load(f)
 
-start = dt.datetime(2018, 1, 1)
+start = dt.datetime(2017, 12, 29)
 end = dt.datetime(2021, 10, 1)
 table_dict = {}
 for time in fred_key:
