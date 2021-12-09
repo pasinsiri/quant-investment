@@ -1,0 +1,5 @@
+{
+    "solana": {
+        "url": "https://public-api.solscan.io/account/tokens?account={0}"
+    }
+}
