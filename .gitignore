@@ -9,6 +9,9 @@ test
 my_port.csv
 crypto_wallet_addresses.json
 
+# crypto data
+data/crypto/*
+
 # temp exclusion
 data/2021*
 data/finno/*
