@@ -11,6 +11,7 @@ crypto_wallet_addresses.json
 
 # crypto data
 data/crypto/*
+data/SEC/*
 
 # temp exclusion
 data/2021*
