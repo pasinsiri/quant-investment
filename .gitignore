@@ -1,9 +1,12 @@
 .DS_Store
-*.ipynb
+# *.ipynb
 env
 test
 __pycache__
 test 
+
+# notebook on test 
+test_*
 
 # my personal data
 my_port.csv
