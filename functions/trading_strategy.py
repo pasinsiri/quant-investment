@@ -17,7 +17,7 @@ class MeanReversionTrading():
         self.asset2 = self.series.columns[1]
         self.pair_name = '_'.join([c for c in self.series])
         self.spread_calculated = False
-        self.set_movement = False
+        self.position_flagged = False
 
     def plot_price(self, suffix: str = '') -> None:
         g = self.series.plot(figsize = (10,3))
@@ -48,7 +48,7 @@ class MeanReversionTrading():
         self.series['hedge_ratio'] = -estimator.params[0] 
         self.series['spread'] = self.series[self.asset2] + (self.series[self.asset1] * self.series['hedge_ratio'])
         self.spread_calculated = True
-        return self.series
+        return
 
     def plot_spread(self, suffix = ''):
         if not self.spread_calculated:
@@ -126,7 +126,13 @@ class MeanReversionTrading():
         plt.show()     
         return g  
 
-    def set_movement(self, entryZscore = 2, exitZscore = 0, plot_performance = True, suffix = ''):        
+    def set_movement(self, entryZscore = 2, exitZscore = 0, plot_performance = True, suffix = ''):    
+        # ? Calculate Z-score of spread
+        meanSpread = self.series['spread'].rolling(window=int(self.halflife)).mean()
+        stdSpread = self.series['spread'].rolling(window=int(self.halflife)).std()
+        self.series['zScore'] = (self.series['spread'] - meanSpread) / stdSpread
+
+
         # ? Movement condition
         # * Long position
         # if the previous action is not long and the current Z-score is less than the negative entry score, perform a long entry
@@ -143,14 +149,14 @@ class MeanReversionTrading():
 
         # * Short position
         # if the previous action is not short and the current Z-score is more than the positive entry score, perform a short entry 
-        self.series['short entry'] = ((self.series.zScore >  entryZscore) & (self.series.zScore.shift(1) < entryZscore))
+        self.series['short entry'] = ((self.series['zScore'] >  entryZscore) & (self.series['zScore'].shift(1) < entryZscore))
         # if the previous action is short and the current Z-score is less than the positive entry score, perform a short exit
-        self.series['short exit'] = ((self.series.zScore < exitZscore) & (self.series.zScore.shift(1) > exitZscore))
+        self.series['short exit'] = ((self.series['zScore'] < exitZscore) & (self.series['zScore'].shift(1) > exitZscore))
         self.series.loc[self.series['short entry'],'num units short'] = -1
         self.series.loc[self.series['short exit'],'num units short'] = 0
         self.series['num units short'][0] = 0
         self.series['num units short'] = self.series['num units short'].fillna(method='pad')
-        self.set_movement = True
+        self.position_flagged = True
 
         self.series['numUnits'] = self.series['num units long'] + self.series['num units short']
         self.series['spread pct ch'] = (self.series['spread'] - self.series['spread'].shift(1)) / ((self.series[self.asset1] * abs(self.series['hedge_ratio'])) + self.series[self.asset2])
@@ -167,7 +173,7 @@ class MeanReversionTrading():
             if self.save_image:
                 plt.savefig(f'{self.pair_name}_MeanReversion_performance_{suffix}.jpg')
             plt.show()
-        return self.series
+        return 
 
     def calculate_return(self, trading_days = 365, verbose = True, cagr = True, sharpe_ratio = True):
         if cagr and sharpe_ratio:
