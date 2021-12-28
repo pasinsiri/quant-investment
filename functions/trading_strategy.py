@@ -144,7 +144,7 @@ class MeanReversionTrading():
         self.series['num units long'] = np.nan 
         self.series.loc[self.series['long entry'],'num units long'] = 1 
         self.series.loc[self.series['long exit'],'num units long'] = 0 
-        self.series['num units long'][0] = 0 
+        self.series.loc[self.series.index[0], 'num units long'] = 0
         self.series['num units long'] = self.series['num units long'].fillna(method='pad') 
 
         # * Short position
@@ -154,7 +154,7 @@ class MeanReversionTrading():
         self.series['short exit'] = ((self.series['zScore'] < exitZscore) & (self.series['zScore'].shift(1) > exitZscore))
         self.series.loc[self.series['short entry'],'num units short'] = -1
         self.series.loc[self.series['short exit'],'num units short'] = 0
-        self.series['num units short'][0] = 0
+        self.series.loc[self.series.index[0], 'num units short']
         self.series['num units short'] = self.series['num units short'].fillna(method='pad')
         self.position_flagged = True
 
