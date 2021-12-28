@@ -126,7 +126,7 @@ class MeanReversionTrading():
             plt.savefig(f'{self.pair_name}_z_score_spread_{suffix}.jpg')
         plt.show()        
 
-    def set_movement(self, entryZscore = 2, exitZscore = 0):        
+    def set_movement(self, entryZscore = 2, exitZscore = 0, plot_performance = True, suffix = ''):        
         # ? Movement condition
         # * Long position
         # if the previous action is not long and the current Z-score is less than the negative entry score, perform a long entry
@@ -135,13 +135,11 @@ class MeanReversionTrading():
         # if the previous action is long and the current Z-score is more than the negative entry score, perform a long exit
         self.series['long exit'] = ((self.series['zScore'] > - exitZscore) & (self.series['zScore'].shift(1) < - exitZscore))
 
-
         self.series['num units long'] = np.nan 
         self.series.loc[self.series['long entry'],'num units long'] = 1 
         self.series.loc[self.series['long exit'],'num units long'] = 0 
         self.series['num units long'][0] = 0 
         self.series['num units long'] = self.series['num units long'].fillna(method='pad') 
-
 
         # * Short position
         # if the previous action is not short and the current Z-score is more than the positive entry score, perform a short entry 
@@ -152,4 +150,51 @@ class MeanReversionTrading():
         self.series.loc[self.series['short exit'],'num units short'] = 0
         self.series['num units short'][0] = 0
         self.series['num units short'] = self.series['num units short'].fillna(method='pad')
+        self.set_movement = True
+
+        self.series['numUnits'] = self.series['num units long'] + self.series['num units short']
+        self.series['spread pct ch'] = (self.series['spread'] - self.series['spread'].shift(1)) / ((self.series[self.asset1] * abs(self.series['hedge_ratio'])) + self.series[self.asset2])
+        self.series['port rets'] = self.series['spread pct ch'] * self.series['numUnits'].shift(1)
+            
+        self.series['cum rets'] = self.series['port rets'].cumsum()
+        self.series['cum rets'] = self.series['cum rets'] + 1
+
+        if plot_performance:
+            # Plot the result
+            plt.plot(self.series['cum rets'])
+            plt.xlabel('Time')
+            plt.ylabel('Cumulative Return') 
+            if self.save_image:
+                plt.savefig(f'{self.pair_name}_MeanReversion_performance_{suffix}.jpg')
+            plt.show()
         return self.series
+
+    def calculate_return(self, trading_days = 365, verbose = True, cagr = True, sharpe_ratio = True):
+        if cagr and sharpe_ratio:
+            both = True
+        else:
+            both = False
+
+        if cagr:
+            start_val = 1
+            end_val = self.series['cum rets'].iat[-1]
+                
+            start_date = self.series.iloc[0].name
+            end_date = self.series.iloc[-1].name
+            days = (end_date - start_date).days
+                
+            CAGR = round(((float(end_val) / float(start_val)) ** (float(trading_days)/days)) - 1,4)
+            if verbose:
+                print(f'CAGR = {CAGR * 100.0}%')
+            if not both:
+                return cagr
+        
+        if sharpe_ratio:
+            sharpe = (self.series['port rets'].mean() / self.series['port rets'].std()) * np.sqrt(trading_days) 
+            if verbose:
+                print(f'Sharpe Ratio = {round(sharpe,2)}')
+            if not both:
+                return sharpe
+
+        if both:
+            return cagr, sharpe
