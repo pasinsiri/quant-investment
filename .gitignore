@@ -22,3 +22,7 @@ data/2021*
 data/finno/*
 data/ft-funds/*
 data/fred/*
+
+# FINNOMENA data
+*/finno/*
+finno*.ipynb
