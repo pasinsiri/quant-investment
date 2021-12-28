@@ -20,7 +20,7 @@ class MeanReversionTrading():
         self.set_movement = False
         pass
 
-    def plot_price(self, suffix = ''):
+    def plot_price(self, suffix: str = '') -> None:
         g = self.series.plot(figsize = (10,3))
         plt.title('Price trends of two assets')
         plt.xlabel('Time') 
@@ -30,7 +30,7 @@ class MeanReversionTrading():
         plt.show()
         return 
 
-    def plot_correlation(self, suffix = ''):
+    def plot_correlation(self, suffix: str = '') -> None:
         g = sns.jointplot(x = self.asset1, y = self.asset2, data = self.series, color = 'orange')
         corr_coef = stats.pearsonr(self.series[self.asset1], self.series[self.asset2])[0]
 
