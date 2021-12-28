@@ -18,7 +18,6 @@ class MeanReversionTrading():
         self.pair_name = '_'.join([c for c in self.series])
         self.spread_calculated = False
         self.set_movement = False
-        pass
 
     def plot_price(self, suffix: str = '') -> None:
         g = self.series.plot(figsize = (10,3))
