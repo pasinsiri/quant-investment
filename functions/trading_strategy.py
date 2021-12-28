@@ -28,7 +28,7 @@ class MeanReversionTrading():
         if self.save_image:
             plt.savefig(f'{self.pair_name}_price_{suffix}.jpg')
         plt.show()
-        return 
+        return g
 
     def plot_correlation(self, suffix: str = '') -> None:
         g = sns.jointplot(x = self.asset1, y = self.asset2, data = self.series, color = 'orange')
@@ -39,7 +39,7 @@ class MeanReversionTrading():
         if self.save_image:
             plt.savefig(f'{self.pair_name}_correlation_{suffix}.jpg')
         plt.show()
-        return
+        return g
 
     def calculate_spread(self):
         # * running regression analysis (OLS) 
@@ -117,14 +117,15 @@ class MeanReversionTrading():
 
         self.series['zScore'] = (self.series['spread'] - meanSpread) / stdSpread
             
-        self.series['zScore'].plot()
+        g = self.series['zScore'].plot()
         plt.xticks(rotation = 45)
         plt.title('Z-Score (Normalized Value) of Spread')
         plt.xlabel('Time')
         plt.ylabel('Z-Score')
         if self.save_image:
             plt.savefig(f'{self.pair_name}_z_score_spread_{suffix}.jpg')
-        plt.show()        
+        plt.show()     
+        return g  
 
     def set_movement(self, entryZscore = 2, exitZscore = 0, plot_performance = True, suffix = ''):        
         # ? Movement condition
