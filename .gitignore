@@ -15,13 +15,14 @@ crypto_wallet_addresses.json
 
 # crypto data
 data/crypto/*
-data/SEC/*
 
 # temp exclusion
 data/2021*
-data/finno/*
 data/ft-funds/*
 data/fred/*
+
+# loaded data (too much to upload) 
+data/edgar/*
 
 # FINNOMENA data
 */finno/*
