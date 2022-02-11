@@ -6,7 +6,19 @@ import requests
 
 # TODO: Stock Reader
 # ? Yahoo Finance
-def pull_stock_data(stocks, start, end, columns = ['Close'], source = 'yahoo'):
+def pull_stock_data(stocks, start: dt.date, end: dt.date, columns: list = ['Close'], source: str = 'yahoo'):
+    """pull stock trading data (prices, volume, etc.)
+
+    Args:
+        stocks (str or list): ticker(s) of stocks
+        start (dt.date): start date
+        end (dt.date): end date
+        columns (list, optional): price types (open / high / low / close). Defaults to ['Close'].
+        source (str, optional): data source. Defaults to 'yahoo'.
+
+    Returns:
+        pandas.DataFrame: a Pandas time-series dataframe contains prices of each stocks of interest
+    """
     raw = web.DataReader(stocks, source, start, end)
     cols = [col for col in raw.columns if col[0] in columns]
 
