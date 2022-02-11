@@ -45,7 +45,7 @@ class MeanReversionTrading():
         estimator = sm.OLS(self.series[self.asset2], self.series[self.asset1]).fit()
 
         # * calculate spread
-        self.series['hedge_ratio'] = -estimator.params[0] 
+        self.series.loc[:, 'hedge_ratio'] = -estimator.params[0] 
         self.series['spread'] = self.series[self.asset2] + (self.series[self.asset1] * self.series['hedge_ratio'])
         self.spread_calculated = True
         return

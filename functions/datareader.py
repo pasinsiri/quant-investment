@@ -6,7 +6,19 @@ import requests
 
 # TODO: Stock Reader
 # ? Yahoo Finance
-def pull_stock_data(stocks, start, end, columns = ['Close'], source = 'yahoo'):
+def pull_stock_data(stocks, start: dt.date, end: dt.date, columns: list = ['Close'], source: str = 'yahoo'):
+    """pull stock trading data (prices, volume, etc.)
+
+    Args:
+        stocks (str or list): ticker(s) of stocks
+        start (dt.date): start date
+        end (dt.date): end date
+        columns (list, optional): price types (open / high / low / close). Defaults to ['Close'].
+        source (str, optional): data source. Defaults to 'yahoo'.
+
+    Returns:
+        pandas.DataFrame: a Pandas time-series dataframe contains prices of each stocks of interest
+    """
     raw = web.DataReader(stocks, source, start, end)
     cols = [col for col in raw.columns if col[0] in columns]
 
@@ -16,7 +28,19 @@ def pull_stock_data(stocks, start, end, columns = ['Close'], source = 'yahoo'):
 
 # TODO: Cryptocurrency Reader
 # ? Binance Klines API
-def get_binance_data(ticker, interval, start, end, clean = True):
+def get_binance_data(ticker: str, interval: str, start: dt.date, end: dt.date, clean: bool = True):
+    """pull cryptocurrency price data from Binance's Klines API
+
+    Args:
+        ticker (str): a cryptocurrency ticker
+        interval (str): price interval for each row (1d / 1h / 1m)
+        start (dt.date): start date
+        end (dt.date): end date
+        clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
+
+    Returns:
+        pandas.DataFrame: a Pandas' time series dataframe contains prices (open, high, low, close) of a cryptocurrency of interest
+    """
     start_ts = int(time.mktime(start.timetuple()) * 1000)
     end_ts = int(time.mktime(end.timetuple()) * 1000)
     base_url = 'https://api.binance.com/api/v3/klines'
