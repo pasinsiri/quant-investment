@@ -28,7 +28,19 @@ def pull_stock_data(stocks, start: dt.date, end: dt.date, columns: list = ['Clos
 
 # TODO: Cryptocurrency Reader
 # ? Binance Klines API
-def get_binance_data(ticker, interval, start, end, clean = True):
+def get_binance_data(ticker: str, interval: str, start: dt.date, end: dt.date, clean: bool = True):
+    """pull cryptocurrency price data from Binance's Klines API
+
+    Args:
+        ticker (str): a cryptocurrency ticker
+        interval (str): price interval for each row (1d / 1h / 1m)
+        start (dt.date): start date
+        end (dt.date): end date
+        clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
+
+    Returns:
+        pandas.DataFrame: a Pandas' time series dataframe contains prices (open, high, low, close) of a cryptocurrency of interest
+    """
     start_ts = int(time.mktime(start.timetuple()) * 1000)
     end_ts = int(time.mktime(end.timetuple()) * 1000)
     base_url = 'https://api.binance.com/api/v3/klines'
