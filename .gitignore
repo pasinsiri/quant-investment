@@ -12,6 +12,9 @@ test_*
 # my personal data
 my_port.csv
 crypto_wallet_addresses.json
+region_rank.csv
+sector_rank.csv 
+stock_rank.csv
 
 # crypto data
 data/crypto/*
