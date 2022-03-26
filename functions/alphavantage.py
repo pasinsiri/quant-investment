@@ -89,4 +89,8 @@ class AlphaVantageReader():
         if ticker is None:
             return df
         else:
-            return df[df['symbol'] == ticker]
+            selected = df[df['symbol'] == ticker]
+            if selected.shape[0] == 0:
+                raise ValueError('Ticker does not exist')
+            else:
+                return selected 
