@@ -3,6 +3,8 @@ import pandas as pd
 import csv 
 
 class AlphaVantageReader():
+    """load company information (overview / cash flow / estimated earnings, etc.) from AlphaVantage using its API
+    """
     def __init__(self, key) -> None:
         self.key = key
         self.url_template = f'https://www.alphavantage.co/query?&apikey={self.key}&'
