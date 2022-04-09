@@ -95,3 +95,38 @@ class AlphaVantageReader():
                 raise ValueError('Ticker does not exist')
             else:
                 return selected 
+
+    # * Technical data
+    def get_moving_average(self, ma_mode:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
+        """get a Moving Average indicator of a given stock ticker
+
+        Args:
+            ma_mode (str): a moving average indicator, can be SMA, EMA, WMA, DEMA, TEMA, TRIMA, KAMA, MAMA, T3
+            ticker (str): a stock ticker
+            time_period (int): a period of interest
+            interval (str, optional): an interval of interest, can be daily, weekly, monthly, 1min, 5min, 15min, 30min, 60min. Defaults to 'daily'.
+            series_type (str, optional): price types (open / high / low / close). Defaults to 'close'.
+            datatype (str, optional): a preferred result type (json / csv). Defaults to 'json'.
+            add_ticker_to_column_names (bool, optional): if True, the ticker will be added to column names along with indicator names. Defaults to False.
+
+        Returns:
+            pd.DataFrame: a DataFrame contains series of moving average values
+        """
+        child_url = f'function={ma_mode}&symbol={ticker}&interval={str(interval)}&time_period={time_period}&series_type={series_type}&datatype={datatype}'
+        r = requests.get(self.url_template + child_url)
+        raw = r.json()
+
+        # ? the request (if JSON) returns a list of two elements, the first one is metadata, and the other is the time series data
+        res = pd.DataFrame(list(raw.values())[-1]).T
+        if add_ticker_to_column_names:  
+            res.columns = ['_'.join([ticker, c]) for c in res.columns]
+        return res 
+
+    def get_multiple_moving_average(self, ma_mode_list:str, ticker:str, time_period:str, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json') -> pd.DataFrame:
+        ma_df_list = []
+        for ma_mode in ma_mode_list:
+            ma_df = self.get_moving_average(ma_mode, ticker, time_period, interval, series_type, datatype)
+            ma_df_list.append(ma_df) 
+        
+        all_ma_df = pd.concat(ma_df_list, axis = 1) 
+        return all_ma_df
