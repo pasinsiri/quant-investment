@@ -122,7 +122,7 @@ class AlphaVantageReader():
             res.columns = ['_'.join([ticker, c]) for c in res.columns]
         return res 
 
-    def get_multiple_moving_average(self, ma_mode_list:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json') -> pd.DataFrame:
+    def get_multiple_moving_average(self, ma_mode_list:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
         """get Moving Average indicators using get_moving_average
 
         Args:
@@ -139,7 +139,7 @@ class AlphaVantageReader():
         """
         ma_df_list = []
         for ma_mode in ma_mode_list:
-            ma_df = self.get_moving_average(ma_mode, ticker, time_period, interval, series_type, datatype)
+            ma_df = self.get_moving_average(ma_mode, ticker, time_period, interval, series_type, datatype, add_ticker_to_column_names)
             ma_df_list.append(ma_df) 
         
         all_ma_df = pd.concat(ma_df_list, axis = 1) 
