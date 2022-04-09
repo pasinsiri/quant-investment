@@ -144,3 +144,27 @@ class AlphaVantageReader():
         
         all_ma_df = pd.concat(ma_df_list, axis = 1) 
         return all_ma_df
+
+    def get_sto_rsi(self, ticker:str, interval:str, time_period:int, series_type: str = 'close', fastkperiod: int = 5, fastdperiod: int = 3, fastdmatype:str = 'SMA', datatype:str = 'json', add_ticker_to_column_names = False):
+        ma_type_mapper = {
+            'SMA': '0',
+            'EMA': '1',
+            'WMA': '2',
+            'DEMA': '3',
+            'TEMA': '4',
+            'TRIMA': '5',
+            'T3': '6',
+            'KAMA': '7',
+            'MAMA': '8'
+        }
+        if fastdmatype not in ma_type_mapper.keys():
+            raise ValueError('unknown Moving Average type')
+        fastdmanum = ma_type_mapper[fastdmatype] 
+        child_url = f'function=STOCHRSI&symbol={ticker}&interval={interval}&time_period={str(time_period)}&series_type={series_type}&fastkperiod={str(fastkperiod)}&fastdperiod={str(fastdperiod)}&fastdmatype={fastdmanum}&datatype={datatype}'
+        r = requests.get(self.url_template + child_url)
+        raw = r.json()
+        # ? the request (if JSON) returns a list of two elements, the first one is metadata, and the other is the time series data
+        res = pd.DataFrame(list(raw.values())[-1]).T
+        if add_ticker_to_column_names:  
+            res.columns = ['_'.join([ticker, c]) for c in res.columns]
+        return res 
