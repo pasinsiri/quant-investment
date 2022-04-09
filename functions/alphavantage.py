@@ -25,6 +25,7 @@ class AlphaVantageReader():
             df = pd.DataFrame(cr[1:], columns = cr[0])
         return df
 
+    # * Fundamental Data
     def get_company_data(self, function:str, symbol:str, mode:str = 'quarterly') -> pd.DataFrame:
         """get a company report with a specific period
 
