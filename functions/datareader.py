@@ -94,7 +94,20 @@ class CryptocurrencyReader():
             df = raw
         return df
 
-    def get_multiple_price_data(self, ticker_list: str, interval: str, start: dt.date, end: dt.date, cols: dt.date = ['close']) -> pd.DataFrame:
+    def get_multiple_price_data(self, ticker_list: list, interval: str, start: dt.date, end: dt.date, cols: list = ['close'], clean: bool = True) -> pd.DataFrame:
+        """pull cryptocurrency price data from Klines API (Binance or KuCoin)
+
+        Args:
+            ticker_list (list): a list of cryptocurrency tickers
+            interval (str): price interval for each row (1d / 1h / 1m)
+            start (dt.date): start date
+            end (dt.date): end date
+            cols (list): a price types of interest (open / high / low / close)
+            clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
+
+        Returns:
+            pandas.DataFrame: a Pandas' time series dataframe contains prices (open / high / low / close) of all cryptocurrencies
+        """
         all_df = pd.DataFrame()
         for t in ticker_list: 
             tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = True)
