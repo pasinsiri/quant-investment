@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import pandas_datareader.data as web 
 import pandas as pd 
 import datetime as dt
@@ -27,48 +28,77 @@ def pull_stock_data(stocks, start: dt.date, end: dt.date, columns: list = ['Clos
     return df
 
 # TODO: Cryptocurrency Reader
-# ? Binance Klines API
-def get_binance_data(ticker: str, interval: str, start: dt.date, end: dt.date, clean: bool = True):
-    """pull cryptocurrency price data from Binance's Klines API
+# ? Klines API (Binance, KuCoin)
+class CryptocurrencyReader():
+    def __init__(self, source: str) -> None:
+        self.source = source.lower()
+        self.base_url_mapper = self._list_base_url_mapper()
+        if self.source in self.base_url_mapper:
+            self.base_url = self.base_url_mapper[self.source]
+        else:
+            raise ValueError('source does not exist, only support Binance and KuCoin')
 
-    Args:
-        ticker (str): a cryptocurrency ticker
-        interval (str): price interval for each row (1d / 1h / 1m)
-        start (dt.date): start date
-        end (dt.date): end date
-        clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
+    def _list_base_url_mapper(self):
+        return {
+            'binance': 'https://api.binance.com/api/v3/klines',
+            'kucoin': 'https://api.kucoin.com/api/v1/market/candles'
+        }
 
-    Returns:
-        pandas.DataFrame: a Pandas' time series dataframe contains prices (open, high, low, close) of a cryptocurrency of interest
-    """
-    start_ts = int(time.mktime(start.timetuple()) * 1000)
-    end_ts = int(time.mktime(end.timetuple()) * 1000)
-    base_url = 'https://api.binance.com/api/v3/klines'
-    symbol_url = 'symbol={0}'.format(ticker) 
-    interval_url = 'interval={0}'.format(interval) 
-    start_url = 'startTime={0}'.format(start_ts) 
-    end_url = 'endTime={0}'.format(end_ts)
+    def get_price_data(self, ticker: str, interval: str, start: dt.date, end: dt.date, clean: bool = True) -> pd.DataFrame:
+        """pull cryptocurrency price data from Klines API (Binance or KuCoin)
 
-    full_url = '&'.join([base_url + '?' +  symbol_url, interval_url, start_url, end_url])
+        Args:
+            ticker (str): a cryptocurrency ticker
+            interval (str): price interval for each row (1d / 1h / 1m)
+            start (dt.date): start date
+            end (dt.date): end date
+            clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
 
-    raw = requests.get(full_url).json()
-    if clean:
-        cols = ['raw_open_time', 'open', 'high', 'low', 'close', 'raw_close_time', 'volume', 'cnt_trades', 'taker_buy_base_volume', 'taker_buy_quote_volume', 'ignore1', 'ignore2']
-        df = pd.DataFrame(raw, columns = cols)
+        Returns:
+            pandas.DataFrame: a Pandas' time series dataframe contains prices (open, high, low, close) of a cryptocurrency of interest
+        """
 
-        df['open_time'] = df['raw_open_time'].apply(lambda x: dt.date.fromtimestamp(float(x) / 1000))
-        df.drop(['raw_open_time', 'raw_close_time', 'ignore1', 'ignore2'], axis = 1, inplace = True)
-        df.set_index('open_time', inplace = True)
-    else:
-        df = raw
-    return df
+        symbol_url = 'symbol={0}'.format(ticker) 
+        if self.source == 'binance':
+            start_ts = int(time.mktime(start.timetuple()) * 1000)
+            end_ts = int(time.mktime(end.timetuple()) * 1000)
+            interval_url = 'interval={0}'.format(interval) 
+            start_url = 'startTime={0}'.format(start_ts) 
+            end_url = 'endTime={0}'.format(end_ts)
+        elif self.source == 'kucoin':
+            start_ts = int(time.mktime(start.timetuple()))
+            end_ts = int(time.mktime(end.timetuple()))
+            interval_url = 'type={0}'.format(interval) 
+            start_url = 'startAt={0}'.format(start_ts) 
+            end_url = 'endAt={0}'.format(end_ts)
+        else:
+            raise ValueError('source does not exist, only support Binance and KuCoin')
+        
+        full_url = '&'.join([self.base_url + '?' +  symbol_url, interval_url, start_url, end_url])
+        raw = requests.get(full_url).json()
+        if clean:
+            if self.source == 'binance':
+                cols = ['raw_open_time', 'open', 'high', 'low', 'close', 'raw_close_time', 'volume', 'cnt_trades', 'taker_buy_base_volume', 'taker_buy_quote_volume', 'ignore1', 'ignore2']
+                df = pd.DataFrame(raw, columns = cols)
+                df['open_time'] = df['raw_open_time'].apply(lambda x: dt.date.fromtimestamp(float(x) / 1000))
+                df.drop(['raw_open_time', 'raw_close_time', 'ignore1', 'ignore2'], axis = 1, inplace = True)
+                df = df.set_index('open_time').sort_index()
+            elif self.source == 'kucoin':
+                cols = ['raw_open_time', 'open', 'close', 'high', 'low', 'volume', 'turnover']
+                df = pd.DataFrame(raw['data'], columns = cols)
+                df['open_time'] = df['raw_open_time'].apply(lambda x: dt.date.fromtimestamp(float(x)))
+                df = df.set_index('open_time').sort_index()
+            else:
+                raise ValueError('source does not exist, only support Binance and KuCoin')
+        else:
+            df = raw
+        return df
 
-# get multiple assets' price 
-def get_binance_multiple_assets(ticker_list, interval, start, end, cols = ['close']):
-    all_df = pd.DataFrame()
-    for t in ticker_list: 
-        tmp_df = get_binance_data(ticker = t, interval = interval, start = start, end = end, clean = True)
-        tmp_df = tmp_df[cols].astype(float)
-        tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
-        all_df = pd.concat([all_df, tmp_df], axis = 1)
-    return all_df
+    def get_multiple_price_data(self, ticker_list: str, interval: str, start: dt.date, end: dt.date, cols: dt.date = ['close']) -> pd.DataFrame:
+        all_df = pd.DataFrame()
+        for t in ticker_list: 
+            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = True)
+            tmp_df = tmp_df[cols].astype(float)
+            tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
+            all_df = pd.concat([all_df, tmp_df], axis = 1)
+        return all_df
