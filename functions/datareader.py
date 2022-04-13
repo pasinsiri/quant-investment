@@ -59,20 +59,16 @@ class CryptocurrencyReader():
         """
 
         symbol_url = 'symbol={0}'.format(ticker) 
-        if self.source == 'binance':
-            start_ts = int(time.mktime(start.timetuple()) * 1000)
-            end_ts = int(time.mktime(end.timetuple()) * 1000)
-            interval_url = 'interval={0}'.format(interval) 
-            start_url = 'startTime={0}'.format(start_ts) 
-            end_url = 'endTime={0}'.format(end_ts)
-        elif self.source == 'kucoin':
-            start_ts = int(time.mktime(start.timetuple()))
-            end_ts = int(time.mktime(end.timetuple()))
-            interval_url = 'type={0}'.format(interval) 
-            start_url = 'startAt={0}'.format(start_ts) 
-            end_url = 'endAt={0}'.format(end_ts)
-        else:
-            raise ValueError('source does not exist, only support Binance and KuCoin')
+        param_list = {
+            'binance': [1000, 'interval', 'startTime', 'endTime'],
+            'kucoin': [1, 'type', 'startAt', 'endAt']
+        }
+        params = param_list[self.source] 
+        start_ts = int(time.mktime(start.timetuple()) * params[0]) 
+        end_ts = int(time.mktime(end.timetuple()) * params[0]) 
+        interval_url = f'{params[1]}={interval}' 
+        start_url = f'{params[2]}={start_ts}' 
+        end_url = f'{params[3]}={end_ts}'
         
         full_url = '&'.join([self.base_url + '?' +  symbol_url, interval_url, start_url, end_url])
         raw = requests.get(full_url).json()
