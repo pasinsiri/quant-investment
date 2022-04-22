@@ -59,20 +59,16 @@ class CryptocurrencyReader():
         """
 
         symbol_url = 'symbol={0}'.format(ticker) 
-        if self.source == 'binance':
-            start_ts = int(time.mktime(start.timetuple()) * 1000)
-            end_ts = int(time.mktime(end.timetuple()) * 1000)
-            interval_url = 'interval={0}'.format(interval) 
-            start_url = 'startTime={0}'.format(start_ts) 
-            end_url = 'endTime={0}'.format(end_ts)
-        elif self.source == 'kucoin':
-            start_ts = int(time.mktime(start.timetuple()))
-            end_ts = int(time.mktime(end.timetuple()))
-            interval_url = 'type={0}'.format(interval) 
-            start_url = 'startAt={0}'.format(start_ts) 
-            end_url = 'endAt={0}'.format(end_ts)
-        else:
-            raise ValueError('source does not exist, only support Binance and KuCoin')
+        param_list = {
+            'binance': [1000, 'interval', 'startTime', 'endTime'],
+            'kucoin': [1, 'type', 'startAt', 'endAt']
+        }
+        params = param_list[self.source] 
+        start_ts = int(time.mktime(start.timetuple()) * params[0]) 
+        end_ts = int(time.mktime(end.timetuple()) * params[0]) 
+        interval_url = f'{params[1]}={interval}' 
+        start_url = f'{params[2]}={start_ts}' 
+        end_url = f'{params[3]}={end_ts}'
         
         full_url = '&'.join([self.base_url + '?' +  symbol_url, interval_url, start_url, end_url])
         raw = requests.get(full_url).json()
@@ -94,11 +90,24 @@ class CryptocurrencyReader():
             df = raw
         return df
 
-    def get_multiple_price_data(self, ticker_list: str, interval: str, start: dt.date, end: dt.date, cols: dt.date = ['close']) -> pd.DataFrame:
+    def get_multiple_price_data(self, ticker_list: list, interval: str, start: dt.date, end: dt.date, cols: list = ['close'], clean: bool = True) -> pd.DataFrame:
+        """pull cryptocurrency price data from Klines API (Binance or KuCoin)
+
+        Args:
+            ticker_list (list): a list of cryptocurrency tickers
+            interval (str): price interval for each row (1d / 1h / 1m)
+            start (dt.date): start date
+            end (dt.date): end date
+            cols (list): a price types of interest (open / high / low / close)
+            clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
+
+        Returns:
+            pandas.DataFrame: a Pandas' time series dataframe contains prices (open / high / low / close) of all cryptocurrencies
+        """
         all_df = pd.DataFrame()
         for t in ticker_list: 
-            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = True)
-            tmp_df = tmp_df[cols].astype(float)
+            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = clean)
+            tmp_df = tmp_df[[cols]].astype(float)
             tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
             all_df = pd.concat([all_df, tmp_df], axis = 1)
         return all_df
