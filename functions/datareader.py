@@ -106,7 +106,7 @@ class CryptocurrencyReader():
         """
         all_df = pd.DataFrame()
         for t in ticker_list: 
-            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = True)
+            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = clean)
             tmp_df = tmp_df[cols].astype(float)
             tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
             all_df = pd.concat([all_df, tmp_df], axis = 1)
