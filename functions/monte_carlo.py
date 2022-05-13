@@ -10,6 +10,7 @@ class MonteCarloSimulator():
         self.simulation = None
 
     def simulate_outstanding(self, initial_amt:float, contribution:float, n_year:int = 20, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
+        self.n_iteration = n_iteration
         column_format = ['year', 'start', 'contribute', 'return', 'gain', 'ending']
         all_df = None
         for i in range(n_iteration):
@@ -77,5 +78,5 @@ class MonteCarloSimulator():
 
         ax.set_xlabel('Year')
         ax.set_ylabel('Cumulative Outstanding')
-        ax.set_title(f'Monte Carlo Simulation for {pct_df.shape[0]} iterations')
+        ax.set_title(f'Monte Carlo Simulation for {self.n_iteration} iterations')
         plt.legend()
