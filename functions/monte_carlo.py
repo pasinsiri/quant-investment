@@ -33,7 +33,6 @@ class MonteCarloSimulator():
                 starting_balance = starting_outstanding
                 ending = starting_outstanding + accumulated_contribution
                 balances.append([(i+1), y, starting_outstanding, accumulated_contribution, ending])
-                # starting_balance = ending
 
                 if to_pandas:
                     column_names = ['iteration', 'month', 'start', 'contribution', 'end']
@@ -58,16 +57,19 @@ class MonteCarloSimulator():
             return np.array(all_ending_balances)
 
     def get_stat_values(self, simulation, percentiles:list = [5, 25, 50, 75, 95], to_pandas:bool = False):
-        # ? balances order: iteration, year, start, contribution, end
+        # ? balances order: iteration, period, start, contribution, end
+        periods = simulation[0,:,1]
+        periods = np.reshape(periods, [1, periods.shape[0]])
         start_values = simulation[:,:,2]
         contrib_values = simulation[:,:,3]
         start_pcts = np.array([np.apply_along_axis(lambda x: np.percentile(x, q), 0, start_values) for q in percentiles])
         contrib_pcts = np.array([np.apply_along_axis(lambda x: np.percentile(x, q), 0, contrib_values) for q in percentiles])
-        pcts = np.concatenate((start_pcts, contrib_pcts), axis = 0).transpose()
+        pcts = np.concatenate((periods, start_pcts, contrib_pcts), axis = 0).transpose()
         if to_pandas:
-            col_names = [f'{keyword}_percentile_{q}' for keyword in ['initial', 'contribution'] for q in percentiles]
+            col_names = ['month']
+            col_names.extend([f'{keyword}_percentile_{q}' for keyword in ['initial', 'contribution'] for q in percentiles])
             pcts = pd.DataFrame(pcts, columns = col_names)
-        
+            pcts['month'] = pcts['month'].astype(int)
         return pcts
 
     def gen_wealth_path(self, initial_amt:float, contribution:float, mean:float, stdev:float, percentiles:list = [5, 25, 50, 75, 95]):
