@@ -13,24 +13,22 @@ class MonteCarloSimulator():
     def simulate_outstanding(self, initial_amt:float, contribution:float, mean:float, stdev:float, to_pandas:bool = False):
         all_ending_balances = None
         for i in range(self.n_iteration):
-            starting_balance = initial_amt
+            starting_outstanding = initial_amt
             accumulated_contribution = 0
             balances = []
             for y in range(self.n_period + 1):
                 ret = self.rng.normal(loc = mean, scale = stdev, size = 1)[0]
                 if y == 0:
                     # * T0 is the moment we invest the starting balance, so there is no return for starting balance and the contribution amount is zero
-                    starting_outstanding = starting_balance
                     contribution_outstanding = 0
                 else:
-                    starting_outstanding = starting_balance * (1 + ret)
+                    starting_outstanding += starting_outstanding * ret 
                     if y == 1:
                         # * T1 is the moment we invest the first contribution, so there is no return for such contribution
                         contribution_outstanding = contribution
                     else:
                         contribution_outstanding = contribution * (1 + ret)
                 accumulated_contribution += contribution_outstanding
-                starting_balance = starting_outstanding
                 ending = starting_outstanding + accumulated_contribution
                 balances.append([(i+1), y, starting_outstanding, accumulated_contribution, ending])
 
@@ -106,14 +104,14 @@ class MonteCarloSimulator_old():
         column_format = ['month', 'start', 'contribute', 'return', 'gain', 'ending']
         all_df = None
         for i in range(n_iteration):
-            starting_balance = initial_amt
+            starting_outstanding = initial_amt
             sim_values = []
             for y in range(n_period):
                 ret = self.rng.normal(loc = self.mean, scale = self.stdev, size = 1)[0]
-                current_gain = (starting_balance + contribution) * ret 
-                ending_balance = starting_balance + contribution + current_gain
-                sim_values.append([y+1, starting_balance, contribution, ret, current_gain, ending_balance])
-                starting_balance = ending_balance 
+                current_gain = (starting_outstanding + contribution) * ret 
+                ending_balance = starting_outstanding + contribution + current_gain
+                sim_values.append([y+1, starting_outstanding, contribution, ret, current_gain, ending_balance])
+                starting_outstanding = ending_balance 
                 
             column_names = ['_'.join([c, str(i+1)]) if c != 'month' else c for c in column_format]
             simulation_df = pd.DataFrame(sim_values, columns = column_names).set_index('month')
