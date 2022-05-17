@@ -2,7 +2,97 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
 
+
 class MonteCarloSimulator():
+    def __init__(self, n_year:int = 20, n_iteration:int = 1000) -> None:
+        self.n_year = n_year 
+        self.n_iteration = n_iteration
+        self.rng = np.random.default_rng() 
+        self.simulation = None 
+
+    def simulate_outstanding(self, initial_amt:float, contribution:float, mean:float, stdev:float, to_pandas:bool = False):
+        all_ending_balances = None
+        for i in range(self.n_iteration):
+            starting_balance = initial_amt
+            accumulated_contribution = 0
+            balances = []
+            for y in range(self.n_year + 1):
+                ret = self.rng.normal(loc = mean, scale = stdev, size = 1)[0]
+                if y == 0:
+                    # * T0 is the moment we invest the starting balance, so there is no return for starting balance and the contribution amount is zero
+                    starting_outstanding = starting_balance
+                    contribution_outstanding = 0
+                else:
+                    starting_outstanding = starting_balance * (1 + ret)
+                    if y == 1:
+                        # * T1 is the moment we invest the first contribution, so there is no return for such contribution
+                        contribution_outstanding = contribution
+                    else:
+                        contribution_outstanding = contribution * (1 + ret)
+                accumulated_contribution += contribution_outstanding
+                starting_balance = starting_outstanding
+                ending = starting_outstanding + accumulated_contribution
+                balances.append([(i+1), y, starting_outstanding, accumulated_contribution, ending])
+                # starting_balance = ending
+
+                if to_pandas:
+                    column_names = ['iteration', 'month', 'start', 'contribution', 'end']
+                    balances = pd.DataFrame(balances, columns = ['_'.join([c, str(i)]) if c != 'month' else c for c in column_names]).set_index('month')
+        
+            if to_pandas:
+                # ? export as pd.DataFrame
+                if all_ending_balances is None:
+                    all_ending_balances = balances
+                else:
+                    all_ending_balances = all_ending_balances.merge(balances, left_index = True, right_index = True)
+            
+            else:
+                # ? export as np.array
+                if all_ending_balances is None:
+                    all_ending_balances = [balances]
+                else:
+                    all_ending_balances.append(balances)
+        if to_pandas:       
+            return all_ending_balances
+        else:
+            return np.array(all_ending_balances)
+
+    def get_stat_values(self, simulation, percentiles:list = [5, 25, 50, 75, 95], to_pandas:bool = False):
+        # ? balances order: iteration, year, start, contribution, end
+        start_values = simulation[:,:,2]
+        contrib_values = simulation[:,:,3]
+        start_pcts = np.array([np.apply_along_axis(lambda x: np.percentile(x, q), 0, start_values) for q in percentiles])
+        contrib_pcts = np.array([np.apply_along_axis(lambda x: np.percentile(x, q), 0, contrib_values) for q in percentiles])
+        pcts = np.concatenate((start_pcts, contrib_pcts), axis = 0).transpose()
+        if to_pandas:
+            col_names = [f'{keyword}_percentile_{q}' for keyword in ['initial', 'contribution'] for q in percentiles]
+            pcts = pd.DataFrame(pcts, columns = col_names)
+        
+        return pcts
+
+    def gen_wealth_path(self, initial_amt:float, contribution:float, mean:float, stdev:float, percentiles:list = [5, 25, 50, 75, 95]):
+        simulation = self.simulate_outstanding(initial_amt=initial_amt, contribution=contribution, mean=mean, stdev=stdev)
+        pcts = self.get_stat_values(simulation=simulation, percentiles=percentiles, to_pandas=True)
+        return pcts 
+
+    def gen_multiple_wealth_path(self, path:str, initial_amt:float, contribution:float, percentiles:list = [5, 25, 50, 75, 95]):
+        # ? load port data 
+        df = pd.read_csv(path)
+
+        all_wealth_path = None
+        for row in [r[1] for r in df.iterrows()]:
+            wealth_path = self.gen_wealth_path(initial_amt=initial_amt, contribution=contribution, mean=row['expected_return'], stdev=row['stdev'], percentiles=percentiles)
+            wealth_path.insert(0, 'below_minimum', int(row['below_minimum']))
+            wealth_path.insert(0, 'risk_level', int(row['risk_level']))
+        
+            if all_wealth_path is None:
+                all_wealth_path = wealth_path
+            else:
+                all_wealth_path = all_wealth_path.append(wealth_path, ignore_index = True)
+            # all_wealth_path[(row['below_minimum'], row['risk_level'])] = wealth_path
+        return all_wealth_path
+
+class MonteCarloSimulator_old():
     def __init__(self, mean:float, stdev:float) -> None:
         self.mean = mean 
         self.stdev = stdev 
@@ -11,7 +101,7 @@ class MonteCarloSimulator():
 
     def simulate_outstanding(self, initial_amt:float, contribution:float, n_year:int = 20, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
         self.n_iteration = n_iteration
-        column_format = ['year', 'start', 'contribute', 'return', 'gain', 'ending']
+        column_format = ['month', 'start', 'contribute', 'return', 'gain', 'ending']
         all_df = None
         for i in range(n_iteration):
             starting_balance = initial_amt
@@ -23,8 +113,8 @@ class MonteCarloSimulator():
                 sim_values.append([y+1, starting_balance, contribution, ret, current_gain, ending_balance])
                 starting_balance = ending_balance 
                 
-            column_names = ['_'.join([c, str(i+1)]) if c != 'year' else c for c in column_format]
-            simulation_df = pd.DataFrame(sim_values, columns = column_names).set_index('year')
+            column_names = ['_'.join([c, str(i+1)]) if c != 'month' else c for c in column_format]
+            simulation_df = pd.DataFrame(sim_values, columns = column_names).set_index('month')
 
             if all_df is None:
                 all_df = simulation_df.astype(float)
