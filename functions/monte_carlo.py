@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 
 class MonteCarloSimulator():
-    def __init__(self, n_year:int = 20, n_iteration:int = 1000) -> None:
-        self.n_year = n_year 
+    def __init__(self, n_period:int = 20, n_iteration:int = 1000) -> None:
+        self.n_period = n_period 
         self.n_iteration = n_iteration
         self.rng = np.random.default_rng() 
         self.simulation = None 
@@ -16,7 +16,7 @@ class MonteCarloSimulator():
             starting_balance = initial_amt
             accumulated_contribution = 0
             balances = []
-            for y in range(self.n_year + 1):
+            for y in range(self.n_period + 1):
                 ret = self.rng.normal(loc = mean, scale = stdev, size = 1)[0]
                 if y == 0:
                     # * T0 is the moment we invest the starting balance, so there is no return for starting balance and the contribution amount is zero
@@ -99,14 +99,14 @@ class MonteCarloSimulator_old():
         self.rng = np.random.default_rng()
         self.simulation = None
 
-    def simulate_outstanding(self, initial_amt:float, contribution:float, n_year:int = 20, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
+    def simulate_outstanding(self, initial_amt:float, contribution:float, n_period:int = 20, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
         self.n_iteration = n_iteration
         column_format = ['month', 'start', 'contribute', 'return', 'gain', 'ending']
         all_df = None
         for i in range(n_iteration):
             starting_balance = initial_amt
             sim_values = []
-            for y in range(n_year):
+            for y in range(n_period):
                 ret = self.rng.normal(loc = self.mean, scale = self.stdev, size = 1)[0]
                 current_gain = (starting_balance + contribution) * ret 
                 ending_balance = starting_balance + contribution + current_gain
@@ -148,8 +148,8 @@ class MonteCarloSimulator_old():
         else:
             return stat_df
 
-    def gen_wealth_path(self, initial_amt:float, contribution:float, n_year:int = 20, n_iteration: int = 1000, percentiles:list = [5, 25, 50, 75, 95], verbose:bool = True):
-        simulation = self.simulate_outstanding(initial_amt=initial_amt, contribution=contribution, n_year=n_year, n_iteration=n_iteration, verbose = verbose)
+    def gen_wealth_path(self, initial_amt:float, contribution:float, n_period:int = 20, n_iteration: int = 1000, percentiles:list = [5, 25, 50, 75, 95], verbose:bool = True):
+        simulation = self.simulate_outstanding(initial_amt=initial_amt, contribution=contribution, n_period=n_period, n_iteration=n_iteration, verbose = verbose)
         stat_df = self.get_stat_values(sim_df = simulation, percentiles=percentiles, join_to_df=True)
         return stat_df 
     
