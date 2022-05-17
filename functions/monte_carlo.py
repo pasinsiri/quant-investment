@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 class MonteCarloSimulator():
-    def __init__(self, n_period:int = 20, n_iteration:int = 1000) -> None:
+    def __init__(self, n_period:int = 720, n_iteration:int = 1000) -> None:
         self.n_period = n_period 
         self.n_iteration = n_iteration
         self.rng = np.random.default_rng() 
@@ -99,7 +99,7 @@ class MonteCarloSimulator_old():
         self.rng = np.random.default_rng()
         self.simulation = None
 
-    def simulate_outstanding(self, initial_amt:float, contribution:float, n_period:int = 20, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
+    def simulate_outstanding(self, initial_amt:float, contribution:float, n_period:int = 720, n_iteration: int = 1000, verbose:bool = True) -> pd.DataFrame:
         self.n_iteration = n_iteration
         column_format = ['month', 'start', 'contribute', 'return', 'gain', 'ending']
         all_df = None
@@ -148,7 +148,7 @@ class MonteCarloSimulator_old():
         else:
             return stat_df
 
-    def gen_wealth_path(self, initial_amt:float, contribution:float, n_period:int = 20, n_iteration: int = 1000, percentiles:list = [5, 25, 50, 75, 95], verbose:bool = True):
+    def gen_wealth_path(self, initial_amt:float, contribution:float, n_period:int = 720, n_iteration: int = 1000, percentiles:list = [5, 25, 50, 75, 95], verbose:bool = True):
         simulation = self.simulate_outstanding(initial_amt=initial_amt, contribution=contribution, n_period=n_period, n_iteration=n_iteration, verbose = verbose)
         stat_df = self.get_stat_values(sim_df = simulation, percentiles=percentiles, join_to_df=True)
         return stat_df 
