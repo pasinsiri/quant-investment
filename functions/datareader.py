@@ -6,11 +6,11 @@ import requests
 
 # TODO: Stock Reader
 # ? Yahoo Finance
-def pull_stock_data(stocks, start: dt.date, end: dt.date, columns: list = ['Close'], source: str = 'yahoo'):
+def pull_stock_data(stocks:list, start:dt.date, end:dt.date, columns:list = ['Close'], source:str = 'yahoo'):
     """pull stock trading data (prices, volume, etc.)
 
     Args:
-        stocks (str or list): ticker(s) of stocks
+        stocks (list): ticker(s) of stocks
         start (dt.date): start date
         end (dt.date): end date
         columns (list, optional): price types (open / high / low / close). Defaults to ['Close'].
