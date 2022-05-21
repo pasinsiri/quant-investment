@@ -36,5 +36,5 @@ class FinnoFund():
             if all_df is None:
                 all_df = fund_df 
             else:
-                all_df = all_df.merge(fund_df, left_index=True, right_index=True, how='full').sort_index()
+                all_df = all_df.merge(fund_df, left_index=True, right_index=True, how='outer').sort_index()
         return all_df 
