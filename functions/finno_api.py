@@ -24,8 +24,10 @@ class FinnoFund():
         res = requests.get(url) 
         if res.status_code != 200:
             raise requests.RequestException(f'request failed with status {res.status_code}')
-        fund_df = pd.DataFrame(res.json()['data']['navs']).set_index('date')
-        return fund_df 
+        fund_df = pd.DataFrame(res.json()['data']['navs'])
+        fund_df['date'] = pd.to_datetime(fund_df['date'])
+        fund_df['date'] = [d.date() for d in fund_df['date']]
+        return fund_df.set_index('date')
     
     def get_multiple_fund_price(self, fund_list:list):
         all_df = None
