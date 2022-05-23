@@ -23,11 +23,13 @@ def price_compare(df: pd.DataFrame, figsize: tuple = SIZE, colors: list = COLORS
     fig, ax1 = plt.subplots(figsize = figsize)
     ax1.plot(df.index, df[df.columns[0]], color = colors[0])
     ax1.set_xlabel('Date')
+    ax1.set_ylabel(df.columns[0], color = colors[0])
     ax1.tick_params(axis = 'x', labelcolor = base_font_color) 
     ax1.tick_params(axis = 'y', labelcolor = colors[0])
 
     ax2 = ax1.twinx()
     ax2.plot(df.index, df[df.columns[1]], color = colors[1]) 
+    ax2.set_ylabel(df.columns[1], color = colors[1])
     ax2.tick_params(axis = 'y', labelcolor = colors[1]) 
 
     ax2.set_title(f'Price Comparision: {df.columns[0]} and {df.columns[1]}', color = base_font_color)
