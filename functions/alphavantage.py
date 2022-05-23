@@ -30,7 +30,7 @@ class AlphaVantageReader():
         """get a company report with a specific period
 
         Args:
-            function (str): report name, can be balance_sheet or cash_flow
+            function (str): report name, can be balance_sheet, income_statement, or cash_flow
             symbol (str): stock ticker
             mode (str, optional): period of interest, can be quarterly or annual. Defaults to 'quarterly'.
 
