@@ -43,7 +43,7 @@ class AlphaVantageReader():
         return df
 
     # * Stock Fundamental Data
-    def get_company_data(self, function:str, symbol:str, mode:str = 'quarterly') -> pd.DataFrame:
+    def get_company_data(self, function:str, ticker:str, mode:str = 'quarterly') -> pd.DataFrame:
         """get a company report with a specific period
 
         Args:
@@ -54,24 +54,24 @@ class AlphaVantageReader():
         Returns:
             pd.DataFrame: a dataframe contains data of the selected company
         """
-        child_url = f'function={function.upper()}&symbol={symbol}'
+        child_url = f'function={function.upper()}&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
         data = r.json() 
         raw_df = data[mode + 'Reports']
         df = pd.concat([pd.Series(x) for x in raw_df], axis = 1).T.set_index('fiscalDateEnding')
-        df.insert(0, 'symbol', [symbol] * df.shape[0])
+        df.insert(0, 'ticker', [ticker] * df.shape[0])
         return df 
 
-    def get_ticker_overview(self, symbol:str) -> pd.Series:
+    def get_ticker_overview(self, ticker:str) -> pd.Series:
         """get overview information about a specific company
 
         Args:
-            symbol (str): stock ticker
+            ticker (str): stock ticker
 
         Returns:
             pd.Series: a series contains overview information of the selected company
         """
-        child_url = f'function=OVERVIEW&symbol={symbol}'
+        child_url = f'function=OVERVIEW&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
         data = r.json() 
         return pd.Series(data)
