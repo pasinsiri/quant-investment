@@ -1,3 +1,4 @@
+import numpy as np 
 import requests 
 import pandas as pd 
 import csv 
@@ -9,6 +10,7 @@ class AlphaVantageReader():
         self.key = key
         self.url_template = f'https://www.alphavantage.co/query?&apikey={self.key}&'
 
+    # ? helper functions
     def _load_and_decode(self, url:str) -> pd.DataFrame:
         """(helper) load CSV tables from AlphaVantage, decode and convert to Pandas' DataFrame
 
@@ -25,36 +27,86 @@ class AlphaVantageReader():
             df = pd.DataFrame(cr[1:], columns = cr[0])
         return df
 
-    # * Fundamental Data
-    def get_company_data(self, function:str, symbol:str, mode:str = 'quarterly') -> pd.DataFrame:
+    def _try_float(self, v:str):
+        """try convert obj or str to float
+
+        Args:
+            v (str): a value to be converted
+
+        Returns:
+            float: a converted value in float format
+        """
+        if v is None or v == 'None':
+            return np.nan 
+        else:
+            return float(v)
+
+    def _convert_float(self, raw: pd.DataFrame, excepted_keywords:list = ['date']):
+        """convert specific columns in a dataframe to float
+
+        Args:
+            raw (pd.DataFrame): a DataFrame
+            excepted_keywords (list, optional): a list of columns to be ignored in the conversion process (e.g. date columns). Defaults to ['date'].
+
+        Returns:
+            pd.DataFrame: a float-converted dataframe
+        """
+        df = raw.copy()
+        for c in df.columns:
+            for k in excepted_keywords:
+                if k in c.lower():
+                    pass 
+                else:
+                    df[c] = df[c].apply(self._try_float)
+        return df
+
+    # * Economic Data
+    def get_fed_funds_rate(self, mode:str = 'daily'):
+        """get FED's funds rate
+
+        Args:
+            mode (str, optional): period of interest (e.g. daily, weekly). Defaults to 'daily'.
+
+        Returns:
+            pd.DataFrame: a table of FED's funds rate with date as index
+        """
+        child_url = f'function=FEDERAL_FUNDS_RATE&interval={mode}'
+        r = requests.get(self.url_template + child_url)
+        data = r.json()
+        df = pd.DataFrame(data['data']).set_index('date').sort_index()
+        df['value'] = df['value'].astype(float)
+        return self._convert_float(df)
+
+    # * Stock Fundamental Data
+    def get_company_data(self, function:str, ticker:str, mode:str = 'quarterly') -> pd.DataFrame:
         """get a company report with a specific period
 
         Args:
-            function (str): report name, can be balance_sheet or cash_flow
+            function (str): report name, can be balance_sheet, income_statement, or cash_flow
             symbol (str): stock ticker
             mode (str, optional): period of interest, can be quarterly or annual. Defaults to 'quarterly'.
 
         Returns:
             pd.DataFrame: a dataframe contains data of the selected company
         """
-        child_url = f'function={function.upper()}&symbol={symbol}'
+        child_url = f'function={function.upper()}&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
         data = r.json() 
         raw_df = data[mode + 'Reports']
         df = pd.concat([pd.Series(x) for x in raw_df], axis = 1).T.set_index('fiscalDateEnding')
-        df.insert(0, 'symbol', [symbol] * df.shape[0])
+        df.insert(0, 'ticker', [ticker] * df.shape[0])
         return df 
 
-    def get_ticker_overview(self, symbol:str) -> pd.Series:
+    def get_ticker_overview(self, ticker:str) -> pd.Series:
         """get overview information about a specific company
 
         Args:
-            symbol (str): stock ticker
+            ticker (str): stock ticker
 
         Returns:
             pd.Series: a series contains overview information of the selected company
         """
-        child_url = f'function=OVERVIEW&symbol={symbol}'
+        child_url = f'function=OVERVIEW&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
         data = r.json() 
         return pd.Series(data)
@@ -95,6 +147,31 @@ class AlphaVantageReader():
                 raise ValueError('Ticker does not exist')
             else:
                 return selected 
+
+    def get_earnings(self, ticker:str, mode:str = 'quarterly'):
+        """get historical earnings with surprises
+
+        Args:
+            ticker (str): a stock ticker
+            mode (str, optional): period of interests, can be either quarterly or annual. Defaults to 'quarterly'.
+
+        Raises:
+            ValueError: mode is not defined
+
+        Returns:
+            pd.DataFrame: a dataframe contains earnings and surprises
+        """
+        child_url = f'function=EARNINGS&symbol={ticker}'
+        r = requests.get(self.url_template + child_url)
+        data = r.json()
+        if mode in ['quarterly', 'annual']:
+            raw_array = data[f'{mode}Earnings']
+        else:
+            raise ValueError('mode not found, can be either quarterly or annual')
+
+        df = pd.concat([pd.Series(q) for q in raw_array], axis = 1).T.set_index('fiscalDateEnding')
+        return self._convert_float(df)
+
 
     # * Technical data
     def get_moving_average(self, ma_mode:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
