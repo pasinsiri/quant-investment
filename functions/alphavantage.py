@@ -75,7 +75,7 @@ class AlphaVantageReader():
         data = r.json()
         df = pd.DataFrame(data['data']).set_index('date').sort_index()
         df['value'] = df['value'].astype(float)
-        return df
+        return self._convert_float(df)
 
     # * Stock Fundamental Data
     def get_company_data(self, function:str, ticker:str, mode:str = 'quarterly') -> pd.DataFrame:
@@ -170,7 +170,7 @@ class AlphaVantageReader():
             raise ValueError('mode not found, can be either quarterly or annual')
 
         df = pd.concat([pd.Series(q) for q in raw_array], axis = 1).T.set_index('fiscalDateEnding')
-        return df
+        return self._convert_float(df)
 
 
     # * Technical data
