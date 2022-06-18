@@ -1,5 +1,4 @@
-from curses import raw
-from multiprocessing.sharedctypes import Value
+import numpy as np 
 import requests 
 import pandas as pd 
 import csv 
@@ -11,6 +10,7 @@ class AlphaVantageReader():
         self.key = key
         self.url_template = f'https://www.alphavantage.co/query?&apikey={self.key}&'
 
+    # ? helper functions
     def _load_and_decode(self, url:str) -> pd.DataFrame:
         """(helper) load CSV tables from AlphaVantage, decode and convert to Pandas' DataFrame
 
@@ -25,6 +25,22 @@ class AlphaVantageReader():
             decoded_content = download.content.decode('utf-8')
             cr = list(csv.reader(decoded_content.splitlines(), delimiter=','))
             df = pd.DataFrame(cr[1:], columns = cr[0])
+        return df
+
+    def _try_float(self, v:str):
+        if v is None or v == 'None':
+            return np.nan 
+        else:
+            return float(v)
+
+    def _convert_float(self, raw: pd.DataFrame, excepted_keywords:list = ['date']):
+        df = raw.copy()
+        for c in df.columns:
+            for k in excepted_keywords:
+                if k in c.lower():
+                    pass 
+                else:
+                    df[c] = df[c].apply(self._try_float)
         return df
 
     # * Economic Data
