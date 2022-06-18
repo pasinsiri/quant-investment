@@ -36,7 +36,7 @@ class AlphaVantageReader():
             pd.DataFrame: a table of FED's funds rate with date as index
         """
         child_url = f'function=FEDERAL_FUNDS_RATE&interval={mode}'
-        r = requests.get(child_url)
+        r = requests.get(self.url_template + child_url)
         data = r.json()
         df = pd.DataFrame(data['data']).set_index('date').sort_index()
         df['value'] = df['value'].astype(float)
