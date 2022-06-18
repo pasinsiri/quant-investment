@@ -28,12 +28,29 @@ class AlphaVantageReader():
         return df
 
     def _try_float(self, v:str):
+        """try convert obj or str to float
+
+        Args:
+            v (str): a value to be converted
+
+        Returns:
+            float: a converted value in float format
+        """
         if v is None or v == 'None':
             return np.nan 
         else:
             return float(v)
 
     def _convert_float(self, raw: pd.DataFrame, excepted_keywords:list = ['date']):
+        """convert specific columns in a dataframe to float
+
+        Args:
+            raw (pd.DataFrame): a DataFrame
+            excepted_keywords (list, optional): a list of columns to be ignored in the conversion process (e.g. date columns). Defaults to ['date'].
+
+        Returns:
+            pd.DataFrame: a float-converted dataframe
+        """
         df = raw.copy()
         for c in df.columns:
             for k in excepted_keywords:
