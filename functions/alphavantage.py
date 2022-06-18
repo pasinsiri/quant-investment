@@ -25,7 +25,24 @@ class AlphaVantageReader():
             df = pd.DataFrame(cr[1:], columns = cr[0])
         return df
 
-    # * Fundamental Data
+    # * Economic Data
+    def get_fed_funds_rate(self, mode:str = 'daily'):
+        """get FED's funds rate
+
+        Args:
+            mode (str, optional): period of interest (e.g. daily, weekly). Defaults to 'daily'.
+
+        Returns:
+            pd.DataFrame: a table of FED's funds rate with date as index
+        """
+        child_url = f'function=FEDERAL_FUNDS_RATE&interval={mode}'
+        r = requests.get(child_url)
+        data = r.json()
+        df = pd.DataFrame(data['data']).set_index('date').sort_index()
+        df['value'] = df['value'].astype(float)
+        return df
+
+    # * Stock Fundamental Data
     def get_company_data(self, function:str, symbol:str, mode:str = 'quarterly') -> pd.DataFrame:
         """get a company report with a specific period
 
