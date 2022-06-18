@@ -1,3 +1,5 @@
+from curses import raw
+from multiprocessing.sharedctypes import Value
 import requests 
 import pandas as pd 
 import csv 
@@ -112,6 +114,31 @@ class AlphaVantageReader():
                 raise ValueError('Ticker does not exist')
             else:
                 return selected 
+
+    def get_earnings(self, ticker:str, mode:str = 'quarterly'):
+        """get historical earnings with surprises
+
+        Args:
+            ticker (str): a stock ticker
+            mode (str, optional): period of interests, can be either quarterly or annual. Defaults to 'quarterly'.
+
+        Raises:
+            ValueError: mode is not defined
+
+        Returns:
+            pd.DataFrame: a dataframe contains earnings and surprises
+        """
+        child_url = f'function=EARNINGS&symbol={ticker}'
+        r = requests.get(self.url_template + child_url)
+        data = r.json()
+        if mode in ['quarterly', 'annual']:
+            raw_array = data[f'{mode}Earnings']
+        else:
+            raise ValueError('mode not found, can be either quarterly or annual')
+
+        df = pd.concat([pd.Series(q) for q in raw_array], axis = 1).T.set_index('fiscalDateEnding')
+        return df
+
 
     # * Technical data
     def get_moving_average(self, ma_mode:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
