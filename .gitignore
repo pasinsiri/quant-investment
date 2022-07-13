@@ -29,6 +29,7 @@ data/edgar/*
 
 # credentials
 creds.json
+creds_meta.json
 
 # FINNOMENA data
 */finno/*
