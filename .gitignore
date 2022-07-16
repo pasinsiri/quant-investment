@@ -26,6 +26,7 @@ data/fred/*
 
 # loaded data (too much to upload) 
 data/edgar/*
+data/thai_sec/*
 
 # credentials
 creds.json
