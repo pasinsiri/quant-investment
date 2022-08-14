@@ -3,6 +3,7 @@ import pandas as pd
 import datetime as dt
 import time 
 import requests
+import warnings
 
 # TODO: Stock Reader
 # ? Yahoo Finance
@@ -89,7 +90,7 @@ class CryptocurrencyReader():
             df = raw
         return df
 
-    def get_multiple_price_data(self, ticker_list: list, interval: str, start: dt.date, end: dt.date, cols: list = ['close'], clean: bool = True) -> pd.DataFrame:
+    def get_multiple_price_data(self, ticker_list: list, interval: str, start: dt.date, end: dt.date, ref_ticker:str = '', cols: list = ['close'], col_suffix: bool = False, clean: bool = True) -> pd.DataFrame:
         """pull cryptocurrency price data from Klines API (Binance or KuCoin)
 
         Args:
@@ -97,16 +98,31 @@ class CryptocurrencyReader():
             interval (str): price interval for each row (1d / 1h / 1m)
             start (dt.date): start date
             end (dt.date): end date
-            cols (list): a price types of interest (open / high / low / close)
+            ref_ticker (str): a reference ticker, usually one of stablecoins (USDC / USDT / BUSD) to be appended to every argument in ticker_list, if pass default value you need to type the full ticker names, e.g. BTCUSDT, in ticker_list
+            cols (list, optional): a price types of interest (open / high / low / close). Defaults to ['close']
+            col_suffix (bool, optional): if True, price type will be appended after ticker (if pass multiple price types, force to True)
             clean (bool, optional): True if we want to clean columns names, otherwise False. Defaults to True.
 
         Returns:
             pandas.DataFrame: a Pandas' time series dataframe contains prices (open / high / low / close) of all cryptocurrencies
         """
+
+        # ? if pass multiple price types, force col_suffix to True
+        if len(cols) > 1:
+            warnings.warn('if pass multiple price types, force col_suffix to True')
+            col_suffix = True
+
+        # ? prepare ticker list
+        if ref_ticker != '':
+            ticker_list = [ticker + ref_ticker for ticker in ticker_list]
+
         all_df = pd.DataFrame()
         for t in ticker_list: 
             tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = clean)
-            tmp_df = tmp_df[[cols]].astype(float)
-            tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
+            tmp_df = tmp_df[cols].astype(float)
+            if col_suffix:
+                tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
+            else:
+                tmp_df.columns = [t]
             all_df = pd.concat([all_df, tmp_df], axis = 1)
         return all_df
