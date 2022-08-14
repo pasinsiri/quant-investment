@@ -28,6 +28,8 @@
         "M2": "WM2NS"
     },
     "daily": {
-        "10-Year Breakeven Inflation": "T10YIE"
+        "10-Year Breakeven Inflation": "T10YIE",
+        "10-Year 2-Year Spread": "T10Y2Y",
+        "Effective FED Funds Rate": "EFFR"
     }
 }
