@@ -32,7 +32,7 @@ def price_compare(df: pd.DataFrame, figsize: tuple = SIZE, colors: list = COLORS
     ax2.set_ylabel(df.columns[1], color = colors[1])
     ax2.tick_params(axis = 'y', labelcolor = colors[1]) 
 
-    ax2.set_title(f'Price Comparision: {df.columns[0]} and {df.columns[1]}', color = base_font_color)
+    ax2.set_title(f'Price Comparison: {df.columns[0]} and {df.columns[1]}', color = base_font_color)
     fig.tight_layout()
 
 
