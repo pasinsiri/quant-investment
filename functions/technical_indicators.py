@@ -15,7 +15,7 @@ class TechnicalIndicators():
             start_n (int, optional): number of backward rows used to calculate correlation. Defaults to 10.
         """
 
-        if s1.index.equals(s2.index):
+        if not s1.index.equals(s2.index):
             raise ValueError('indices of s1 and s2 do not match each other')
 
         out = pd.Series(index=s1.index.tolist()[start_n:])
