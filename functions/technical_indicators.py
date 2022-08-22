@@ -36,7 +36,7 @@ class TechnicalIndicators():
         return out
 
     # * relative strength indicator (RSI)
-    def rsi(prices:pd.Series, n_period:int = 50):
+    def rsi(self, prices:pd.Series, n_period:int = 50):
         """calculate RSI for the given prices' series
 
         Args:
@@ -61,3 +61,11 @@ class TechnicalIndicators():
 
             rsi_series = rsi_series.set_value(current_index, rsi)
         return rsi_series
+
+    # * moving average convergence divergence (MACD)
+    def macd(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
+        prices = prices.to_frame()
+        prices['ma_short'] = prices.rolling(n_short)
+        prices['ma_long'] = prices.rolling(n_long)
+        prices['ma_diff'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
+        return prices['ma_diff']
