@@ -19,10 +19,7 @@ class TechnicalIndicators():
         # if s1.index != s2.index:
         #     raise ValueError('indices of s1 and s2 do not match each other')
 
-        # Create output series
         out = pd.Series(index=s1.index.tolist()[n:])
-
-        # we use expand window in this case, note that we can also use moving window
         if window_mode == 'expanding':
             for n in range(n, s1.shape[0]):
                 tmp_s1 = s1.iloc[:n]
