@@ -23,6 +23,7 @@ data/crypto/*
 data/2021*
 data/ft-funds/*
 data/fred/*
+data/prices/*
 
 # loaded data (too much to upload) 
 data/edgar/*
