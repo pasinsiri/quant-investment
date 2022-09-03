@@ -3,7 +3,7 @@ import numpy as np
 
 class TechnicalIndicators():
     def __init__(self) -> None:
-        pass 
+        pass
     
     # * moving correlation
     def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
@@ -66,9 +66,9 @@ class TechnicalIndicators():
         return rsi_series
 
     # * moving average convergence divergence (MACD)
-    def macd(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
+    def macd(self, prices:pd.Series, n_short:int = 12, n_long:int = 26):
         prices = prices.to_frame()
-        prices['ma_short'] = prices['Close'].rolling(n_short).mean()
-        prices['ma_long'] = prices['Close'].rolling(n_long).mean()
-        prices['ma_diff'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
-        return prices
+        prices['ma_short'] = prices['Close'].ewm(span = n_short, adjust = False, min_periods = n_short).mean()
+        prices['ma_long'] = prices['Close'].ewm(span = n_long, adjust = False, min_periods = n_long).mean()
+        prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
+        return prices[['macd']]
