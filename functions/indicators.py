@@ -3,7 +3,7 @@ import numpy as np
 
 class TechnicalIndicators():
     def __init__(self) -> None:
-        pass 
+        pass
     
     # * moving correlation
     def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
