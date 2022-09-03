@@ -4,6 +4,14 @@ import numpy as np
 class TechnicalIndicators():
     def __init__(self) -> None:
         pass
+
+    def _mark_cross(self, df):
+        if df['ma_short'] > df['ma_long']:
+            return 1
+        elif df['ma_short'] < df['ma_long']:
+            return -1
+        else:
+            return None
     
     # * moving correlation
     def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
@@ -72,3 +80,13 @@ class TechnicalIndicators():
         prices['ma_long'] = prices['Close'].ewm(span = n_long, adjust = False, min_periods = n_long).mean()
         prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
         return prices[['macd']]
+
+    def golden_cross_death_cross(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
+        prices = prices.to_frame() 
+        prices['ma_short'] = prices['Close'].rolling(n_short).mean() 
+        prices['ma_long'] = prices['Close'].rolling(n_long).mean() 
+        prices['cross_status'] = prices.apply(self._mark_cross, axis = 1)
+        prices['lag_cross_status'] = prices['cross_status'].shift(1)
+        prices['golden_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == 1 and x['lag_cross_status'] == -1) else 0, axis = 1)
+        prices['death_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == -1 and x['lag_cross_status'] == 1) else 0, axis = 1)
+        return prices
