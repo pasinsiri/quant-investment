@@ -93,4 +93,4 @@ class TechnicalIndicators():
         prices['lag_cross_status'] = prices['cross_status'].shift(1)
         prices['golden_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == 1 and x['lag_cross_status'] == -1) else 0, axis = 1)
         prices['death_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == -1 and x['lag_cross_status'] == 1) else 0, axis = 1)
-        return prices['golden_cross_mark', 'death_cross_mark']
+        return prices[['golden_cross_mark', 'death_cross_mark']]
