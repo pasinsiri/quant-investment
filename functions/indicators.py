@@ -74,6 +74,7 @@ class TechnicalIndicators():
             indices.append(current_index)
 
         rsi_df = pd.Series(res, index = indices).to_frame()
+        rsi_df.columns = ['rsi']
         return rsi_df
 
     # * moving average convergence divergence (MACD)
