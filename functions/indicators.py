@@ -5,6 +5,8 @@ class TechnicalIndicators():
     def __init__(self) -> None:
         pass
 
+    # TODO: helper functions
+    # * mark cross (used in golden_cross_death_cross)
     def _mark_cross(self, df):
         if df['ma_short'] > df['ma_long']:
             return 1
@@ -12,7 +14,8 @@ class TechnicalIndicators():
             return -1
         else:
             return None
-    
+
+    # TODO: main functions
     # * moving correlation
     def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
         """calculate correlations over time. note that both series should have datetime as their indices, and it should be the same for each row
@@ -81,6 +84,7 @@ class TechnicalIndicators():
         prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
         return prices[['macd']]
 
+    # * golden cross and death cross
     def golden_cross_death_cross(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
         prices = prices.to_frame() 
         prices['ma_short'] = prices['Close'].rolling(n_short).mean() 
