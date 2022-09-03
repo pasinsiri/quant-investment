@@ -73,8 +73,8 @@ class TechnicalIndicators():
             res.append(rsi)
             indices.append(current_index)
 
-        rsi_series = pd.Series(res, index = indices)
-        return rsi_series
+        rsi_df = pd.Series(res, index = indices).to_frame()
+        return rsi_df
 
     # * moving average convergence divergence (MACD)
     def macd(self, prices:pd.Series, n_short:int = 12, n_long:int = 26):
@@ -93,4 +93,4 @@ class TechnicalIndicators():
         prices['lag_cross_status'] = prices['cross_status'].shift(1)
         prices['golden_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == 1 and x['lag_cross_status'] == -1) else 0, axis = 1)
         prices['death_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == -1 and x['lag_cross_status'] == 1) else 0, axis = 1)
-        return prices
+        return prices['golden_cross_mark', 'death_cross_mark']
