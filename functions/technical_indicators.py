@@ -71,4 +71,4 @@ class TechnicalIndicators():
         prices['ma_short'] = prices['Close'].rolling(n_short).mean()
         prices['ma_long'] = prices['Close'].rolling(n_long).mean()
         prices['ma_diff'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
-        return prices
+        return prices.dropna(axis = 0)
