@@ -48,24 +48,27 @@ class TechnicalIndicators():
         if n_period > prices.shape[0] - 1:
             raise ValueError('n_period is greather than the series length')
 
-        rsi_series = pd.Series()
+        res = []
+        indices = []
         delta = prices.diff().iloc[1:]
 
         # use moving window in this case, note that we can use expand window
-        for i in range(n_period, delta.shape[0]):
+        for i in range(delta.shape[0] - n_period):
             tmp = delta.iloc[i: i + n_period]
             current_index = tmp.index[-1]
             pos_mean = np.mean([x for x in tmp.tolist() if x > 0])
             neg_mean = -1 * np.mean([x for x in tmp.tolist() if x < 0]) # because the change itself is negative
             rsi = (pos_mean / neg_mean) / (1 + (pos_mean / neg_mean))
+            res.append(rsi)
+            indices.append(current_index)
 
-            rsi_series = rsi_series.set_value(current_index, rsi)
+        rsi_series = pd.Series(res, index = indices)
         return rsi_series
 
     # * moving average convergence divergence (MACD)
     def macd(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
         prices = prices.to_frame()
-        prices['ma_short'] = prices.rolling(n_short)
-        prices['ma_long'] = prices.rolling(n_long)
+        prices['ma_short'] = prices['Close'].rolling(n_short).mean()
+        prices['ma_long'] = prices['Close'].rolling(n_long).mean()
         prices['ma_diff'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
-        return prices['ma_diff']
+        return prices
