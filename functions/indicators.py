@@ -85,6 +85,15 @@ class TechnicalIndicators():
         prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
         return prices[['macd']]
 
+    # * Bollinger band
+    def bollinger_band(self, prices: pd.Series, n_period:int = 21, sd_multiplier:float = 2):
+        prices = prices.to_frame()
+        prices['rolling_mean'] = prices['Close'].rolling(n_period).mean()
+        prices['rolling_std'] = prices['Close'].rolling(n_period).std()
+        prices['bollinger_high'] = prices.apply(lambda x: x['rolling_mean'] + (x['rolling_std'] * sd_multiplier), axis = 1)
+        prices['bollinger_low'] = prices.apply(lambda x: x['rolling_mean'] - (x['rolling_std'] * sd_multiplier), axis = 1)
+        return prices
+
     # * golden cross and death cross
     def golden_cross_death_cross(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
         prices = prices.to_frame() 
