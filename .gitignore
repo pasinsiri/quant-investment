@@ -32,6 +32,7 @@ data/thai_sec/*
 # credentials
 creds.json
 creds_meta.json
+*creds*
 
 # FINNOMENA data
 */finno/*
