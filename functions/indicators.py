@@ -4,7 +4,18 @@ import numpy as np
 class TechnicalIndicators():
     def __init__(self) -> None:
         pass
-    
+
+    # TODO: helper functions
+    # * mark cross (used in golden_cross_death_cross)
+    def _mark_cross(self, df):
+        if df['ma_short'] > df['ma_long']:
+            return 1
+        elif df['ma_short'] < df['ma_long']:
+            return -1
+        else:
+            return None
+
+    # TODO: main functions
     # * moving correlation
     def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
         """calculate correlations over time. note that both series should have datetime as their indices, and it should be the same for each row
@@ -62,8 +73,9 @@ class TechnicalIndicators():
             res.append(rsi)
             indices.append(current_index)
 
-        rsi_series = pd.Series(res, index = indices)
-        return rsi_series
+        rsi_df = pd.Series(res, index = indices).to_frame()
+        rsi_df.columns = ['rsi']
+        return rsi_df
 
     # * moving average convergence divergence (MACD)
     def macd(self, prices:pd.Series, n_short:int = 12, n_long:int = 26):
@@ -72,3 +84,23 @@ class TechnicalIndicators():
         prices['ma_long'] = prices['Close'].ewm(span = n_long, adjust = False, min_periods = n_long).mean()
         prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
         return prices[['macd']]
+
+    # * Bollinger band
+    def bollinger_band(self, prices: pd.Series, n_period:int = 21, sd_multiplier:float = 2):
+        prices = prices.to_frame()
+        prices['rolling_mean'] = prices['Close'].rolling(n_period).mean()
+        prices['rolling_std'] = prices['Close'].rolling(n_period).std()
+        prices['bollinger_high'] = prices.apply(lambda x: x['rolling_mean'] + (x['rolling_std'] * sd_multiplier), axis = 1)
+        prices['bollinger_low'] = prices.apply(lambda x: x['rolling_mean'] - (x['rolling_std'] * sd_multiplier), axis = 1)
+        return prices
+
+    # * golden cross and death cross
+    def golden_cross_death_cross(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
+        prices = prices.to_frame() 
+        prices['ma_short'] = prices['Close'].rolling(n_short).mean() 
+        prices['ma_long'] = prices['Close'].rolling(n_long).mean() 
+        prices['cross_status'] = prices.apply(self._mark_cross, axis = 1)
+        prices['lag_cross_status'] = prices['cross_status'].shift(1)
+        prices['golden_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == 1 and x['lag_cross_status'] == -1) else 0, axis = 1)
+        prices['death_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == -1 and x['lag_cross_status'] == 1) else 0, axis = 1)
+        return prices[['golden_cross_mark', 'death_cross_mark']]
