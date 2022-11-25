@@ -4,28 +4,31 @@ import datetime as dt
 import time 
 import requests
 import warnings
+import os
 
 # TODO: Stock Reader
 # ? Yahoo Finance
-def pull_stock_data(stocks:list, start:dt.date, end:dt.date, columns:list = ['Close'], source:str = 'yahoo'):
-    """pull stock trading data (prices, volume, etc.)
-
-    Args:
-        stocks (list): ticker(s) of stocks
-        start (dt.date): start date
-        end (dt.date): end date
-        columns (list, optional): price types (open / high / low / close). Defaults to ['Close'].
-        source (str, optional): data source. Defaults to 'yahoo'.
-
-    Returns:
-        pandas.DataFrame: a Pandas time-series dataframe contains prices of each stocks of interest
-    """
-    raw = web.DataReader(stocks, source, start, end)
-    cols = [col for col in raw.columns if col[0] in columns]
-
-    df = raw[cols]
-    df.columns = ['_'.join(col) for col in df.columns]
-    return df
+def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str = 'yahoo', sleep:int = 2, verbose:bool = False):
+    for sector in sectors.keys():
+        tickers = sectors[sector]
+        parent_dir = f'{export_dir}/{sector}'
+        if not os.path.exists(parent_dir):
+            os.mkdir(parent_dir)
+        for t in tickers:
+            price_raw = web.DataReader(t + '.BK', start = start, end = end, data_source = source)
+            price_raw.insert(0, 'ticker', t)
+            parent_subdir = f'{parent_dir}/{t}'
+            if not os.path.exists(parent_subdir):
+                os.mkdir(parent_subdir)
+            for y in range(2015, 2022 + 1):
+                year_df = price_raw[price_raw.index.year == y]
+                if year_df.shape[0] > 0:
+                    export_path = f'{parent_subdir}/{t}_{y}.parquet'
+                    year_df.to_parquet(export_path)
+                time.sleep(sleep)
+            if verbose == True:
+                print(f'{t} is completed')
+    return
 
 # TODO: Cryptocurrency Reader
 # ? Klines API (Binance, KuCoin)
