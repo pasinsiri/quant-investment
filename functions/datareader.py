@@ -5,6 +5,7 @@ import time
 import requests
 import warnings
 import os
+import yfinance as yf
 
 # TODO: Stock Reader
 # ? Yahoo Finance
@@ -29,6 +30,46 @@ def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str
             if verbose == True:
                 print(f'{t} is completed')
     return
+
+# ? Yahoo Finance with yfinance library
+class YFinanceReader():
+    def __init__(self, stock_sectors:dict) -> None:
+        self.stock_sectors = stock_sectors
+        self.ticker_list = [v + '.BK' for s in stock_sectors.values() for v in s]
+        self.yfinance_meta = yf.Tickers(self.ticker_list)
+        self.is_loaded = False
+        pass
+
+    def load_data(self, period:str = 'max'):
+        self.price_df = self.yfinance_meta.history(period = period)
+        self.is_loaded = True 
+        return 
+    
+    def save(self, parent_dir:str, verbose:bool = False):
+        if not self.is_loaded:
+            raise ReferenceError('call load_data first before saving')
+
+        for t in self.ticker_list: 
+            t_trim = t.replace('.BK', '')
+            ticker_dir = f'{parent_dir}/{t_trim}'
+            if not os.path.exists(ticker_dir):
+                os.mkdir(ticker_dir)
+
+            ticker_cols = [c for c in self.price_df.columns if c[1] == t]
+            ticker_df = self.price_df[ticker_cols].dropna(axis = 0)
+            ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
+            ticker_df.insert(0, 'ticker', t_trim)
+            ticker_df.index.name = 'date'
+
+            price_dir = f'{ticker_dir}/price'
+            if not os.path.exists(price_dir):
+                os.mkdir(price_dir)
+            years = sorted(list(set(ticker_df.index.year)))
+            for y in years:
+                year_df = ticker_df[ticker_df.index.year == y]
+                year_df.to_parquet(f'{price_dir}/{str(y)}.parquet')
+        if verbose:
+            print('saving completed')
 
 # TODO: Cryptocurrency Reader
 # ? Klines API (Binance, KuCoin)
