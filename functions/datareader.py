@@ -33,9 +33,9 @@ def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str
 
 # ? Yahoo Finance with yfinance library
 class YFinanceReader():
-    def __init__(self, stock_sectors:dict) -> None:
+    def __init__(self, stock_sectors:dict, market_suffix:str) -> None:
         self.stock_sectors = stock_sectors
-        self.ticker_list = [v + '.BK' for s in stock_sectors.values() for v in s]
+        self.ticker_list = [v + market_suffix for s in stock_sectors.values() for v in s]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
         self.is_loaded = False
         pass
