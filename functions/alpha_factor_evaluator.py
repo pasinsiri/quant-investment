@@ -45,3 +45,14 @@ class AlphaFactorEvaluator():
     
     def get_sharpe_ratio(factor_return_df, frequency:str = 'daily'):
         return factor_return_df.apply(factor_return_df, frequency = frequency, axis = 0)
+
+    # * information coefficient
+    def get_information_coefficient(self, factor_data_dict)
+        rank_ic_list = []
+
+        for factor in self.factor_names:
+            rank_ic = al.performance.factor_information_coefficient(factor_data_dict[factor])
+            rank_ic.columns = [factor]
+            rank_ic_list.append(rank_ic)
+
+        return pd.concat(rank_ic_list, axis = 0)
