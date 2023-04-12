@@ -47,7 +47,7 @@ class AlphaFactorEvaluator():
         return factor_return_df.apply(factor_return_df, frequency = frequency, axis = 0)
 
     # * information coefficient
-    def get_information_coefficient(self, factor_data_dict)
+    def get_information_coefficient(self, factor_data_dict):
         rank_ic_list = []
 
         for factor in self.factor_names:
