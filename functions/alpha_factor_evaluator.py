@@ -1,6 +1,7 @@
 import pandas as pd 
 import numpy as np
 import alphalens as al
+import matplotlib.pyplot as plt 
 
 class AlphaFactorEvaluator():
     def __init__(self, factor_return, price) -> None:
@@ -19,3 +20,28 @@ class AlphaFactorEvaluator():
                 max_loss = max_loss
             )
         return factor_data_dict
+    
+    def get_factor_returns(self, factor_data_dict):
+        factor_return_list = []
+        for factor in self.factor_names:
+            factor_return = al.performance.factor_returns(factor_data_dict[factor])
+            factor_return.columns = [factor]
+            factor_return_list.append(factor_return)
+        return pd.concat(factor_return_list, axis = 1)
+    
+    # TODO: factor evaluation
+    # * Sharpe ratio
+    def _sharpe_ratio(df, frequency:str):
+        if frequency == "daily":
+            annualization_factor = np.sqrt(252)
+        elif frequency == "monthly":
+            annualization_factor = np.sqrt(12)
+        else:
+            annualization_factor = 1
+            
+        sharpe_ratio = annualization_factor * (df.mean() / df.std())
+        
+        return sharpe_ratio
+    
+    def get_sharpe_ratio(factor_return_df, frequency:str = 'daily'):
+        return factor_return_df.apply(factor_return_df, frequency = frequency, axis = 0)
