@@ -56,3 +56,14 @@ class AlphaFactorEvaluator():
             rank_ic_list.append(rank_ic)
 
         return pd.concat(rank_ic_list, axis = 0)
+    
+    # * factor rank autocorrelation (used as a proxy for portfolio turnover)
+    def get_factor_rank_autocorrelation(self, factor_data_dict):
+        rank_ac_list = []
+
+        for factor in self.factor_names:
+            rank_ac = al.performance.factor_rank_autocorrelation(factor_data_dict[factor]).to_frame()
+            rank_ac.columns = [factor]
+            rank_ac_list.append(rank_ac)
+
+        return pd.concat(rank_ac_list, axis = 0)
