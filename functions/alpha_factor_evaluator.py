@@ -67,3 +67,13 @@ class AlphaFactorEvaluator():
             rank_ac_list.append(rank_ac)
 
         return pd.concat(rank_ac_list, axis = 0)
+    
+    def get_mean_return_by_quantile(self, factor_data_dict):
+        qt_return_list = []
+
+        for factor in self.factor_names:
+            qt_ret, _ = al.performance.mean_return_by_quantile(factor_data_dict[factor])
+            qt_ret.columns = [factor]
+            qt_return_list.append(qt_ret)
+
+        return pd.concat(qt_return_list, axis = 0)
