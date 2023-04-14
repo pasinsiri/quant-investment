@@ -70,7 +70,17 @@ class TechnicalIndicators():
         aroon_down = ((n - low) / n) * 100
         return aroon_up, aroon_down
     
-    def stochastic_oscillator(self, n:int = 14):
-        stoch_k, stoch_d = talib.STOCH(self.df['High'], self.df['Low'], self.df['Close'], 
-                                       fastk_period=n, slowk_period=n, slowd_period=n)
-        return stoch_k, stoch_d
+    def stochastic_oscillator(self, n:int = 14, d:int = 3):
+        """
+        Calculate the Stochastic Oscillator indicator
+        """
+        close = self.ohlcv_df['Close']
+        roll_low, roll_high = self._get_min_max(n)
+        
+        # TODO: calculate %K
+        k_percent = 100 * ((close - roll_low) / (roll_high - roll_low))
+        
+        # TODO: calculate %D
+        d_percent = k_percent.rolling(window=d).mean()
+        
+        return k_percent, d_percent
