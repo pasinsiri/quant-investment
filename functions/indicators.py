@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import talib
 
-class TechnicalIndicators:
+class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
     
