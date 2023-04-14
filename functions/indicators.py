@@ -10,7 +10,6 @@ class TechnicalIndicators():
         Get the minimum and maximum values for a given number of periods (n)
         """
         min_periods = n
-        vol = self.ohlcv_df['Volume']
         close = self.ohlcv_df['Close']
         roll_low = close.rolling(min_periods = min_periods, window = n).min()
         roll_high = close.rolling(min_periods = min_periods, window = n).max()
