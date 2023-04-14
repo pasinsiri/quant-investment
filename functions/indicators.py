@@ -6,7 +6,7 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
     
-    def rsi(self, n:int = 14):
+    def RSI(self, n:int = 14):
         delta = self.ohlcv_df['Close'].diff()
         gain = delta.where(delta > 0, 0)
         loss = -delta.where(delta < 0, 0)
@@ -16,7 +16,7 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi
     
-    def macd(self, n_long:int = 26, n_short:int = 12):
+    def MACD(self, n_long:int = 26, n_short:int = 12):
         assert n_long > n_short, "Number of long period should be greater than number of short period."
         ema_long = self.ohlcv_df['Close'].ewm(span=n_long, min_periods=n_long).mean()
         ema_short = self.ohlcv_df['Close'].ewm(span=n_short, min_periods=n_short).mean()
@@ -53,7 +53,7 @@ class TechnicalIndicators():
         ratio = gap / width
         return ratio
     
-    def aroon(self, n:int = 25):
+    def AROON(self, n:int = 25):
         aroon_down, aroon_up = talib.AROON(self.df['High'], self.df['Low'], timeperiod=n)
         return aroon_down, aroon_up
     
