@@ -1,106 +1,53 @@
-import pandas as pd 
-import numpy as np 
+import pandas as pd
+import numpy as np
 
-class TechnicalIndicators():
-    def __init__(self) -> None:
-        pass
-
-    # TODO: helper functions
-    # * mark cross (used in golden_cross_death_cross)
-    def _mark_cross(self, df):
-        if df['ma_short'] > df['ma_long']:
-            return 1
-        elif df['ma_short'] < df['ma_long']:
-            return -1
-        else:
-            return None
-
-    # TODO: main functions
-    # * moving correlation
-    def corr_over_time(self, s1:pd.Series, s2:pd.Series, start_n:int = 10, window_mode:str = 'rolling'):
-        """calculate correlations over time. note that both series should have datetime as their indices, and it should be the same for each row
-
-        Args:
-            s1 (pd.Series): the first series
-            s2 (pd.Series): the other one
-            start_n (int, optional): number of backward rows used to calculate correlation. Defaults to 10.
-        """
-
-        if not s1.index.equals(s2.index):
-            raise ValueError('indices of s1 and s2 do not match each other')
-
-        out = pd.Series(index=s1.index.tolist()[start_n:])
-        if window_mode == 'expanding':
-            for n in range(start_n, s1.shape[0]):
-                tmp_s1 = s1.iloc[:n]
-                tmp_s2 = s2.iloc[:n]
-                out.iloc[n - start_n] = tmp_s1.corr(tmp_s2)
-        elif window_mode == 'rolling':
-            for n in range(start_n, s1.shape[0]):
-                tmp_s1 = s1.iloc[n - start_n:n]
-                tmp_s2 = s2.iloc[n - start_n:n]
-                out.iloc[n - start_n] = tmp_s1.corr(tmp_s2)
-                pass 
-        else:
-            raise ValueError('window_mode can be either rolling or expanding')
-        
-        return out
-
-    # * relative strength indicator (RSI)
-    def rsi(self, prices:pd.Series, n_period:int = 50):
-        """calculate RSI for the given prices' series
-
-        Args:
-            prices (pd.Series): a time-seires of prices
-            n_period (int, optional): number of intervals. Defaults to 50.
-        """
-
-        # check if n_period <= series' length - 1 (exclude the first row since we need to find price differences before calculating RSI)
-        if n_period > prices.shape[0] - 1:
-            raise ValueError('n_period is greather than the series length')
-
-        res = []
-        indices = []
-        delta = prices.diff().iloc[1:]
-
-        # use moving window in this case, note that we can use expand window
-        for i in range(delta.shape[0] - n_period):
-            tmp = delta.iloc[i: i + n_period]
-            current_index = tmp.index[-1]
-            pos_mean = np.mean([x for x in tmp.tolist() if x > 0])
-            neg_mean = -1 * np.mean([x for x in tmp.tolist() if x < 0]) # because the change itself is negative
-            rsi = (pos_mean / neg_mean) / (1 + (pos_mean / neg_mean))
-            res.append(rsi)
-            indices.append(current_index)
-
-        rsi_df = pd.Series(res, index = indices).to_frame()
-        rsi_df.columns = ['rsi']
-        return rsi_df
-
-    # * moving average convergence divergence (MACD)
-    def macd(self, prices:pd.Series, n_short:int = 12, n_long:int = 26):
-        prices = prices.to_frame()
-        prices['ma_short'] = prices['Close'].ewm(span = n_short, adjust = False, min_periods = n_short).mean()
-        prices['ma_long'] = prices['Close'].ewm(span = n_long, adjust = False, min_periods = n_long).mean()
-        prices['macd'] = prices.apply(lambda x: x['ma_short'] - x['ma_long'], axis = 1)
-        return prices[['macd']]
-
-    # * Bollinger band
-    def bollinger_band(self, prices: pd.Series, n_period:int = 21, sd_multiplier:float = 2):
-        prices = prices.to_frame()
-        prices['rolling_mean'] = prices['Close'].rolling(n_period).mean()
-        prices['rolling_std'] = prices['Close'].rolling(n_period).std()
-        prices['bollinger_high'] = prices.apply(lambda x: x['rolling_mean'] + (x['rolling_std'] * sd_multiplier), axis = 1)
-        prices['bollinger_low'] = prices.apply(lambda x: x['rolling_mean'] - (x['rolling_std'] * sd_multiplier), axis = 1)
-        return prices
-
-    # * golden cross and death cross
-    def golden_cross_death_cross(self, prices:pd.Series, n_short:int = 50, n_long:int = 200):
-        prices = prices.to_frame() 
-        prices['ma_short'] = prices['Close'].rolling(n_short).mean() 
-        prices['ma_long'] = prices['Close'].rolling(n_long).mean() 
-        prices['cross_status'] = prices.apply(self._mark_cross, axis = 1)
-        prices['lag_cross_status'] = prices['cross_status'].shift(1)
-        prices['golden_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == 1 and x['lag_cross_status'] == -1) else 0, axis = 1)
-        prices['death_cross_mark'] = prices.apply(lambda x: 1 if (x['cross_status'] == -1 and x['lag_cross_status'] == 1) else 0, axis = 1)
-        return prices[['golden_cross_mark', 'death_cross_mark']]
+class TechnicalIndicators:
+    def __init__(self, ohlcv_df):
+        self.ohlcv_df = ohlcv_df
+    
+    def rsi(self, n:int = 14):
+        delta = self.ohlcv_df['Close'].diff()
+        gain = delta.where(delta > 0, 0)
+        loss = -delta.where(delta < 0, 0)
+        avg_gain = gain.rolling(window=n).mean()
+        avg_loss = loss.rolling(window=n).mean()
+        rs = avg_gain / avg_loss
+        rsi = 100 - (100 / (1 + rs))
+        return rsi
+    
+    def macd(self, n_long:int = 26, n_short:int = 12):
+        assert n_long > n_short, "Number of long period should be greater than number of short period."
+        ema_long = self.ohlcv_df['Close'].ewm(span=n_long, min_periods=n_long).mean()
+        ema_short = self.ohlcv_df['Close'].ewm(span=n_short, min_periods=n_short).mean()
+        macd = ema_short - ema_long
+        signal = macd.ewm(span=9, min_periods=9).mean()
+        return macd, signal
+    
+    def bollinger_bands(self, n:int = 20, k = 2):
+        rolling_mean = self.ohlcv_df['Close'].rolling(window=n).mean()
+        rolling_std = self.ohlcv_df['Close'].rolling(window=n).std()
+        upper_band = rolling_mean + (k * rolling_std)
+        lower_band = rolling_mean - (k * rolling_std)
+        return upper_band, lower_band
+    
+    def volume_change_pct(self):
+        volume = self.ohlcv_df['Volume']
+        pct_change = volume.pct_change()
+        return pct_change
+    
+    def overnight_return(self):
+        prev_close = self.ohlcv_df['Close'].shift(1)
+        overnight_return = (self.ohlcv_df['Open'] - prev_close) / prev_close
+        return overnight_return
+    
+    def candlestick_volume_ratio(self):
+        candlestick_range = self.ohlcv_df['High'] - self.ohlcv_df['Low']
+        ratio = candlestick_range / self.ohlcv_df['Volume']
+        return ratio
+    
+    def bollinger_ratio(self, n:int = 20, k:int = 2):
+        upper_band, lower_band = self.bollinger_bands(n = n, k = k)
+        gap = self.ohlcv_df['Close'] - lower_band
+        width = upper_band - lower_band
+        ratio = gap / width
+        return ratio
