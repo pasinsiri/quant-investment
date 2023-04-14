@@ -54,8 +54,11 @@ class TechnicalIndicators():
         return ratio
     
     def AROON(self, n:int = 25):
-        aroon_down, aroon_up = talib.AROON(self.df['High'], self.df['Low'], timeperiod=n)
-        return aroon_down, aroon_up
+        high = self.ohlcv_df['High'].rolling(n+1).apply(np.argmax, raw = True).fillna(n)
+        low = self.ohlcv_df['Low'].rolling(n+1).apply(np.argmin, raw = True).fillna(n)
+        aroon_up = ((n - high) / n) * 100
+        aroon_down = ((n - low) / n) * 100
+        return aroon_up, aroon_down
     
     def stochastic_oscillator(self, n:int = 14):
         stoch_k, stoch_d = talib.STOCH(self.df['High'], self.df['Low'], self.df['Close'], 
