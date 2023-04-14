@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import talib
 
 class TechnicalIndicators:
     def __init__(self, ohlcv_df):
@@ -51,3 +52,12 @@ class TechnicalIndicators:
         width = upper_band - lower_band
         ratio = gap / width
         return ratio
+    
+    def aroon(self, n:int = 25):
+        aroon_down, aroon_up = talib.AROON(self.df['High'], self.df['Low'], timeperiod=n)
+        return aroon_down, aroon_up
+    
+    def stochastic_oscillator(self, n:int = 14):
+        stoch_k, stoch_d = talib.STOCH(self.df['High'], self.df['Low'], self.df['Close'], 
+                                       fastk_period=n, slowk_period=n, slowd_period=n)
+        return stoch_k, stoch_d
