@@ -25,7 +25,7 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi
 
-    def stochastic_RSI(self, n:int = 14, k:int = 3, d:int = 3):
+    def stochasticRSI(self, n:int = 14, k:int = 3, d:int = 3):
         rsi = self.rsi(n)
         stoch_rsi_k = (rsi - rsi.rolling(n).min()) / (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
