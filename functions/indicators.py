@@ -24,6 +24,12 @@ class TechnicalIndicators():
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
         return rsi
+
+    def stochastic_RSI(self, n:int = 14, k:int = 3, d:int = 3):
+        rsi = self.rsi(n)
+        stoch_rsi_k = (rsi - rsi.rolling(n).min()) / (rsi.rolling(n).max() - rsi.rolling(n).min())
+        stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
+        return stoch_rsi_k, stoch_rsi_d
     
     def MACD(self, n_long:int = 26, n_short:int = 12):
         assert n_long > n_short, "Number of long period should be greater than number of short period."
