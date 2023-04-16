@@ -44,7 +44,7 @@ class AlphaFactorEvaluator():
         return sharpe_ratio
     
     def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
-        return factor_return_df.apply(self._sharpe_ratio, frequency = frequency, axis = 0)
+        return factor_return_df.apply(self._sharpe_ratio, frequency = frequency, axis = 1)
 
     # * information coefficient
     def get_information_coefficient(self, factor_data_dict):
@@ -55,7 +55,7 @@ class AlphaFactorEvaluator():
             rank_ic.columns = [factor]
             rank_ic_list.append(rank_ic)
 
-        return pd.concat(rank_ic_list, axis = 0)
+        return pd.concat(rank_ic_list, axis = 1)
     
     # * factor rank autocorrelation (used as a proxy for portfolio turnover)
     def get_factor_rank_autocorrelation(self, factor_data_dict):
@@ -66,7 +66,7 @@ class AlphaFactorEvaluator():
             rank_ac.columns = [factor]
             rank_ac_list.append(rank_ac)
 
-        return pd.concat(rank_ac_list, axis = 0)
+        return pd.concat(rank_ac_list, axis = 1)
     
     def get_mean_return_by_quantile(self, factor_data_dict):
         qt_return_list = []
@@ -76,4 +76,4 @@ class AlphaFactorEvaluator():
             qt_ret.columns = [factor]
             qt_return_list.append(qt_ret)
 
-        return pd.concat(qt_return_list, axis = 0)
+        return pd.concat(qt_return_list, axis = 1)
