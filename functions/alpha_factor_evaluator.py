@@ -43,8 +43,8 @@ class AlphaFactorEvaluator():
         
         return sharpe_ratio
     
-    def get_sharpe_ratio(factor_return_df, frequency:str = 'daily'):
-        return factor_return_df.apply(factor_return_df, frequency = frequency, axis = 0)
+    def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
+        return factor_return_df.apply(self._sharpe_ratio, frequency = frequency, axis = 0)
 
     # * information coefficient
     def get_information_coefficient(self, factor_data_dict):
