@@ -95,6 +95,14 @@ class AlphaFactorEvaluator():
     
     # * factor rank autocorrelation (used as a proxy for portfolio turnover)
     def get_factor_rank_autocorrelation(self, factor_data_dict):
+        """utilize the alphalens library to calculate the factor rank autocorrelation
+
+        Args:
+            factor_data_dict (dict): the result from the combine_factor_forward_returns function
+
+        Returns:
+            pd.DataFrame: a dataframe of which rows represent dates, columns represent factor names, and values represent rank autocorrelation of each factor in each date
+        """
         rank_ac_list = []
 
         for factor in self.factor_names:
@@ -105,6 +113,14 @@ class AlphaFactorEvaluator():
         return pd.concat(rank_ac_list, axis = 1)
     
     def get_mean_return_by_quantile(self, factor_data_dict):
+        """utilize the alphalens library to calculate the factor's mean return by quantile
+
+        Args:
+            factor_data_dict (dict): the result from the combine_factor_forward_returns function
+
+        Returns:
+            pd.DataFrame: a dataframe of which rows represent dates, columns represent factor names, and values represent mean return by quantile of each factor in each date
+        """
         qt_return_list = []
 
         for factor in self.factor_names:
