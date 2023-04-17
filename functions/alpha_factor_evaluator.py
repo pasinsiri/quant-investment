@@ -84,6 +84,14 @@ class AlphaFactorEvaluator():
 
     # * information coefficient
     def get_information_coefficient(self, factor_data_dict):
+        """utilize the alphalens library to calculate the rank information coefficient
+
+        Args:
+            factor_data_dict (dict): the result from the combine_factor_forward_returns function
+
+        Returns:
+            pd.DataFrame: a dataframe of which rows represent dates, columns represent factor names, and values represent rank IC of each factor in each date
+        """
         rank_ic_list = []
 
         for factor in self.factor_names:
