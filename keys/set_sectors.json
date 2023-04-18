@@ -1,0 +1,16 @@
+{
+    "banking": ["BBL", "KBANK", "SCB", "BAY", "TISCO", "KTB", "KKP", "TTB"],
+    "hospital": ["BDMS", "BCH", "BH", "THG", "PR9", "EKH", "IMH", "RJH", "RPH", "MEGA", "KLINIQ"],
+    "infrastructure": ["AOT", "BAFS", "BEM", "DMT"],
+    "consumer_staple": ["BJC", "OR", "CPALL", "CRC", "MAJOR", "GFPT", "CPF", "MAKRO", "M", "TU", "TC"],
+    "consumer_discretionary": ["COM7", "CPW", "SYNEX", "JUBILE", "CPH"],
+    "technology": ["BBIK", "IIG", "BE8"],
+    "industrial": ["WHA", "AMATA"],
+    "material": ["SCGP", "HMPRO", "GLOBAL", "DOHOME", "TPIPL", "STGT", "THMUI"],
+    "utilities": ["RATCH", "BGRIM", "GULF", "TPIPP", "EGCO", "EA", "BANPU", "BPP", "ACE"],
+    "petrochemistry": ["PTTGC", "BCP", "IRPC", "IVL"],
+    "real_estate": ["SIRI", "QH", "AP", "SPALI", "ORI", "LALIN", "SENA", "BRI"],
+    "hotel": ["MINT", "CENTEL", "ERW", "AWC", "SPA"],
+    "consumer_finance": ["SAWAD", "KTC", "AEONTS", "TIDLOR", "MTC"],
+    "insurance": ["BLA"]
+}
