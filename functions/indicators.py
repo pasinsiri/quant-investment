@@ -23,7 +23,7 @@ class TechnicalIndicators():
         avg_loss = loss.rolling(window=n).mean()
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
-        return rsi
+        return rsi.fillna(0)
 
     def stochasticRSI(self, n:int = 14, k:int = 3, d:int = 3):
         rsi = self.RSI(n)
@@ -33,8 +33,8 @@ class TechnicalIndicators():
     
     def MACD(self, n_long:int = 26, n_short:int = 12):
         assert n_long > n_short, "Number of long period should be greater than number of short period."
-        ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
-        ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
+        ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).nanmean()
+        ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).nanmean()
         macd = ema_short - ema_long
         signal = macd.ewm(span=9, min_periods=9).mean()
         return macd, signal
@@ -48,7 +48,7 @@ class TechnicalIndicators():
     
     def volume_change_pct(self):
         volume = self.ohlcv_df['volume']
-        pct_change = volume.pct_change()
+        pct_change = volume.pct_change().fillna(0)
         return pct_change
     
     def overnight_return(self):
@@ -56,9 +56,12 @@ class TechnicalIndicators():
         overnight_return = (self.ohlcv_df['open'] - prev_close) / prev_close
         return overnight_return
     
-    def candlestick_volume_ratio(self):
-        candlestick_range = self.ohlcv_df['high'] - self.ohlcv_df['low']
-        ratio = candlestick_range / self.ohlcv_df['volume']
+    def candlestick_volume_ratio(self, mode):
+        if mode == 'whisker':
+            i, j = 'high', 'low'
+        elif mode == 'body':
+            i, j = 'open', 'close'
+        ratio = self.ohlcv_df.apply(lambda x: 0 if x['volume'] == 0 else abs(x[i] -x[j]) / x['volume'], axis = 1)
         return ratio
     
     def bollinger_ratio(self, n:int = 20, k:int = 2):
