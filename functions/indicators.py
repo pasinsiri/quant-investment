@@ -46,9 +46,14 @@ class TechnicalIndicators():
         lower_band = rolling_mean - (k * rolling_std)
         return upper_band, lower_band
     
-    def volume_change_pct(self):
-        volume = self.ohlcv_df['volume']
-        pct_change = volume.pct_change().fillna(0)
+    def volume_change_pct(self, n:int = 10):
+        volume = self.ohlcv_df[['volume']]
+        volume['average_previous_volume'] = volume.rolling(n).mean().shift(1).fillna(0)
+        pct_change = (volume['volume'] - volume['average_previous_volume']) / volume['average_previous_volume']
+
+        # TODO: if pct change is inf, use max value found within n period
+        pct_change = pct_change.apply(lambda x: float('nan') if x == float('inf') else x)
+        pct_change = pct_change.fillna(pct_change.rolling(n).max()).fillna(0)
         return pct_change
     
     def overnight_return(self):
