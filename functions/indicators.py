@@ -33,9 +33,9 @@ class TechnicalIndicators():
     
     def MACD(self, n_long:int = 26, n_short:int = 12):
         assert n_long > n_short, "Number of long period should be greater than number of short period."
-        ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).nanmean()
-        ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).nanmean()
-        macd = ema_short - ema_long
+        ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
+        ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
+        macd = (ema_short - ema_long).fillna(0)
         signal = macd.ewm(span=9, min_periods=9).mean()
         return macd, signal
     
