@@ -36,7 +36,7 @@ class TechnicalIndicators():
         ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
         ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
         macd = (ema_short - ema_long).fillna(0)
-        signal = macd.ewm(span=9, min_periods=9).mean()
+        signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
         return macd, signal
     
     def bollinger_bands(self, n:int = 20, k = 2):
