@@ -23,7 +23,7 @@ class TechnicalIndicators():
         avg_loss = loss.rolling(window=n).mean()
         rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
-        return rsi
+        return rsi.fillna(0)
 
     def stochasticRSI(self, n:int = 14, k:int = 3, d:int = 3):
         rsi = self.RSI(n)
