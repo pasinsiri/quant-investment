@@ -30,6 +30,7 @@ data/prices/*
 # loaded data (too much to upload) 
 data/edgar/*
 data/thai_sec/*
+data/barra/*
 
 # credentials
 creds.json
