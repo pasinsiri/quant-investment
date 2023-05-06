@@ -31,7 +31,7 @@ class OHLCVCleaner():
         unexisted = [c for c in cols if c not in ohlc.columns]
         assert len(unexisted) == 0, f'{", ".join(unexisted)} not found in the OHLC dataframe'
 
-        tickers = list(set(ohlc.index.get_level_values(1)))
+        tickers = ohlc.index.get_level_values(1).unique()
 
         new_df = pd.DataFrame()
         for ticker in tickers:
