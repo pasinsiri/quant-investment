@@ -15,7 +15,7 @@ class OHLCVCleaner():
         # fillna: 0 for dividends and 1 for stock splits
         ticker_df.fillna({'dividends': 0, 'stock splits': 1}, inplace = True)
         # for stock split, replace 0 with 1 since we'll use cumulative product
-        ticker_df['stock splits'].apply(lambda x: 1 if x == 0 else x)
+        ticker_df['stock splits'] = ticker_df['stock splits'].apply(lambda x: 1 if x == 0 else x)
 
         # calculate accumulated dividends and stock splits
         ticker_df['accum_dividends'] = np.cumsum(ticker_df['dividends'])
