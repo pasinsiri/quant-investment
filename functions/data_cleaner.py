@@ -35,7 +35,7 @@ class OHLCVCleaner():
 
         new_df = pd.DataFrame()
         for ticker in tickers:
-            ticker_df = ohlc.loc[:, ticker]
+            ticker_df = ohlc[ohlc.index.get_level_values(1) == ticker]
             adjusted_ticker_df = self._adjust_ohlc_single_ticker(ticker_df=ticker_df, replace=replace)
             new_df = pd.concat([new_df, adjusted_ticker_df])
         return new_df
