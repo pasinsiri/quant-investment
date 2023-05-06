@@ -12,22 +12,22 @@ class OHLCVCleaner():
         # sort df by date, descending
         ticker_df.sort_index(ascending=False, inplace=True)
 
-        # fillna: 0 for dividend and 1 for split
-        ticker_df.fillna({'dividend': 0, 'split': 1}, inplace = True)
+        # fillna: 0 for dividend and 1 for stock splits
+        ticker_df.fillna({'dividend': 0, 'stock splits': 1}, inplace = True)
 
-        # calculate accumulated dividend and split
+        # calculate accumulated dividend and stock splits
         ticker_df['accum_dividend'] = np.cumsum(ticker_df['dividend'])
-        ticker_df['accum_split'] = np.cumprod(ticker_df['split'])
+        ticker_df['accum_stock splits'] = np.cumprod(ticker_df['stock splits'])
 
         for col in ['open', 'high', 'low', 'close']:
             new_col = self._gen_new_col_name(col=col, prefix='adj_', replace=replace)
-            ticker_df[new_col] = ticker_df.apply(lambda row: (row['close'] * row['accum_split']) + row['accum_dividend'], axis = 1)
+            ticker_df[new_col] = ticker_df.apply(lambda row: (row['close'] * row['accum_stock splits']) + row['accum_dividend'], axis = 1)
 
         return ticker_df
     
     def adjust_ohlc(self, ohlc, replace:bool = False):
         # assert columns
-        cols = ['open', 'high', 'low', 'close', 'split', 'dividend']
+        cols = ['open', 'high', 'low', 'close', 'stock splits', 'dividend']
         unexisted = [c for c in cols if c not in ohlc.columns]
         assert len(unexisted) == 0, f'{", ".join(unexisted)} not found in the OHLC dataframe'
 
