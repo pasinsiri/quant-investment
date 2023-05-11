@@ -1,5 +1,6 @@
 import pandas_datareader.data as web 
 import pandas as pd 
+import numpy as np
 import datetime as dt
 import time 
 import requests
@@ -40,6 +41,11 @@ class YFinanceReader():
         self.is_loaded = False
         pass
 
+    def _create_month(self, index) -> list:
+        ym_arr = pd.DataFrame({'year': index.year, 'month': index.month}).drop_duplicates().to_numpy()
+        distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
+        return distinct_list
+
     def load_data(self, period:str = 'max'):
         self.price_df = self.yfinance_meta.history(period = period)
         self.is_loaded = True 
@@ -64,6 +70,13 @@ class YFinanceReader():
             price_dir = f'{ticker_dir}/price'
             if not os.path.exists(price_dir):
                 os.mkdir(price_dir)
+
+            # * create a tuple of year and month from the data index
+            ym_arr = pd.DataFrame({'year': ticker_df.index.year, 'month': ticker_df.index.month}).drop_duplicates().to_numpy()
+            distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
+            distinct_arr = np.array(distinct_list).reshape(-1, 1)
+            months_arr = np.concatenate((ym_arr, distinct_arr), axis = 1)
+
             years = sorted(list(set(ticker_df.index.year)))
             for y in years:
                 year_df = ticker_df[ticker_df.index.year == y]
