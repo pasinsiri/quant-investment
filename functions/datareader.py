@@ -77,10 +77,13 @@ class YFinanceReader():
             distinct_arr = np.array(distinct_list).reshape(-1, 1)
             months_arr = np.concatenate((ym_arr, distinct_arr), axis = 1)
 
-            years = sorted(list(set(ticker_df.index.year)))
-            for y in years:
-                year_df = ticker_df[ticker_df.index.year == y]
-                year_df.to_parquet(f'{price_dir}/{str(y)}.parquet')
+            for year, month, partition_str in months_arr:
+                month_df = ticker_df[
+                    (ticker_df.index.year == year) &
+                    (ticker_df.index.month == month)
+                ]
+                month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
+
         if verbose:
             print('saving completed')
 
