@@ -1,5 +1,6 @@
 import pandas_datareader.data as web 
 import pandas as pd 
+import numpy as np
 import datetime as dt
 import time 
 import requests
@@ -40,12 +41,17 @@ class YFinanceReader():
         self.is_loaded = False
         pass
 
+    def _create_month(self, index) -> list:
+        ym_arr = pd.DataFrame({'year': index.year, 'month': index.month}).drop_duplicates().to_numpy()
+        distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
+        return distinct_list
+
     def load_data(self, period:str = 'max'):
         self.price_df = self.yfinance_meta.history(period = period)
         self.is_loaded = True 
         return 
     
-    def save(self, parent_dir:str, verbose:bool = False):
+    def save(self, parent_dir:str, start_writing_date:dt.date = None, verbose:bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
 
@@ -61,13 +67,27 @@ class YFinanceReader():
             ticker_df.insert(0, 'ticker', t_trim)
             ticker_df.index.name = 'date'
 
+            # * if start_writing_date is defined, filter only data of which date is start_writing_date or later
+            if start_writing_date:
+                ticker_df = ticker_df[ticker_df.index >= start_writing_date]
+
             price_dir = f'{ticker_dir}/price'
             if not os.path.exists(price_dir):
                 os.mkdir(price_dir)
-            years = sorted(list(set(ticker_df.index.year)))
-            for y in years:
-                year_df = ticker_df[ticker_df.index.year == y]
-                year_df.to_parquet(f'{price_dir}/{str(y)}.parquet')
+
+            # * create a tuple of year and month from the data index
+            ym_arr = pd.DataFrame({'year': ticker_df.index.year, 'month': ticker_df.index.month}).drop_duplicates().to_numpy()
+            distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
+            distinct_arr = np.array(distinct_list).reshape(-1, 1)
+            months_arr = np.concatenate((ym_arr, distinct_arr), axis = 1)
+
+            for year, month, partition_str in months_arr:
+                month_df = ticker_df[
+                    (ticker_df.index.year == year) &
+                    (ticker_df.index.month == month)
+                ]
+                month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
+
         if verbose:
             print('saving completed')
 
