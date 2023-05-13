@@ -51,7 +51,7 @@ class YFinanceReader():
         self.is_loaded = True 
         return 
     
-    def save(self, parent_dir:str, verbose:bool = False):
+    def save(self, parent_dir:str, start_writing_date:dt.date = None, verbose:bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
 
@@ -66,6 +66,10 @@ class YFinanceReader():
             ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
             ticker_df.insert(0, 'ticker', t_trim)
             ticker_df.index.name = 'date'
+
+            # * if start_writing_date is defined, filter only data of which date is start_writing_date or later
+            if start_writing_date:
+                ticker_df = ticker_df[ticker_df.index >= start_writing_date]
 
             price_dir = f'{ticker_dir}/price'
             if not os.path.exists(price_dir):
