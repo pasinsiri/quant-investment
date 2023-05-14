@@ -190,9 +190,3 @@ class CryptocurrencyReader():
                 tmp_df.columns = [t]
             all_df = pd.concat([all_df, tmp_df], axis = 1)
         return all_df
-    
-# TODO: alternative data reader
-# * Thai Government Open Data (Web Crawling)
-class ThaiGovDataReader():
-    def __init__(self, base_url:str) -> None:
-        self.base_url = base_url
