@@ -42,3 +42,19 @@ class ThaiGovDataReader():
                 latest_update[year] = url
 
         return latest_update
+    
+    def save(self, data, export_dir:str):
+        for year, url in data.items():
+            print(f'Year = {year} and URL = {url}')
+            # * get file format
+            file_format = url.split('.')[-1]
+            response = requests.get(url)
+            if response.status_code == 200:
+                if file_format == 'xlsx':
+                    df = pd.read_excel(response.content)
+                    df.to_parquet(f'{export_dir}/{str(year)}.parquet')
+                elif file_format == 'csv':
+                    df = pd.read_csv(response.content)
+                    df.to_parquet(f'{export_dir}/{str(year)}.parquet')
+                else:
+                    warnings.warn(f'File format {file_format} not supported', category=UserWarning)
