@@ -11,6 +11,15 @@ class ThaiGovDataReader():
         pass
 
     def _get_divs(self, url:str, attr:dict = None):
+        """get divs element from the given url using BeautifulSoup
+
+        Args:
+            url (str): a link
+            attr (dict, optional): attributes of the div object (use to filter divs the url), can be class, id, etc.. Defaults to None.
+
+        Returns:
+            list: a list of all divs object found within the url
+        """
         res = requests.get(url)
         soup = BeautifulSoup(res.content, 'html.parser')
         divs = soup.find_all('div', attr)
