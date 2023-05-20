@@ -41,6 +41,16 @@ class ThaiGovDataReader():
         return results
     
     def _get_latest_update_annual(self, url_list:list, regex:str, year_index:list) -> dict:
+        """get a latest updated url for each data year
+
+        Args:
+            url_list (list): a list of all urls
+            regex (str): a regex pattern to be extracted from urls. the extracted string will be used as 
+            year_index (list): a list of two integers indicating a start and end point of the year of the data in each url. The extracted string from this argument will be used to group the data in order to be processed further
+
+        Returns:
+            dict: a dictionary with data year (from year_index) as keys and all urls in the given year as values
+        """
         assert len(year_index) == 2, 'year_index must contain two values, start and end indices'
         assert year_index[0] < year_index[1], 'start index must be less than end index'
         year_dict = {url: re.findall(regex, url)[0][year_index[0]:year_index[1]] for url in url_list}
