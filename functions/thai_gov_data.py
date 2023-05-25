@@ -26,6 +26,15 @@ class ThaiGovDataReader():
         return divs
     
     def get_tables(self, url:str, attr:dict = None) -> list:
+        """get tables from the given url
+
+        Args:
+            url (str): the given url
+            attr (dict, optional): the attributes of the div, e.g. class or id, that we want to extract the table from. If sets to None, the function will use the default value, which is classes "row hoverDownload" and "row hoverDownload active". Defaults to None.
+
+        Returns:
+            list: a list of table results
+        """
         attr = attr or {'class': ['row hoverDownload', 'row hoverDownload active']}
         divs = self._get_divs(url=url, attr=attr)
 
