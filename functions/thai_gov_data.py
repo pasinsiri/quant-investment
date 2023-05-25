@@ -72,6 +72,12 @@ class ThaiGovDataReader():
         return latest_update
     
     def save(self, data, export_dir:str):
+        """save the data in parquet format
+
+        Args:
+            data (pd.DataFrame): a pandas DataFrame
+            export_dir (str): an export directory
+        """
         for year, url in data.items():
             print(f'Year = {year} and URL = {url}')
             # * get file format
@@ -86,3 +92,4 @@ class ThaiGovDataReader():
                     df.to_parquet(f'{export_dir}/{str(year)}.parquet')
                 else:
                     warnings.warn(f'File format {file_format} not supported', category=UserWarning)
+            return
