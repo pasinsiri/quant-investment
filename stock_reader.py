@@ -14,5 +14,5 @@ all_tickers = sectors.values()
 all_tickers = [v + '.BK' for s in all_tickers for v in s]
 
 yfr = YFinanceReader(stock_sectors = sectors, market_suffix = '.BK')
-yfr.load_data(period = '1m')
-yfr.save('./data/set', start_writing_date=dt.datetime(2022, 4, 1))
+yfr.load_data(period = '1y')
+yfr.save('./data/set', start_writing_date=start)
