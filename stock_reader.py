@@ -3,7 +3,7 @@ import datetime as dt
 from functions.datareader import YFinanceReader
 
 # TODO: set parameters
-start = dt.date(2022, 4, 1)
+start = dt.date(2022, 5, 1)
 ANNUALIZATION_FACTOR = 252
 
 # TODO: load stock and sector data
