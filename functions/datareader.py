@@ -50,6 +50,7 @@ class YFinanceReader():
     def load_data(self, period:str = 'max'):
         self.price_df = self.yfinance_meta.history(period = period)
         self.is_loaded = True 
+        print(f'Loaded data has the shape of {self.price_df.shape}')
         return 
     
     def save(self, parent_dir:str, start_writing_date:dt.date = None, verbose:bool = False):
@@ -84,8 +85,8 @@ class YFinanceReader():
 
             for year, month, partition_str in months_arr:
                 month_df = ticker_df[
-                    (ticker_df.index.year == year) &
-                    (ticker_df.index.month == month)
+                    (ticker_df.index.year == int(year)) &
+                    (ticker_df.index.month == int(month))
                 ]
                 month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
 
