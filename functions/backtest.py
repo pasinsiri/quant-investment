@@ -61,7 +61,7 @@ class BacktestPreparator():
             return B.columns.tolist()
         return None
 
-    def diagonal_factor_cov(self, cov_df, date, B):
+    def diagonal_factor_cov(self, date, B):
         """
         Create the factor covariance matrix
 
@@ -80,8 +80,7 @@ class BacktestPreparator():
         """
         
         # TODO: Implement
-        # cov = covariance[date]
-        cov = cov_df[cov_df.index == date]
+        cov = self.covariance[self.covariance.index == date]
         k = np.shape(B)[1] # number of risk factors
         factor_names = self.colnames(B)
         factor_cov = np.zeros([k, k])
