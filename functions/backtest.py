@@ -4,7 +4,7 @@ import patsy
 import tqdm
 from statsmodels.formula.api import ols
 
-class BackTestPrep():
+class BacktestPreparator():
     def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, **kwargs) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
@@ -42,3 +42,19 @@ class BackTestPrep():
         model = ols(form, data=df)
         results = model.fit()
         return results
+    
+    def setdiff(base:list, exclude:list):
+        exs = set(exclude)
+        res_list = [x for x in base if x not in exs]
+        return res_list
+    
+    def model_matrix(formula, data): 
+        _, predictors = patsy.dmatrices(formula, data)
+        return predictors
+    
+    def colnames(B):
+        if type(B) == patsy.design_info.DesignMatrix:
+            return B.design_info.column_names
+        elif type(B) == pd.core.frame.DataFrame:
+            return B.columns.tolist()
+        return None
