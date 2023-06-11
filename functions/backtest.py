@@ -9,6 +9,8 @@ class BacktestPreparator():
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
+        self.alpha_factors = alpha_factors
+        self.risk_factors = risk_factors
 
     def map_forward_return(self, n_forward_return:int):
         data = self.factor_df.copy()
@@ -25,12 +27,12 @@ class BacktestPreparator():
     def wins(x, lower:float, upper:float):
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
-    def get_formula(factors, Y):
+    def get_formula(self, factors, Y):
         L = ["0"]
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
     
-    def factors_from_names(n):
+    def factors_from_names(self, n):
         return list(filter(lambda x: "USFASTD_" in x, n))
 
     def estimate_factor_returns(self, df, return_col:str = 'DlyReturn'):     
@@ -43,12 +45,12 @@ class BacktestPreparator():
         results = model.fit()
         return results
     
-    def setdiff(base:list, exclude:list):
+    def setdiff(self, base:list, exclude:list):
         exs = set(exclude)
         res_list = [x for x in base if x not in exs]
         return res_list
     
-    def model_matrix(formula, data): 
+    def model_matrix(self, formula, data): 
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
@@ -58,3 +60,32 @@ class BacktestPreparator():
         elif type(B) == pd.core.frame.DataFrame:
             return B.columns.tolist()
         return None
+
+    def diagonal_factor_cov(self, cov_df, date, B):
+        """
+        Create the factor covariance matrix
+
+        Parameters
+        ----------
+        date : string
+            date. For example 20040102
+            
+        B : patsy.design_info.DesignMatrix OR pandas.core.frame.DataFrame
+            Matrix of Risk Factors
+            
+        Returns
+        -------
+        Fm : Numpy ndarray
+            factor covariance matrix    
+        """
+        
+        # TODO: Implement
+        # cov = covariance[date]
+        cov = cov_df[cov_df.index == date]
+        k = np.shape(B)[1] # number of risk factors
+        factor_names = self.colnames(B)
+        factor_cov = np.zeros([k, k])
+        for i in range(k):
+            cov_value = cov[(cov['Factor1'] == factor_names[i]) & (cov['Factor2'] == factor_names[i])]['VarCovar']
+            factor_cov[i, i] = 1e-4 * cov_value # convert to decimal since the raw data comes in the pct squared format
+        return factor_cov
