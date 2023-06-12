@@ -188,3 +188,27 @@ class PortfolioOptimizer():
         # TODO: Implement 
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
         return optimizer_result[0]
+    
+    def get_risk_exposures(B, BT, h_star):
+        """
+        Calculate portfolio's Risk Exposure
+
+        Parameters
+        ----------
+        B : patsy.design_info.DesignMatrix 
+            Matrix of Risk Factors
+            
+        BT : patsy.design_info.DesignMatrix 
+            Transpose of Matrix of Risk Factors
+            
+        h_star: Numpy ndarray 
+            optimized holdings
+            
+        Returns
+        -------
+        risk_exposures : Pandas Series
+            Risk Exposures
+        """
+        
+        # TODO: Implement
+        return pd.Series(BT @ h_star, index = B.design_info.column_names)
