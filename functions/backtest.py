@@ -117,3 +117,20 @@ class BacktestPreparator():
         
         # TODO: Implement
         return 1e-4 * np.sum(B_alpha, axis = 1)
+
+class PortfolioOptimizer():
+    def __init__(self, risk_aversion_coefficient:float) -> None:
+        self.risk_aversion_coefficient = risk_aversion_coefficient
+        
+    def get_obj_func(self, h0, Q, specVar, alpha_vec, Lambda): 
+        def obj_func(h):
+            # TODO: Implement
+            Qh = Q @ h
+            factor_risk = 0.5 * self.risk_aversion_coefficient * np.sum(Qh ** 2)
+            idiosyncratic_risk = 0.5 * self.risk_aversion_coefficient * ((h ** 2) @ specVar)
+            expected_return = alpha_vec.T @ h
+            transaction_costs = ((h - h0) ** 2) @ Lambda
+            
+            return - expected_return + factor_risk + idiosyncratic_risk + transaction_costs
+        
+        return obj_func
