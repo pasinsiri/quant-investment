@@ -150,7 +150,7 @@ class PortfolioOptimizer():
         
         return grad_func
     
-    def get_h_star(risk_aversion, Q, QT, specVar, alpha_vec, h0, Lambda):
+    def get_h_star(self, Q, QT, specVar, alpha_vec, h0, Lambda):
         """
         Optimize the objective function
 
@@ -182,8 +182,8 @@ class PortfolioOptimizer():
         optimizer_result[0]: Numpy ndarray 
             optimized holdings
         """
-        obj_func = get_obj_func(h0, risk_aversion, Q, specVar, alpha_vec, Lambda)
-        grad_func = get_grad_func(h0, risk_aversion, Q, QT, specVar, alpha_vec, Lambda)
+        obj_func = self.get_obj_func(h0, self.risk_aversion_coefficient, Q, specVar, alpha_vec, Lambda)
+        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, QT, specVar, alpha_vec, Lambda)
         
         # TODO: Implement 
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
