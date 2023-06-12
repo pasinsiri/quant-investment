@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import patsy
 import tqdm
+import scipy
 from statsmodels.formula.api import ols
 
 class BacktestPreparator():
@@ -121,6 +122,9 @@ class BacktestPreparator():
 class PortfolioOptimizer():
     def __init__(self, risk_aversion_coefficient:float) -> None:
         self.risk_aversion_coefficient = risk_aversion_coefficient
+
+    def calculate_Q(self, Fvar, BT):
+        return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
         
     def get_obj_func(self, h0, Q, specVar, alpha_vec, Lambda): 
         def obj_func(h):
@@ -134,3 +138,53 @@ class PortfolioOptimizer():
             return - expected_return + factor_risk + idiosyncratic_risk + transaction_costs
         
         return obj_func
+    
+    def get_grad_func(h0, risk_aversion, Q, QT, specVar, alpha_vec, Lambda):
+        def grad_func(h):
+            # TODO: Implement
+            gradient = (risk_aversion * (QT @ (Q @ h))) + \
+                        (risk_aversion * specVar * h) - alpha_vec + \
+                        (2 * (h - h0) * Lambda)
+            
+            return np.asarray(gradient)
+        
+        return grad_func
+    
+    def get_h_star(risk_aversion, Q, QT, specVar, alpha_vec, h0, Lambda):
+        """
+        Optimize the objective function
+
+        Parameters
+        ----------        
+        risk_aversion : int or float 
+            Trader's risk aversion
+            
+        Q : patsy.design_info.DesignMatrix 
+            Q Matrix
+            
+        QT : patsy.design_info.DesignMatrix 
+            Transpose of the Q Matrix
+            
+        specVar: Pandas Series 
+            Specific Variance
+            
+        alpha_vec: patsy.design_info.DesignMatrix 
+            alpha vector
+            
+        h0 : Pandas Series  
+            initial holdings
+            
+        Lambda : Pandas Series  
+            Lambda
+            
+        Returns
+        -------
+        optimizer_result[0]: Numpy ndarray 
+            optimized holdings
+        """
+        obj_func = get_obj_func(h0, risk_aversion, Q, specVar, alpha_vec, Lambda)
+        grad_func = get_grad_func(h0, risk_aversion, Q, QT, specVar, alpha_vec, Lambda)
+        
+        # TODO: Implement 
+        optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
+        return optimizer_result[0]
