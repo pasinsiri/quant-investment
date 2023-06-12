@@ -95,3 +95,25 @@ class BacktestPreparator():
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
         adv.loc[adv[composite_volume_column] == 0, composite_volume_column] = 1.0e4 
         return 0.1 / adv
+
+    def get_B_alpha(self):
+        # TODO: Implement
+        return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = self.factor_df)
+    
+    def get_alpha_vec(B_alpha):
+        """
+        Create an alpha vecrtor
+
+        Parameters
+        ----------        
+        B_alpha : patsy.design_info.DesignMatrix 
+            Matrix of Alpha Factors
+            
+        Returns
+        -------
+        alpha_vec : patsy.design_info.DesignMatrix 
+            alpha vector
+        """
+        
+        # TODO: Implement
+        return 1e-4 * np.sum(B_alpha, axis = 1)
