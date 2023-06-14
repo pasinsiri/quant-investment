@@ -251,3 +251,19 @@ class PortfolioOptimizer():
             "risk.exposures" : risk_exposures, 
             "alpha.exposures" : portfolio_alpha_exposure,
             "total.cost" : total_transaction_costs}
+    
+    def run_backtest(self, frames:dict):
+        trades = {}
+        port = {}
+
+        for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
+            frame_df = frames[date]
+            result = self.form_optimal_portfolio(frame_df, previous_holdings, ALPHA_FACTORS, risk_aversion)
+            trades[date] = self.build_tradelist(previous_holdings, result)
+            port[date] = result
+            previous_holdings = self.convert_to_previous(result)
+
+        return {
+            'trades': trades,
+            'port': port
+        }
