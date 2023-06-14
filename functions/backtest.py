@@ -12,6 +12,15 @@ class BacktestPreparator():
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
+        self.factor_return_df = {date: self.estimate_factor_returns(frames[date]).params for date in frames}
+
+    def split_to_date(self, df, date_index:int):
+        dates = df.index.levels[date_index].tolist()
+        frames = dict()
+        for d in dates:
+            date_df = df[df.index.get_level_values(date_index) == d]
+            frames[d] = date_df
+        return frames
 
     def map_forward_return(self, n_forward_return:int):
         data = self.factor_df.copy()
