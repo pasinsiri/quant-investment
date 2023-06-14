@@ -6,13 +6,16 @@ import scipy
 from statsmodels.formula.api import ols
 
 class BacktestPreparator():
-    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, **kwargs) -> None:
+    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, **kwargs) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
-        self.factor_return_df = {date: self.estimate_factor_returns(frames[date]).params for date in frames}
+
+        self.join_df = self.map_forward_return(n_forward_return=n_forward_return)
+        # self.df_dict_by_date = self.split_to_date()
+        # self.factor_return_df = {date: self.estimate_factor_returns(frames[date]).params for date in frames}
 
     def split_to_date(self, df, date_index:int):
         dates = df.index.levels[date_index].tolist()
