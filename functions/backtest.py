@@ -212,3 +212,42 @@ class PortfolioOptimizer():
         
         # TODO: Implement
         return pd.Series(BT @ h_star, index = B.design_info.column_names)
+    
+    def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
+        df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
+        df = self.clean_nas(df)
+        df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
+    
+        universe = self.get_universe(df).reset_index()
+        date = universe['date'][1]
+    
+        all_factors = self.factors_from_names(list(universe))
+        risk_factors = self.setdiff(all_factors, alpha_factors)
+    
+        h0 = universe['h.opt.previous']
+    
+        B = self.model_matrix(self.get_formula(risk_factors, "SpecRisk"), universe)
+        BT = B.transpose()
+    
+        specVar = (0.01 * universe['SpecRisk']) ** 2
+        Fvar = self.diagonal_factor_cov(covariance_raw, date, B)
+        
+        Lambda = self.get_lambda(universe)
+        B_alpha = self.get_B_alpha(alpha_factors, universe)
+        alpha_vec = self.get_alpha_vec(B_alpha)
+    
+        Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
+        QT = Q.transpose()
+        
+        h_star = self.get_h_star(risk_aversion, Q, QT, specVar, alpha_vec, h0, Lambda)
+        opt_portfolio = pd.DataFrame(data = {"Barrid" : universe['Barrid'], "h.opt" : h_star})
+        
+        risk_exposures = self.get_risk_exposures(B, BT, h_star)
+        portfolio_alpha_exposure = self.get_portfolio_alpha_exposure(B_alpha, h_star)
+        total_transaction_costs = self.get_total_transaction_costs(h0, h_star, Lambda)
+    
+        return {
+            "opt.portfolio" : opt_portfolio, 
+            "risk.exposures" : risk_exposures, 
+            "alpha.exposures" : portfolio_alpha_exposure,
+            "total.cost" : total_transaction_costs}
