@@ -38,7 +38,7 @@ class BacktestPreparator():
         join_df = data.merge(self.return_df, left_index=True, right_index=True, how='left')
         return join_df
     
-    def wins(x, lower:float, upper:float):
+    def winsorize(x, lower:float, upper:float):
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
     def get_formula(self, factors, Y):
@@ -51,7 +51,7 @@ class BacktestPreparator():
 
     def estimate_factor_returns(self, df, return_col:str = 'DlyReturn'):     
         # * winsorize returns for fitting 
-        df[return_col] = self.wins(df[return_col], -0.25, 0.25)
+        df[return_col] = self.winsorize(df[return_col], -0.25, 0.25)
     
         all_factors = self.factors_from_names(list(df))
         form = self.get_formula(all_factors, return_col)
