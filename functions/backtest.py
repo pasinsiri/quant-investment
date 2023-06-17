@@ -5,13 +5,14 @@ import tqdm
 import scipy
 from statsmodels.formula.api import ols
 
-class BacktestPreparator():
-    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, **kwargs) -> None:
+class Backtest():
+    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, **kwargs) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
+        self.risk_aversion_coefficient = risk_aversion_coefficient
         self.date_index = self.kwargs.get('date_index') or 1
 
         self.join_df = self._map_forward_return(n_forward_return=n_forward_return)
@@ -131,10 +132,9 @@ class BacktestPreparator():
         
         # TODO: Implement
         return 1e-4 * np.sum(B_alpha, axis = 1)
-
-class PortfolioOptimizer():
-    def __init__(self, risk_aversion_coefficient:float) -> None:
-        self.risk_aversion_coefficient = risk_aversion_coefficient
+    
+    # def __init__(self, risk_aversion_coefficient:float) -> None:
+    #     self.risk_aversion_coefficient = risk_aversion_coefficient
 
     def calculate_Q(self, Fvar, BT):
         return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
@@ -243,7 +243,7 @@ class PortfolioOptimizer():
         BT = B.transpose()
     
         specVar = (0.01 * universe['SpecRisk']) ** 2
-        Fvar = self.diagonal_factor_cov(covariance_raw, date, B)
+        Fvar = self.diagonal_factor_cov(self.covariance, date, B)
         
         Lambda = self.get_lambda(universe)
         B_alpha = self.get_B_alpha(alpha_factors, universe)
@@ -271,7 +271,7 @@ class PortfolioOptimizer():
 
         for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
             frame_df = frames[date]
-            result = self.form_optimal_portfolio(frame_df, previous_holdings, alpha_factors, self.risk_aversion_coefficient)
+            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.alpha_factors, self.risk_aversion_coefficient)
             trades[date] = self.build_tradelist(previous_holdings, result)
             port[date] = result
             previous_holdings = self.convert_to_previous(result)
