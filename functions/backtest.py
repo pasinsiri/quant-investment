@@ -132,9 +132,6 @@ class Backtest():
         
         # TODO: Implement
         return 1e-4 * np.sum(B_alpha, axis = 1)
-    
-    # def __init__(self, risk_aversion_coefficient:float) -> None:
-    #     self.risk_aversion_coefficient = risk_aversion_coefficient
 
     def calculate_Q(self, Fvar, BT):
         return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
