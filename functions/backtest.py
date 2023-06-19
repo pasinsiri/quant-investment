@@ -5,15 +5,29 @@ import tqdm
 import scipy
 from statsmodels.formula.api import ols
 
-class BacktestPreparator():
-    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, **kwargs) -> None:
+class Backtest():
+    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, **kwargs) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
+        self.risk_aversion_coefficient = risk_aversion_coefficient
+        self.date_index = self.kwargs.get('date_index') or 1
 
-    def map_forward_return(self, n_forward_return:int):
+        self.join_df = self._map_forward_return(n_forward_return=n_forward_return)
+        self.df_dict_by_date = self._split_to_date(factor_df, date_index=self.date_index)
+        self.factor_return_df = {date: self.estimate_factor_returns(self.df_dict_by_date[date]).params for date in self.df_dict_by_date}
+
+    def _split_to_date(self, df, date_index:int):
+        dates = df.index.levels[date_index].tolist()
+        frames = dict()
+        for d in dates:
+            date_df = df[df.index.get_level_values(date_index) == d]
+            frames[d] = date_df
+        return frames
+
+    def _map_forward_return(self, n_forward_return:int):
         data = self.factor_df.copy()
         self.return_df = self.return_df.rename(columns={'date': 'return_date'})
         dates_df = self.return_df[['return_date']].sort_values(by='return_date').drop_duplicates().reset_index(drop=True)
@@ -25,7 +39,7 @@ class BacktestPreparator():
         join_df = data.merge(self.return_df, left_index=True, right_index=True, how='left')
         return join_df
     
-    def wins(x, lower:float, upper:float):
+    def _winsorize(x, lower:float, upper:float):
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
     def get_formula(self, factors, Y):
@@ -38,7 +52,7 @@ class BacktestPreparator():
 
     def estimate_factor_returns(self, df, return_col:str = 'DlyReturn'):     
         # * winsorize returns for fitting 
-        df[return_col] = self.wins(df[return_col], -0.25, 0.25)
+        df[return_col] = self._winsorize(df[return_col], -0.25, 0.25)
     
         all_factors = self.factors_from_names(list(df))
         form = self.get_formula(all_factors, return_col)
@@ -119,10 +133,6 @@ class BacktestPreparator():
         # TODO: Implement
         return 1e-4 * np.sum(B_alpha, axis = 1)
 
-class PortfolioOptimizer():
-    def __init__(self, risk_aversion_coefficient:float) -> None:
-        self.risk_aversion_coefficient = risk_aversion_coefficient
-
     def calculate_Q(self, Fvar, BT):
         return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
         
@@ -139,10 +149,10 @@ class PortfolioOptimizer():
         
         return obj_func
     
-    def get_grad_func(h0, risk_aversion, Q, QT, specVar, alpha_vec, Lambda):
+    def get_grad_func(h0, risk_aversion, Q, specVar, alpha_vec, Lambda):
         def grad_func(h):
             # TODO: Implement
-            gradient = (risk_aversion * (QT @ (Q @ h))) + \
+            gradient = (risk_aversion * (Q.transpose() @ (Q @ h))) + \
                         (risk_aversion * specVar * h) - alpha_vec + \
                         (2 * (h - h0) * Lambda)
             
@@ -150,7 +160,7 @@ class PortfolioOptimizer():
         
         return grad_func
     
-    def get_h_star(self, Q, QT, specVar, alpha_vec, h0, Lambda):
+    def get_h_star(self, Q, specVar, alpha_vec, h0, Lambda):
         """
         Optimize the objective function
 
@@ -161,9 +171,6 @@ class PortfolioOptimizer():
             
         Q : patsy.design_info.DesignMatrix 
             Q Matrix
-            
-        QT : patsy.design_info.DesignMatrix 
-            Transpose of the Q Matrix
             
         specVar: Pandas Series 
             Specific Variance
@@ -183,13 +190,13 @@ class PortfolioOptimizer():
             optimized holdings
         """
         obj_func = self.get_obj_func(h0, self.risk_aversion_coefficient, Q, specVar, alpha_vec, Lambda)
-        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, QT, specVar, alpha_vec, Lambda)
+        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, Q.transpose(), specVar, alpha_vec, Lambda)
         
         # TODO: Implement 
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
         return optimizer_result[0]
     
-    def get_risk_exposures(B, BT, h_star):
+    def get_risk_exposures(B, h_star):
         """
         Calculate portfolio's Risk Exposure
 
@@ -197,9 +204,6 @@ class PortfolioOptimizer():
         ----------
         B : patsy.design_info.DesignMatrix 
             Matrix of Risk Factors
-            
-        BT : patsy.design_info.DesignMatrix 
-            Transpose of Matrix of Risk Factors
             
         h_star: Numpy ndarray 
             optimized holdings
@@ -211,4 +215,59 @@ class PortfolioOptimizer():
         """
         
         # TODO: Implement
-        return pd.Series(BT @ h_star, index = B.design_info.column_names)
+        return pd.Series(B.transpose() @ h_star, index = B.design_info.column_names)
+    
+    def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
+        df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
+        df = self.clean_nas(df)
+        df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
+    
+        universe = self.get_universe(df).reset_index()
+        date = universe['date'][1]
+    
+        all_factors = self.factors_from_names(list(universe))
+        risk_factors = self.setdiff(all_factors, alpha_factors)
+    
+        h0 = universe['h.opt.previous']
+    
+        B = self.model_matrix(self.get_formula(risk_factors, "SpecRisk"), universe)
+        BT = B.transpose()
+    
+        specVar = (0.01 * universe['SpecRisk']) ** 2
+        Fvar = self.diagonal_factor_cov(self.covariance, date, B)
+        
+        Lambda = self.get_lambda(universe)
+        B_alpha = self.get_B_alpha(alpha_factors, universe)
+        alpha_vec = self.get_alpha_vec(B_alpha)
+    
+        Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
+        QT = Q.transpose()
+        
+        h_star = self.get_h_star(risk_aversion, Q, specVar, alpha_vec, h0, Lambda)
+        opt_portfolio = pd.DataFrame(data = {"Barrid" : universe['Barrid'], "h.opt" : h_star})
+        
+        risk_exposures = self.get_risk_exposures(B, h_star)
+        portfolio_alpha_exposure = self.get_portfolio_alpha_exposure(B_alpha, h_star)
+        total_transaction_costs = self.get_total_transaction_costs(h0, h_star, Lambda)
+    
+        return {
+            "opt.portfolio" : opt_portfolio, 
+            "risk.exposures" : risk_exposures, 
+            "alpha.exposures" : portfolio_alpha_exposure,
+            "total.cost" : total_transaction_costs}
+    
+    def run_backtest(self, frames:dict):
+        trades = {}
+        port = {}
+
+        for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
+            frame_df = frames[date]
+            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.alpha_factors, self.risk_aversion_coefficient)
+            trades[date] = self.build_tradelist(previous_holdings, result)
+            port[date] = result
+            previous_holdings = self.convert_to_previous(result)
+
+        return {
+            'trades': trades,
+            'port': port
+        }
