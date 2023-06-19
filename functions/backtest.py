@@ -208,9 +208,6 @@ class Backtest():
         B : patsy.design_info.DesignMatrix 
             Matrix of Risk Factors
             
-        BT : patsy.design_info.DesignMatrix 
-            Transpose of Matrix of Risk Factors
-            
         h_star: Numpy ndarray 
             optimized holdings
             
