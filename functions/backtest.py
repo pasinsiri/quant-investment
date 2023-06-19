@@ -160,7 +160,7 @@ class Backtest():
         
         return grad_func
     
-    def get_h_star(self, Q, QT, specVar, alpha_vec, h0, Lambda):
+    def get_h_star(self, Q, specVar, alpha_vec, h0, Lambda):
         """
         Optimize the objective function
 
@@ -171,9 +171,6 @@ class Backtest():
             
         Q : patsy.design_info.DesignMatrix 
             Q Matrix
-            
-        QT : patsy.design_info.DesignMatrix 
-            Transpose of the Q Matrix
             
         specVar: Pandas Series 
             Specific Variance
@@ -193,7 +190,7 @@ class Backtest():
             optimized holdings
         """
         obj_func = self.get_obj_func(h0, self.risk_aversion_coefficient, Q, specVar, alpha_vec, Lambda)
-        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, QT, specVar, alpha_vec, Lambda)
+        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, Q.transpose(), specVar, alpha_vec, Lambda)
         
         # TODO: Implement 
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
