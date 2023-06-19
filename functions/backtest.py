@@ -246,7 +246,7 @@ class Backtest():
         h_star = self.get_h_star(risk_aversion, Q, specVar, alpha_vec, h0, Lambda)
         opt_portfolio = pd.DataFrame(data = {"Barrid" : universe['Barrid'], "h.opt" : h_star})
         
-        risk_exposures = self.get_risk_exposures(B, BT, h_star)
+        risk_exposures = self.get_risk_exposures(B, h_star)
         portfolio_alpha_exposure = self.get_portfolio_alpha_exposure(B_alpha, h_star)
         total_transaction_costs = self.get_total_transaction_costs(h0, h_star, Lambda)
     
