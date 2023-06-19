@@ -149,10 +149,10 @@ class Backtest():
         
         return obj_func
     
-    def get_grad_func(h0, risk_aversion, Q, QT, specVar, alpha_vec, Lambda):
+    def get_grad_func(h0, risk_aversion, Q, specVar, alpha_vec, Lambda):
         def grad_func(h):
             # TODO: Implement
-            gradient = (risk_aversion * (QT @ (Q @ h))) + \
+            gradient = (risk_aversion * (Q.transpose() @ (Q @ h))) + \
                         (risk_aversion * specVar * h) - alpha_vec + \
                         (2 * (h - h0) * Lambda)
             
