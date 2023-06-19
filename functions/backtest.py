@@ -199,7 +199,7 @@ class Backtest():
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
         return optimizer_result[0]
     
-    def get_risk_exposures(B, BT, h_star):
+    def get_risk_exposures(B, h_star):
         """
         Calculate portfolio's Risk Exposure
 
@@ -221,7 +221,7 @@ class Backtest():
         """
         
         # TODO: Implement
-        return pd.Series(BT @ h_star, index = B.design_info.column_names)
+        return pd.Series(B.transpose() @ h_star, index = B.design_info.column_names)
     
     def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
         df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
