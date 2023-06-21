@@ -1,9 +1,9 @@
 import pandas as pd 
 import numpy as np
 import patsy
-import tqdm
 import scipy
 from statsmodels.formula.api import ols
+from tqdm import tqdm
 
 class Backtest():
     def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
@@ -39,8 +39,16 @@ class Backtest():
         join_df = data.merge(self.return_df, left_index=True, right_index=True, how='left')
         return join_df
     
-    def _winsorize(x, lower:float, upper:float):
+    def _winsorize(self, x, lower:float, upper:float):
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
+    
+    def _clean_nas(self, df): 
+        numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+        
+        for numeric_column in numeric_columns: 
+            df[numeric_column] = np.nan_to_num(df[numeric_column])
+        
+        return df
     
     def get_formula(self, factors, Y):
         L = ["0"]
@@ -219,7 +227,7 @@ class Backtest():
     
     def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
         df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
-        df = self.clean_nas(df)
+        df = self._clean_nas(df)
         df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
     
         universe = self.get_universe(df).reset_index()
@@ -256,7 +264,7 @@ class Backtest():
             "alpha.exposures" : portfolio_alpha_exposure,
             "total.cost" : total_transaction_costs}
     
-    def run_backtest(self, frames:dict):
+    def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
         port = {}
 
