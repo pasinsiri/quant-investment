@@ -47,8 +47,8 @@ class Backtest():
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
     
-    def factors_from_names(self, n):
-        return list(filter(lambda x: "USFASTD_" in x, n))
+    def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
+        return list(filter(lambda x: factor_keyword in x, n))
 
     def estimate_factor_returns(self, df, return_col:str = 'DlyReturn'):     
         # * winsorize returns for fitting 
