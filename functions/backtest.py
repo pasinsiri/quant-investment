@@ -1,22 +1,22 @@
 import pandas as pd 
 import numpy as np
 import patsy
-import tqdm
 import scipy
 from statsmodels.formula.api import ols
+from tqdm import tqdm
 
 class Backtest():
-    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, **kwargs) -> None:
+    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
         self.risk_aversion_coefficient = risk_aversion_coefficient
-        self.date_index = self.kwargs.get('date_index') or 1
+        self.date_index = date_index
 
         self.join_df = self._map_forward_return(n_forward_return=n_forward_return)
-        self.df_dict_by_date = self._split_to_date(factor_df, date_index=self.date_index)
+        self.df_dict_by_date = self._split_to_date(self.join_df, date_index=self.date_index)
         self.factor_return_df = {date: self.estimate_factor_returns(self.df_dict_by_date[date]).params for date in self.df_dict_by_date}
 
     def _split_to_date(self, df, date_index:int):
@@ -39,20 +39,28 @@ class Backtest():
         join_df = data.merge(self.return_df, left_index=True, right_index=True, how='left')
         return join_df
     
-    def _winsorize(x, lower:float, upper:float):
+    def _winsorize(self, x, lower:float, upper:float):
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
+    
+    def _clean_nas(self, df): 
+        numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+        
+        for numeric_column in numeric_columns: 
+            df[numeric_column] = np.nan_to_num(df[numeric_column])
+        
+        return df
     
     def get_formula(self, factors, Y):
         L = ["0"]
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
     
-    def factors_from_names(self, n):
-        return list(filter(lambda x: "USFASTD_" in x, n))
+    def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
+        return list(filter(lambda x: factor_keyword in x, n))
 
-    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn'):     
+    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25):
         # * winsorize returns for fitting 
-        df[return_col] = self._winsorize(df[return_col], -0.25, 0.25)
+        df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
         all_factors = self.factors_from_names(list(df))
         form = self.get_formula(all_factors, return_col)
@@ -69,7 +77,7 @@ class Backtest():
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
-    def colnames(B):
+    def colnames(self, B):
         if type(B) == patsy.design_info.DesignMatrix:
             return B.design_info.column_names
         elif type(B) == pd.core.frame.DataFrame:
@@ -106,7 +114,7 @@ class Backtest():
     
     def get_lambda(self, composite_volume_column:str = 'ADTCA_30'):
         # TODO: lambda is transaction cost
-        adv = self.factor_df[composite_volume_column]
+        adv = self.factor_df[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
         adv.loc[adv[composite_volume_column] == 0, composite_volume_column] = 1.0e4 
         return 0.1 / adv
@@ -219,10 +227,11 @@ class Backtest():
     
     def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
         df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
-        df = self.clean_nas(df)
+        df = self._clean_nas(df)
         df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
     
-        universe = self.get_universe(df).reset_index()
+        # universe = self.get_universe(df).reset_index()
+        universe = df.reset_index()
         date = universe['date'][1]
     
         all_factors = self.factors_from_names(list(universe))
@@ -234,14 +243,13 @@ class Backtest():
         BT = B.transpose()
     
         specVar = (0.01 * universe['SpecRisk']) ** 2
-        Fvar = self.diagonal_factor_cov(self.covariance, date, B)
+        Fvar = self.diagonal_factor_cov(date, B)
         
         Lambda = self.get_lambda(universe)
         B_alpha = self.get_B_alpha(alpha_factors, universe)
         alpha_vec = self.get_alpha_vec(B_alpha)
     
         Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
-        QT = Q.transpose()
         
         h_star = self.get_h_star(risk_aversion, Q, specVar, alpha_vec, h0, Lambda)
         opt_portfolio = pd.DataFrame(data = {"Barrid" : universe['Barrid'], "h.opt" : h_star})
@@ -256,7 +264,7 @@ class Backtest():
             "alpha.exposures" : portfolio_alpha_exposure,
             "total.cost" : total_transaction_costs}
     
-    def run_backtest(self, frames:dict):
+    def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
         port = {}
 
