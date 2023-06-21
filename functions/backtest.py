@@ -16,7 +16,7 @@ class Backtest():
         self.date_index = date_index
 
         self.join_df = self._map_forward_return(n_forward_return=n_forward_return)
-        self.df_dict_by_date = self._split_to_date(factor_df, date_index=self.date_index)
+        self.df_dict_by_date = self._split_to_date(join_df, date_index=self.date_index)
         self.factor_return_df = {date: self.estimate_factor_returns(self.df_dict_by_date[date]).params for date in self.df_dict_by_date}
 
     def _split_to_date(self, df, date_index:int):
