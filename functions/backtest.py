@@ -114,7 +114,7 @@ class Backtest():
     
     def get_lambda(self, composite_volume_column:str = 'ADTCA_30'):
         # TODO: lambda is transaction cost
-        adv = self.factor_df[composite_volume_column]
+        adv = self.factor_df[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
         adv.loc[adv[composite_volume_column] == 0, composite_volume_column] = 1.0e4 
         return 0.1 / adv
