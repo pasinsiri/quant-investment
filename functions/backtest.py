@@ -6,14 +6,14 @@ import scipy
 from statsmodels.formula.api import ols
 
 class Backtest():
-    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, **kwargs) -> None:
+    def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
         self.factor_df = factor_df 
         self.covariance = covariance 
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
         self.risk_aversion_coefficient = risk_aversion_coefficient
-        self.date_index = self.kwargs.get('date_index') or 1
+        self.date_index = date_index
 
         self.join_df = self._map_forward_return(n_forward_return=n_forward_return)
         self.df_dict_by_date = self._split_to_date(factor_df, date_index=self.date_index)
