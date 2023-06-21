@@ -77,7 +77,7 @@ class Backtest():
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
-    def colnames(B):
+    def colnames(self, B):
         if type(B) == patsy.design_info.DesignMatrix:
             return B.design_info.column_names
         elif type(B) == pd.core.frame.DataFrame:
@@ -243,14 +243,13 @@ class Backtest():
         BT = B.transpose()
     
         specVar = (0.01 * universe['SpecRisk']) ** 2
-        Fvar = self.diagonal_factor_cov(self.covariance, date, B)
+        Fvar = self.diagonal_factor_cov(date, B)
         
         Lambda = self.get_lambda(universe)
         B_alpha = self.get_B_alpha(alpha_factors, universe)
         alpha_vec = self.get_alpha_vec(B_alpha)
     
         Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
-        QT = Q.transpose()
         
         h_star = self.get_h_star(risk_aversion, Q, specVar, alpha_vec, h0, Lambda)
         opt_portfolio = pd.DataFrame(data = {"Barrid" : universe['Barrid'], "h.opt" : h_star})
