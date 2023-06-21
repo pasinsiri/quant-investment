@@ -230,7 +230,8 @@ class Backtest():
         df = self._clean_nas(df)
         df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
     
-        universe = self.get_universe(df).reset_index()
+        # universe = self.get_universe(df).reset_index()
+        universe = df.reset_index()
         date = universe['date'][1]
     
         all_factors = self.factors_from_names(list(universe))
