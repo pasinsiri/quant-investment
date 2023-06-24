@@ -49,6 +49,15 @@ class TechnicalIndicators():
         return stoch_rsi_k, stoch_rsi_d
     
     def MACD(self, n_long:int = 26, n_short:int = 12):
+        """calculate MACD
+
+        Args:
+            n_long (int, optional): a number of long period. Defaults to 26.
+            n_short (int, optional): a number of short period. Defaults to 12.
+
+        Returns:
+            pd.Series: a pandas series of MACD
+        """
         assert n_long > n_short, "Number of long period should be greater than number of short period."
         ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
         ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
