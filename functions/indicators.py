@@ -33,7 +33,16 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi.fillna(0)
 
-    def stochasticRSI(self, n:int = 14, k:int = 3, d:int = 3):
+    def stochasticRSI(self, n:int = 14, d:int = 3):
+        """calculate stochastic RSI
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+            d (int, optional): number of RSI rolling period to be calculated using the stochastic oscillator formula. Defaults to 3.
+
+        Returns:
+            pd.Series: a pandas series of stochastic RSI
+        """
         rsi = self.RSI(n)
         stoch_rsi_k = (rsi - rsi.rolling(n).min()) / (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
