@@ -112,16 +112,16 @@ class Backtest():
             factor_cov[i, i] = 1e-4 * cov_value # convert to decimal since the raw data comes in the pct squared format
         return factor_cov
     
-    def get_lambda(self, composite_volume_column:str = 'ADTCA_30'):
+    def get_lambda(self, universe, composite_volume_column:str = 'ADTCA_30'):
         # TODO: lambda is transaction cost
-        adv = self.factor_df[[composite_volume_column]]
+        adv = universe[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
         adv.loc[adv[composite_volume_column] == 0, composite_volume_column] = 1.0e4 
         return 0.1 / adv
 
-    def get_B_alpha(self):
+    def get_B_alpha(self, universe):
         # TODO: Implement
-        return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = self.factor_df)
+        return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = universe)
     
     def get_alpha_vec(B_alpha):
         """
@@ -225,28 +225,24 @@ class Backtest():
         # TODO: Implement
         return pd.Series(B.transpose() @ h_star, index = B.design_info.column_names)
     
-    def form_optimal_portfolio(self, df, previous, alpha_factors, risk_aversion):
+    def form_optimal_portfolio(self, df, previous, risk_aversion):
         df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
         df = self._clean_nas(df)
         df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
     
         # universe = self.get_universe(df).reset_index()
         universe = df.reset_index()
-        date = universe['date'][1]
-    
-        all_factors = self.factors_from_names(list(universe))
-        risk_factors = self.setdiff(all_factors, alpha_factors)
-    
+        date = universe['date'][1]    
         h0 = universe['h.opt.previous']
     
-        B = self.model_matrix(self.get_formula(risk_factors, "SpecRisk"), universe)
+        B = self.model_matrix(self.get_formula(self.risk_factors, "SpecRisk"), universe)
         BT = B.transpose()
     
         specVar = (0.01 * universe['SpecRisk']) ** 2
         Fvar = self.diagonal_factor_cov(date, B)
         
         Lambda = self.get_lambda(universe)
-        B_alpha = self.get_B_alpha(alpha_factors, universe)
+        B_alpha = self.get_B_alpha(universe)
         alpha_vec = self.get_alpha_vec(B_alpha)
     
         Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
@@ -270,7 +266,7 @@ class Backtest():
 
         for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
             frame_df = frames[date]
-            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.alpha_factors, self.risk_aversion_coefficient)
+            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.risk_aversion_coefficient)
             trades[date] = self.build_tradelist(previous_holdings, result)
             port[date] = result
             previous_holdings = self.convert_to_previous(result)
