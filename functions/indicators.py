@@ -65,7 +65,7 @@ class TechnicalIndicators():
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
         return macd, signal
     
-    def bollinger_bands(self, n:int = 20, k = 2):
+    def bollinger_bands(self, n:int = 20, k:float = 2.0):
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
         upper_band = rolling_mean + (k * rolling_std)
