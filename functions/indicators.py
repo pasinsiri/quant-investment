@@ -16,6 +16,14 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def RSI(self, n:int = 14):
+        """calculate the relative strength index (RSI) from a given rolling period
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+
+        Returns:
+            pd.Series: a time-series of RSI
+        """
         delta = self.ohlcv_df['close'].diff()
         gain = delta.where(delta > 0, 0)
         loss = -delta.where(delta < 0, 0)
