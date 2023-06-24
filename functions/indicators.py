@@ -16,6 +16,14 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def RSI(self, n:int = 14):
+        """calculate the relative strength index (RSI) from a given rolling period
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+
+        Returns:
+            pd.Series: a time-series of RSI
+        """
         delta = self.ohlcv_df['close'].diff()
         gain = delta.where(delta > 0, 0)
         loss = -delta.where(delta < 0, 0)
@@ -25,13 +33,31 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi.fillna(0)
 
-    def stochasticRSI(self, n:int = 14, k:int = 3, d:int = 3):
+    def stochasticRSI(self, n:int = 14, d:int = 3):
+        """calculate stochastic RSI
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+            d (int, optional): number of RSI rolling period to be calculated using the stochastic oscillator formula. Defaults to 3.
+
+        Returns:
+            pd.Series: a pandas series of stochastic RSI
+        """
         rsi = self.RSI(n)
         stoch_rsi_k = (rsi - rsi.rolling(n).min()) / (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
         return stoch_rsi_k, stoch_rsi_d
     
     def MACD(self, n_long:int = 26, n_short:int = 12):
+        """calculate MACD
+
+        Args:
+            n_long (int, optional): a number of long period. Defaults to 26.
+            n_short (int, optional): a number of short period. Defaults to 12.
+
+        Returns:
+            pd.Series: a pandas series of MACD
+        """
         assert n_long > n_short, "Number of long period should be greater than number of short period."
         ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
         ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
@@ -39,7 +65,16 @@ class TechnicalIndicators():
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
         return macd, signal
     
-    def bollinger_bands(self, n:int = 20, k = 2):
+    def bollinger_bands(self, n:int = 20, k:float = 2.0):
+        """calculate the Bollinger Bands
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 20.
+            k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
+
+        Returns:
+            _type_: _description_
+        """
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
         upper_band = rolling_mean + (k * rolling_std)
