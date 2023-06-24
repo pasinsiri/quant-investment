@@ -266,7 +266,7 @@ class Backtest():
 
         for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
             frame_df = frames[date]
-            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.alpha_factors, self.risk_aversion_coefficient)
+            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.risk_aversion_coefficient)
             trades[date] = self.build_tradelist(previous_holdings, result)
             port[date] = result
             previous_holdings = self.convert_to_previous(result)
