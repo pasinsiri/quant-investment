@@ -66,6 +66,15 @@ class TechnicalIndicators():
         return macd, signal
     
     def bollinger_bands(self, n:int = 20, k:float = 2.0):
+        """calculate the Bollinger Bands
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 20.
+            k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
+
+        Returns:
+            _type_: _description_
+        """
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
         upper_band = rolling_mean + (k * rolling_std)
