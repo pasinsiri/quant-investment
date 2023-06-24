@@ -112,9 +112,9 @@ class Backtest():
             factor_cov[i, i] = 1e-4 * cov_value # convert to decimal since the raw data comes in the pct squared format
         return factor_cov
     
-    def get_lambda(self, composite_volume_column:str = 'ADTCA_30'):
+    def get_lambda(self, universe, composite_volume_column:str = 'ADTCA_30'):
         # TODO: lambda is transaction cost
-        adv = self.factor_df[[composite_volume_column]]
+        adv = universe[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
         adv.loc[adv[composite_volume_column] == 0, composite_volume_column] = 1.0e4 
         return 0.1 / adv
