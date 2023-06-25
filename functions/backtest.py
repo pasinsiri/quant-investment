@@ -157,11 +157,11 @@ class Backtest():
         
         return obj_func
     
-    def get_grad_func(h0, risk_aversion, Q, specVar, alpha_vec, Lambda):
+    def get_grad_func(self, h0, Q, specVar, alpha_vec, Lambda):
         def grad_func(h):
             # TODO: Implement
-            gradient = (risk_aversion * (Q.transpose() @ (Q @ h))) + \
-                        (risk_aversion * specVar * h) - alpha_vec + \
+            gradient = (self.risk_aversion_coefficient * (Q.transpose() @ (Q @ h))) + \
+                        (self.risk_aversion_coefficient * specVar * h) - alpha_vec + \
                         (2 * (h - h0) * Lambda)
             
             return np.asarray(gradient)
@@ -197,8 +197,8 @@ class Backtest():
         optimizer_result[0]: Numpy ndarray 
             optimized holdings
         """
-        obj_func = self.get_obj_func(h0, self.risk_aversion_coefficient, Q, specVar, alpha_vec, Lambda)
-        grad_func = self.get_grad_func(h0, self.risk_aversion_coefficient, Q, Q.transpose(), specVar, alpha_vec, Lambda)
+        obj_func = self.get_obj_func(h0, Q, specVar, alpha_vec, Lambda)
+        grad_func = self.get_grad_func(h0, Q, specVar, alpha_vec, Lambda)
         
         # TODO: Implement 
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
