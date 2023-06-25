@@ -123,7 +123,7 @@ class Backtest():
         # TODO: Implement
         return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = universe)
     
-    def get_alpha_vec(B_alpha):
+    def get_alpha_vec(self, B_alpha):
         """
         Create an alpha vecrtor
 
