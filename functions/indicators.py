@@ -100,6 +100,11 @@ class TechnicalIndicators():
         return pct_change
     
     def overnight_return(self):
+        """calculate overnight return which is the return from current day's open price compared to last day's close price
+
+        Returns:
+            pd.Series: a series of overnight return
+        """
         prev_close = self.ohlcv_df['close'].shift(1)
         overnight_return = (self.ohlcv_df['open'] - prev_close) / prev_close
         return overnight_return
