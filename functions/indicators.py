@@ -82,6 +82,14 @@ class TechnicalIndicators():
         return upper_band, lower_band
     
     def volume_change_pct(self, n:int = 10):
+        """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 10.
+
+        Returns:
+            pd.Series: a series of volume change percentage
+        """
         volume = self.ohlcv_df[['volume']]
         volume['average_previous_volume'] = volume.rolling(n).mean().shift(1).fillna(0)
         pct_change = (volume['volume'] - volume['average_previous_volume']) / volume['average_previous_volume']
@@ -92,11 +100,24 @@ class TechnicalIndicators():
         return pct_change
     
     def overnight_return(self):
+        """calculate overnight return which is the return from current day's open price compared to last day's close price
+
+        Returns:
+            pd.Series: a series of overnight return
+        """
         prev_close = self.ohlcv_df['close'].shift(1)
         overnight_return = (self.ohlcv_df['open'] - prev_close) / prev_close
         return overnight_return
     
     def candlestick_volume_ratio(self, mode):
+        """calculate candlestick volume ratio which is the candlestick length (high - low or open - close, depend on choosing) divided by the respective volume. if such ratio significantly changes from the previous day (we may also need to consider the absolute volume), some trend reversion may occur
+
+        Args:
+            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick legnth is open - close.
+
+        Returns:
+            pd.Series: a series of candlestick volume ratio
+        """
         if mode == 'whisker':
             i, j = 'high', 'low'
         elif mode == 'body':
