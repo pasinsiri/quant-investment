@@ -82,6 +82,14 @@ class TechnicalIndicators():
         return upper_band, lower_band
     
     def volume_change_pct(self, n:int = 10):
+        """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 10.
+
+        Returns:
+            pd.Series: a series of volume change percentage
+        """
         volume = self.ohlcv_df[['volume']]
         volume['average_previous_volume'] = volume.rolling(n).mean().shift(1).fillna(0)
         pct_change = (volume['volume'] - volume['average_previous_volume']) / volume['average_previous_volume']
