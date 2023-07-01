@@ -144,6 +144,14 @@ class TechnicalIndicators():
         return ratio
     
     def AROON(self, n:int = 25):
+        """calculate AROON indicator
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 25.
+
+        Returns:
+            pd.Series: a series of AROON values
+        """
         high = self.ohlcv_df['high'].rolling(n+1).apply(np.argmax, raw = True).fillna(n)
         low = self.ohlcv_df['low'].rolling(n+1).apply(np.argmin, raw = True).fillna(n)
         aroon_up = ((n - high) / n) * 100
@@ -151,8 +159,14 @@ class TechnicalIndicators():
         return aroon_up, aroon_down
     
     def stochastic_oscillator(self, n:int = 14, d:int = 3):
-        """
-        Calculate the Stochastic Oscillator indicator
+        """calculate stochastic oscillator value
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+            d (int, optional): number of rolling period for stochastic process. Defaults to 3.
+
+        Returns:
+            pd.Series: a series of stochastic oscillator
         """
         close = self.ohlcv_df['close']
         roll_low, roll_high = self._get_min_max(n)
