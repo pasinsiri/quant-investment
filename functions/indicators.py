@@ -127,6 +127,7 @@ class TechnicalIndicators():
     
     def bollinger_ratio(self, n:int = 20, k:float = 2.0):
         """calculate the Bollinger ratio which follows this equation:
+            bollinger_ratio = (close price - bollinger's lower band) / (bollinger's upper band - bollinger's lower band)
 
 
         Args:
@@ -134,7 +135,7 @@ class TechnicalIndicators():
             k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
 
         Returns:
-            _type_: _description_
+            pd.Series: a pandas series of Bollinger ratio value
         """
         upper_band, lower_band = self.bollinger_bands(n = n, k = k)
         gap = self.ohlcv_df['close'] - lower_band
