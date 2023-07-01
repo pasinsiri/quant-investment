@@ -73,7 +73,7 @@ class TechnicalIndicators():
             k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
 
         Returns:
-            _type_: _description_
+            pd.Series: a pandas series of Bollinger Band value
         """
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
@@ -125,7 +125,18 @@ class TechnicalIndicators():
         ratio = self.ohlcv_df.apply(lambda x: 0 if x['volume'] == 0 else abs(x[i] -x[j]) / x['volume'], axis = 1)
         return ratio
     
-    def bollinger_ratio(self, n:int = 20, k:int = 2):
+    def bollinger_ratio(self, n:int = 20, k:float = 2.0):
+        """calculate the Bollinger ratio which follows this equation:
+            bollinger_ratio = (close price - bollinger's lower band) / (bollinger's upper band - bollinger's lower band)
+
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 20.
+            k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
+
+        Returns:
+            pd.Series: a pandas series of Bollinger ratio value
+        """
         upper_band, lower_band = self.bollinger_bands(n = n, k = k)
         gap = self.ohlcv_df['close'] - lower_band
         width = upper_band - lower_band
@@ -133,6 +144,14 @@ class TechnicalIndicators():
         return ratio
     
     def AROON(self, n:int = 25):
+        """calculate AROON indicator
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 25.
+
+        Returns:
+            pd.Series: a series of AROON values
+        """
         high = self.ohlcv_df['high'].rolling(n+1).apply(np.argmax, raw = True).fillna(n)
         low = self.ohlcv_df['low'].rolling(n+1).apply(np.argmin, raw = True).fillna(n)
         aroon_up = ((n - high) / n) * 100
@@ -140,8 +159,14 @@ class TechnicalIndicators():
         return aroon_up, aroon_down
     
     def stochastic_oscillator(self, n:int = 14, d:int = 3):
-        """
-        Calculate the Stochastic Oscillator indicator
+        """calculate stochastic oscillator value
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+            d (int, optional): number of rolling period for stochastic process. Defaults to 3.
+
+        Returns:
+            pd.Series: a series of stochastic oscillator
         """
         close = self.ohlcv_df['close']
         roll_low, roll_high = self._get_min_max(n)
