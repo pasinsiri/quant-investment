@@ -73,7 +73,7 @@ class TechnicalIndicators():
             k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
 
         Returns:
-            _type_: _description_
+            pd.Series: a pandas series of Bollinger Band value
         """
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
@@ -125,7 +125,17 @@ class TechnicalIndicators():
         ratio = self.ohlcv_df.apply(lambda x: 0 if x['volume'] == 0 else abs(x[i] -x[j]) / x['volume'], axis = 1)
         return ratio
     
-    def bollinger_ratio(self, n:int = 20, k:int = 2):
+    def bollinger_ratio(self, n:int = 20, k:float = 2.0):
+        """calculate the Bollinger ratio which follows this equation:
+
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 20.
+            k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
+
+        Returns:
+            _type_: _description_
+        """
         upper_band, lower_band = self.bollinger_bands(n = n, k = k)
         gap = self.ohlcv_df['close'] - lower_band
         width = upper_band - lower_band
