@@ -28,6 +28,14 @@ class Backtest():
         return frames
 
     def _map_forward_return(self, n_forward_return:int):
+        """map a return data to the factor data in a forward manner
+
+        Args:
+            n_forward_return (int): number of periods in advanced the return will be used
+
+        Returns:
+            pd.DataFrame: a mapped dataframe
+        """
         data = self.factor_df.copy()
         self.return_df = self.return_df.rename(columns={'date': 'return_date'})
         dates_df = self.return_df[['return_date']].sort_values(by='return_date').drop_duplicates().reset_index(drop=True)
