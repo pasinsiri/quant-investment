@@ -68,7 +68,16 @@ class Backtest():
         
         return df
     
-    def get_formula(self, factors, Y):
+    def get_formula(self, factors:list, Y:str):
+        """generate a string of formula
+
+        Args:
+            factors (list): a list of factors
+            Y (str): a dependent variable
+
+        Returns:
+            str: a string of formula
+        """
         L = ["0"]
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
