@@ -48,6 +48,16 @@ class Backtest():
         return join_df
     
     def _winsorize(self, x, lower:float, upper:float):
+        """winsorize the array
+
+        Args:
+            x (np.array): a numpy array
+            lower (float): a lower bound
+            upper (float): an upper bound
+
+        Returns:
+            np.array: an array of winsorized values
+        """
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
     def _clean_nas(self, df): 
