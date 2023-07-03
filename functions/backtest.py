@@ -86,6 +86,17 @@ class Backtest():
         return list(filter(lambda x: factor_keyword in x, n))
 
     def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25):
+        """estimate the factor return values
+
+        Args:
+            df (pd.DataFrame): a combined pandas dataframe of factor exposures and return
+            return_col (str, optional): a return column name from df. Defaults to 'DlyReturn'.
+            lower_bound (float, optional): a lower bound of which the return will be winsorized. Defaults to -0.25.
+            upper_bound (float, optional): an upper bound of which the return will be winsorized. Defaults to 0.25.
+
+        Returns:
+            pd.DataFrame: a pandas dataframe of OLS-fitted values
+        """
         # * winsorize returns for fitting 
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
