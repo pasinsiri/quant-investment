@@ -112,6 +112,15 @@ class Backtest():
         return res_list
     
     def model_matrix(self, formula, data): 
+        """generate patsy dmatrix from a given data and formula
+
+        Args:
+            formula (str): a formula string
+            data (pd.DataFrame): a dataframe
+
+        Returns:
+            patsy.dmatrices: a patsy dmatrices
+        """
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
