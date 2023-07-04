@@ -281,6 +281,31 @@ class Backtest():
         # TODO: Implement
         
         return pd.Series(np.matmul(B_alpha.transpose(), h_star), index = self.colnames(B_alpha))
+        
+    def get_total_transaction_costs(self, h0, h_star, Lambda):
+        """
+        Calculate Total Transaction Costs
+
+        Parameters
+        ----------
+        h0 : Pandas Series
+            initial holdings (before optimization)
+            
+        h_star: Numpy ndarray 
+            optimized holdings
+            
+        Lambda : Pandas Series  
+            Lambda
+            
+        Returns
+        -------
+        total_transaction_costs : float
+            Total Transaction Costs
+        """
+        
+        # TODO: Implement
+        
+        return np.sum(Lambda * ((h_star - h0) ** 2))
     
     def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
