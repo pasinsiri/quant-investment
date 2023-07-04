@@ -204,7 +204,7 @@ class Backtest():
         optimizer_result = scipy.optimize.fmin_l_bfgs_b(obj_func, h0, fprime = grad_func)
         return optimizer_result[0]
     
-    def get_risk_exposures(B, h_star):
+    def get_risk_exposures(self, B, h_star):
         """
         Calculate portfolio's Risk Exposure
 
@@ -225,7 +225,7 @@ class Backtest():
         # TODO: Implement
         return pd.Series(B.transpose() @ h_star, index = B.design_info.column_names)
     
-    def form_optimal_portfolio(self, df, previous, risk_aversion):
+    def form_optimal_portfolio(self, df, previous):
         df = df.reset_index(level=0).merge(previous, how = 'left', on = 'Barrid')
         df = self._clean_nas(df)
         df.loc[df['SpecRisk'] == 0]['SpecRisk'] = np.median(df['SpecRisk'])
@@ -241,7 +241,7 @@ class Backtest():
         specVar = (0.01 * universe['SpecRisk']) ** 2
         Fvar = self.diagonal_factor_cov(date, B)
         
-        Lambda = self.get_lambda(universe)
+        Lambda = self.get_lambda(universe).values.reshape(-1)
         B_alpha = self.get_B_alpha(universe)
         alpha_vec = self.get_alpha_vec(B_alpha)
     
@@ -260,13 +260,35 @@ class Backtest():
             "alpha.exposures" : portfolio_alpha_exposure,
             "total.cost" : total_transaction_costs}
     
+    def get_portfolio_alpha_exposure(self, B_alpha, h_star):
+        """
+        Calculate portfolio's Alpha Exposure
+
+        Parameters
+        ----------
+        B_alpha : patsy.design_info.DesignMatrix 
+            Matrix of Alpha Factors
+            
+        h_star: Numpy ndarray 
+            optimized holdings
+            
+        Returns
+        -------
+        alpha_exposures : Pandas Series
+            Alpha Exposures
+        """
+        
+        # TODO: Implement
+        
+        return pd.Series(np.matmul(B_alpha.transpose(), h_star), index = self.colnames(B_alpha))
+    
     def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
         port = {}
 
         for date in tqdm(frames.keys(), desc='Optimizing Portfolio', unit='day'):
             frame_df = frames[date]
-            result = self.form_optimal_portfolio(frame_df, previous_holdings, self.risk_aversion_coefficient)
+            result = self.form_optimal_portfolio(frame_df, previous_holdings)
             trades[date] = self.build_tradelist(previous_holdings, result)
             port[date] = result
             previous_holdings = self.convert_to_previous(result)
