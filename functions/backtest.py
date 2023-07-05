@@ -307,6 +307,12 @@ class Backtest():
         
         return np.sum(Lambda * ((h_star - h0) ** 2))
     
+    def build_tradelist(self, prev_holdings, opt_result):
+        tmp = prev_holdings.merge(opt_result['opt.portfolio'], how='outer', on = 'Barrid')
+        tmp['h.opt.previous'] = np.nan_to_num(tmp['h.opt.previous'])
+        tmp['h.opt'] = np.nan_to_num(tmp['h.opt'])
+        return tmp
+    
     def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
         port = {}
