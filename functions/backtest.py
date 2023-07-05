@@ -313,6 +313,11 @@ class Backtest():
         tmp['h.opt'] = np.nan_to_num(tmp['h.opt'])
         return tmp
     
+    def convert_to_previous(result): 
+        prev = result['opt.portfolio']
+        prev = prev.rename(index=str, columns={"h.opt": "h.opt.previous"}, copy=True, inplace=False)
+        return prev
+    
     def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
         port = {}
