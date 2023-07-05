@@ -123,23 +123,23 @@ class Backtest():
         # TODO: Implement
         return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = universe)
     
-    def get_alpha_vec(self, B_alpha):
-        """
-        Create an alpha vecrtor
+    # def get_alpha_vec(self, B_alpha):
+    #     """
+    #     Create an alpha vecrtor
 
-        Parameters
-        ----------        
-        B_alpha : patsy.design_info.DesignMatrix 
-            Matrix of Alpha Factors
+    #     Parameters
+    #     ----------        
+    #     B_alpha : patsy.design_info.DesignMatrix 
+    #         Matrix of Alpha Factors
             
-        Returns
-        -------
-        alpha_vec : patsy.design_info.DesignMatrix 
-            alpha vector
-        """
+    #     Returns
+    #     -------
+    #     alpha_vec : patsy.design_info.DesignMatrix 
+    #         alpha vector
+    #     """
         
-        # TODO: Implement
-        return 1e-4 * np.sum(B_alpha, axis = 1)
+    #     # TODO: Implement
+    #     return 1e-4 * np.sum(B_alpha, axis = 1)
 
     def calculate_Q(self, Fvar, BT):
         return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
@@ -243,7 +243,7 @@ class Backtest():
         
         Lambda = self.get_lambda(universe).values.reshape(-1)
         B_alpha = self.get_B_alpha(universe)
-        alpha_vec = self.get_alpha_vec(B_alpha)
+        alpha_vec = 1e-4 * np.sum(B_alpha, axis = 1)
     
         Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
         
