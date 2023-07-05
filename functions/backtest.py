@@ -68,10 +68,10 @@ class Backtest():
         results = model.fit()
         return results
     
-    def setdiff(self, base:list, exclude:list):
-        exs = set(exclude)
-        res_list = [x for x in base if x not in exs]
-        return res_list
+    # def setdiff(self, base:list, exclude:list):
+    #     exs = set(exclude)
+    #     res_list = [x for x in base if x not in exs]
+    #     return res_list
     
     def model_matrix(self, formula, data): 
         _, predictors = patsy.dmatrices(formula, data)
