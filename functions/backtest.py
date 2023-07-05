@@ -140,9 +140,6 @@ class Backtest():
         
     #     # TODO: Implement
     #     return 1e-4 * np.sum(B_alpha, axis = 1)
-
-    def calculate_Q(self, Fvar, BT):
-        return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
         
     def get_obj_func(self, h0, Q, specVar, alpha_vec, Lambda): 
         def obj_func(h):
