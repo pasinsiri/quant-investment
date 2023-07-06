@@ -73,7 +73,7 @@ class TechnicalIndicators():
             k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
 
         Returns:
-            _type_: _description_
+            pd.Series: a pandas series of Bollinger Band value
         """
         rolling_mean = self.ohlcv_df['close'].rolling(window=n).mean()
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
@@ -82,6 +82,14 @@ class TechnicalIndicators():
         return upper_band, lower_band
     
     def volume_change_pct(self, n:int = 10):
+        """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 10.
+
+        Returns:
+            pd.Series: a series of volume change percentage
+        """
         volume = self.ohlcv_df[['volume']]
         volume['average_previous_volume'] = volume.rolling(n).mean().shift(1).fillna(0)
         pct_change = (volume['volume'] - volume['average_previous_volume']) / volume['average_previous_volume']
@@ -92,11 +100,24 @@ class TechnicalIndicators():
         return pct_change
     
     def overnight_return(self):
+        """calculate overnight return which is the return from current day's open price compared to last day's close price
+
+        Returns:
+            pd.Series: a series of overnight return
+        """
         prev_close = self.ohlcv_df['close'].shift(1)
         overnight_return = (self.ohlcv_df['open'] - prev_close) / prev_close
         return overnight_return
     
     def candlestick_volume_ratio(self, mode):
+        """calculate candlestick volume ratio which is the candlestick length (high - low or open - close, depend on choosing) divided by the respective volume. if such ratio significantly changes from the previous day (we may also need to consider the absolute volume), some trend reversion may occur
+
+        Args:
+            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick legnth is open - close.
+
+        Returns:
+            pd.Series: a series of candlestick volume ratio
+        """
         if mode == 'whisker':
             i, j = 'high', 'low'
         elif mode == 'body':
@@ -104,7 +125,18 @@ class TechnicalIndicators():
         ratio = self.ohlcv_df.apply(lambda x: 0 if x['volume'] == 0 else abs(x[i] -x[j]) / x['volume'], axis = 1)
         return ratio
     
-    def bollinger_ratio(self, n:int = 20, k:int = 2):
+    def bollinger_ratio(self, n:int = 20, k:float = 2.0):
+        """calculate the Bollinger ratio which follows this equation:
+            bollinger_ratio = (close price - bollinger's lower band) / (bollinger's upper band - bollinger's lower band)
+
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 20.
+            k (float, optional): a standard deviation multiplier to create upper and lower bands. Defaults to 2.0.
+
+        Returns:
+            pd.Series: a pandas series of Bollinger ratio value
+        """
         upper_band, lower_band = self.bollinger_bands(n = n, k = k)
         gap = self.ohlcv_df['close'] - lower_band
         width = upper_band - lower_band
@@ -112,6 +144,14 @@ class TechnicalIndicators():
         return ratio
     
     def AROON(self, n:int = 25):
+        """calculate AROON indicator
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 25.
+
+        Returns:
+            pd.Series: a series of AROON values
+        """
         high = self.ohlcv_df['high'].rolling(n+1).apply(np.argmax, raw = True).fillna(n)
         low = self.ohlcv_df['low'].rolling(n+1).apply(np.argmin, raw = True).fillna(n)
         aroon_up = ((n - high) / n) * 100
@@ -119,8 +159,14 @@ class TechnicalIndicators():
         return aroon_up, aroon_down
     
     def stochastic_oscillator(self, n:int = 14, d:int = 3):
-        """
-        Calculate the Stochastic Oscillator indicator
+        """calculate stochastic oscillator value
+
+        Args:
+            n (int, optional): number of rolling period. Defaults to 14.
+            d (int, optional): number of rolling period for stochastic process. Defaults to 3.
+
+        Returns:
+            pd.Series: a series of stochastic oscillator
         """
         close = self.ohlcv_df['close']
         roll_low, roll_high = self._get_min_max(n)

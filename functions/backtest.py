@@ -28,6 +28,14 @@ class Backtest():
         return frames
 
     def _map_forward_return(self, n_forward_return:int):
+        """map a return data to the factor data in a forward manner
+
+        Args:
+            n_forward_return (int): number of periods in advanced the return will be used
+
+        Returns:
+            pd.DataFrame: a mapped dataframe
+        """
         data = self.factor_df.copy()
         self.return_df = self.return_df.rename(columns={'date': 'return_date'})
         dates_df = self.return_df[['return_date']].sort_values(by='return_date').drop_duplicates().reset_index(drop=True)
@@ -40,6 +48,16 @@ class Backtest():
         return join_df
     
     def _winsorize(self, x, lower:float, upper:float):
+        """winsorize the array
+
+        Args:
+            x (np.array): a numpy array
+            lower (float): a lower bound
+            upper (float): an upper bound
+
+        Returns:
+            np.array: an array of winsorized values
+        """
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
     def _clean_nas(self, df): 
@@ -50,7 +68,16 @@ class Backtest():
         
         return df
     
-    def get_formula(self, factors, Y):
+    def get_formula(self, factors:list, Y:str):
+        """generate a string of formula
+
+        Args:
+            factors (list): a list of factors
+            Y (str): a dependent variable
+
+        Returns:
+            str: a string of formula
+        """
         L = ["0"]
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
@@ -58,7 +85,21 @@ class Backtest():
     # def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
     #     return list(filter(lambda x: factor_keyword in x, n))
 
+
     def estimate_factor_returns(self, df, filter_n:int, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
+        """estimate the factor return values
+
+        Args:
+            df (pd.DataFrame): a combined pandas dataframe of factor exposures and return
+            filter_n (int): an integer to be used in the filter
+            return_col (str, optional): a return column name from df. Defaults to 'DlyReturn'.
+            lower_bound (float, optional): a lower bound of which the return will be winsorized. Defaults to -0.25.
+            upper_bound (float, optional): an upper bound of which the return will be winsorized. Defaults to 0.25.
+            factor_keyword: a keyword use to identify factor columns in the dataframe. Defualts to USFASTD_
+
+        Returns:
+            pd.DataFrame: a pandas dataframe of OLS-fitted values
+        """
         # * winsorize returns for fitting 
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
@@ -75,6 +116,15 @@ class Backtest():
     #     return res_list
     
     def model_matrix(self, formula, data): 
+        """generate patsy dmatrix from a given data and formula
+
+        Args:
+            formula (str): a formula string
+            data (pd.DataFrame): a dataframe
+
+        Returns:
+            patsy.dmatrices: a patsy dmatrices
+        """
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
