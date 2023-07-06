@@ -58,12 +58,12 @@ class Backtest():
     # def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
     #     return list(filter(lambda x: factor_keyword in x, n))
 
-    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, n:int, factor_keyword:str = 'USFASTD_'):
+    def estimate_factor_returns(self, df, filter_n:int, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
         # * winsorize returns for fitting 
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
         # all_factors = self.factors_from_names(list(df))
-        all_factors = list(filter(lambda x: factor_keyword in x, n))
+        all_factors = list(filter(lambda x: factor_keyword in x, filter_n))
         form = self.get_formula(all_factors, return_col)
         model = ols(form, data=df)
         results = model.fit()
