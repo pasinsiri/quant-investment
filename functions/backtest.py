@@ -82,17 +82,20 @@ class Backtest():
         L.extend(factors)
         return f'{Y} ~ {" + ".join(L)}'
     
-    def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
-        return list(filter(lambda x: factor_keyword in x, n))
+    # def factors_from_names(self, n, factor_keyword:str = 'USFASTD_'):
+    #     return list(filter(lambda x: factor_keyword in x, n))
 
-    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25):
+
+    def estimate_factor_returns(self, df, filter_n:int, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
         """estimate the factor return values
 
         Args:
             df (pd.DataFrame): a combined pandas dataframe of factor exposures and return
+            filter_n (int): an integer to be used in the filter
             return_col (str, optional): a return column name from df. Defaults to 'DlyReturn'.
             lower_bound (float, optional): a lower bound of which the return will be winsorized. Defaults to -0.25.
             upper_bound (float, optional): an upper bound of which the return will be winsorized. Defaults to 0.25.
+            factor_keyword: a keyword use to identify factor columns in the dataframe. Defualts to USFASTD_
 
         Returns:
             pd.DataFrame: a pandas dataframe of OLS-fitted values
@@ -100,16 +103,17 @@ class Backtest():
         # * winsorize returns for fitting 
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
-        all_factors = self.factors_from_names(list(df))
+        # all_factors = self.factors_from_names(list(df))
+        all_factors = list(filter(lambda x: factor_keyword in x, filter_n))
         form = self.get_formula(all_factors, return_col)
         model = ols(form, data=df)
         results = model.fit()
         return results
     
-    def setdiff(self, base:list, exclude:list):
-        exs = set(exclude)
-        res_list = [x for x in base if x not in exs]
-        return res_list
+    # def setdiff(self, base:list, exclude:list):
+    #     exs = set(exclude)
+    #     res_list = [x for x in base if x not in exs]
+    #     return res_list
     
     def model_matrix(self, formula, data): 
         """generate patsy dmatrix from a given data and formula
@@ -170,26 +174,23 @@ class Backtest():
         # TODO: Implement
         return self.model_matrix(self.get_formula(self.alpha_factors, 'SpecRisk'), data = universe)
     
-    def get_alpha_vec(self, B_alpha):
-        """
-        Create an alpha vecrtor
+    # def get_alpha_vec(self, B_alpha):
+    #     """
+    #     Create an alpha vecrtor
 
-        Parameters
-        ----------        
-        B_alpha : patsy.design_info.DesignMatrix 
-            Matrix of Alpha Factors
+    #     Parameters
+    #     ----------        
+    #     B_alpha : patsy.design_info.DesignMatrix 
+    #         Matrix of Alpha Factors
             
-        Returns
-        -------
-        alpha_vec : patsy.design_info.DesignMatrix 
-            alpha vector
-        """
+    #     Returns
+    #     -------
+    #     alpha_vec : patsy.design_info.DesignMatrix 
+    #         alpha vector
+    #     """
         
-        # TODO: Implement
-        return 1e-4 * np.sum(B_alpha, axis = 1)
-
-    def calculate_Q(self, Fvar, BT):
-        return np.matmul(scipy.linalg.sqrtm(Fvar), BT)
+    #     # TODO: Implement
+    #     return 1e-4 * np.sum(B_alpha, axis = 1)
         
     def get_obj_func(self, h0, Q, specVar, alpha_vec, Lambda): 
         def obj_func(h):
@@ -290,7 +291,7 @@ class Backtest():
         
         Lambda = self.get_lambda(universe).values.reshape(-1)
         B_alpha = self.get_B_alpha(universe)
-        alpha_vec = self.get_alpha_vec(B_alpha)
+        alpha_vec = 1e-4 * np.sum(B_alpha, axis = 1)
     
         Q = np.matmul(scipy.linalg.sqrtm(Fvar), BT)
         
@@ -353,6 +354,17 @@ class Backtest():
         # TODO: Implement
         
         return np.sum(Lambda * ((h_star - h0) ** 2))
+    
+    def build_tradelist(self, prev_holdings, opt_result):
+        tmp = prev_holdings.merge(opt_result['opt.portfolio'], how='outer', on = 'Barrid')
+        tmp['h.opt.previous'] = np.nan_to_num(tmp['h.opt.previous'])
+        tmp['h.opt'] = np.nan_to_num(tmp['h.opt'])
+        return tmp
+    
+    def convert_to_previous(result): 
+        prev = result['opt.portfolio']
+        prev = prev.rename(index=str, columns={"h.opt": "h.opt.previous"}, copy=True, inplace=False)
+        return prev
     
     def run_backtest(self, frames:dict, previous_holdings:pd.DataFrame):
         trades = {}
