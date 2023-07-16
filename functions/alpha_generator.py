@@ -36,6 +36,10 @@ class NoOverlapClassifierAbstract(VotingClassifier):
         return self
 
 class NoOverlapClassifier(NoOverlapClassifierAbstract):
+    def __init__(self, estimator, voting:str='soft', n_skip_samples:int=4):
+            self.estimator = estimator
+            super().__init__(estimator=self.estimator, voting=voting, n_skip_samples=n_skip_samples)
+
     def _non_overlapping_samples(self, x, y, n_skip_samples, start_i=0):
         """
         Get the non overlapping samples.
