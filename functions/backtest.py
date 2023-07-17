@@ -172,6 +172,15 @@ class Backtest():
         return factor_cov
     
     def get_lambda(self, universe, composite_volume_column:str = 'ADTCA_30'):
+        """calculate lambda (the transaction cost)
+
+        Args:
+            universe (pd.DataFrame): a time-series dataframe which contains the composite volume column
+            composite_volume_column (str, optional): a composite volumn column. Defaults to 'ADTCA_30'.
+
+        Returns:
+            pd.Series: a time-series of estimated transaction costs
+        """
         # TODO: lambda is transaction cost
         adv = universe[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
