@@ -86,13 +86,12 @@ class Backtest():
     #     return list(filter(lambda x: factor_keyword in x, n))
 
 
-    def estimate_factor_returns(self, df, filter_n:int, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
+    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
         """estimate the factor return values
 
         Args:
             df (pd.DataFrame): a combined pandas dataframe of factor exposures and return
-            filter_n (int): an integer to be used in the filter
-            return_col (str, optional): a return column name from df. Defaults to 'DlyReturn'.
+            return_col (str): return's column name
             lower_bound (float, optional): a lower bound of which the return will be winsorized. Defaults to -0.25.
             upper_bound (float, optional): an upper bound of which the return will be winsorized. Defaults to 0.25.
             factor_keyword: a keyword use to identify factor columns in the dataframe. Defualts to USFASTD_
@@ -104,7 +103,7 @@ class Backtest():
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
         # all_factors = self.factors_from_names(list(df))
-        all_factors = list(filter(lambda x: factor_keyword in x, filter_n))
+        all_factors = list(filter(lambda x: factor_keyword in x, list(df)))
         form = self.get_formula(all_factors, return_col)
         model = ols(form, data=df)
         results = model.fit()
