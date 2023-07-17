@@ -139,7 +139,7 @@ class Backtest():
         """
         if isinstance(B, patsy.design_info.DesignMatrix):
             return B.design_info.column_names
-        elif isinstance(B, pd.core.frame.DataFrame):
+        if isinstance(B, pd.core.frame.DataFrame):
             return B.columns.tolist()
         return None
 
