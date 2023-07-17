@@ -128,10 +128,18 @@ class Backtest():
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
-    def colnames(self, B):
-        if type(B) == patsy.design_info.DesignMatrix:
+    def colnames(self, B) -> list:
+        """get column names from a given dataFrame
+
+        Args:
+            B (pandas dataframe or patsy dmatrices): a given data
+
+        Returns:
+            list: a list of column names
+        """
+        if isinstance(B, patsy.design_info.DesignMatrix):
             return B.design_info.column_names
-        elif type(B) == pd.core.frame.DataFrame:
+        elif isinstance(B, pd.core.frame.DataFrame):
             return B.columns.tolist()
         return None
 
