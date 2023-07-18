@@ -22,7 +22,7 @@ class AlphaFactorEvaluator():
         """
         factor_data_dict = dict()
         for factor in self.factor_names:
-            if verbose: 
+            if verbose:
                 print(f'Formatting factor data for {factor}')
             factor_data_dict[factor] = al.utils.get_clean_factor_and_forward_returns(
                 factor = self.factor_return[factor],
@@ -32,18 +32,22 @@ class AlphaFactorEvaluator():
             )
         return factor_data_dict
     
-    def get_factor_returns(self, factor_data_dict):
+    def get_factor_returns(self, factor_data_dict, demeaned:bool, group_adjust:bool, equal_weight:bool):
         """utilize the alphalens library to calculate factor returns from factor values
 
         Args:
             factor_data_dict (dict): the result from the combine_factor_forward_returns function
+            demeaned (bool): should this computation happen on a long short portfolio? if True, weights are computed by demeaning factor values and dividing by the sum of their absolute value (achieving gross leverage of 1). The sum of positive weights will be the same as the negative weights (absolute value), suitable for a dollar neutral long-short portfolio
+            group_adjust (bool): should this computation happen on a group neutral portfolio? If True, compute group neutral weights: each group will weight the same and if 'demeaned' is enabled the factor values demeaning will occur on the group level.
+            equal_weight (bool): if True the assets will be equal-weighted instead of factor-weighted. If demeaned is True then the factor universe will be split in two equal sized groups, top assets with positive weights and bottom assets with negative weights
+
 
         Returns:
             pd.DataFrame: a dataframe of which rows represent the dates and columns represent the factors
         """
         factor_return_list = []
         for factor in self.factor_names:
-            factor_return = al.performance.factor_returns(factor_data_dict[factor])
+            factor_return = al.performance.factor_returns(factor_data_dict[factor], demeaned=demeaned, group_adjust=group_adjust, equal_weight=equal_weight)
             factor_return.columns = [factor]
             factor_return_list.append(factor_return)
         return pd.concat(factor_return_list, axis = 1)
