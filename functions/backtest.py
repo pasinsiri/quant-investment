@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import patsy
 import scipy
@@ -7,8 +7,8 @@ from tqdm import tqdm
 
 class Backtest():
     def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
-        self.factor_df = factor_df 
-        self.covariance = covariance 
+        self.factor_df = factor_df
+        self.covariance = covariance
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
@@ -60,10 +60,10 @@ class Backtest():
         """
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
-    def _clean_nas(self, df): 
+    def _clean_nas(self, df):
         numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
         
-        for numeric_column in numeric_columns: 
+        for numeric_column in numeric_columns:
             df[numeric_column] = np.nan_to_num(df[numeric_column])
         
         return df
@@ -114,7 +114,7 @@ class Backtest():
     #     res_list = [x for x in base if x not in exs]
     #     return res_list
     
-    def model_matrix(self, formula, data): 
+    def model_matrix(self, formula, data):
         """generate patsy dmatrix from a given data and formula
 
         Args:
@@ -377,7 +377,7 @@ class Backtest():
         tmp['h.opt'] = np.nan_to_num(tmp['h.opt'])
         return tmp
     
-    def convert_to_previous(result): 
+    def convert_to_previous(self, result):
         prev = result['opt.portfolio']
         prev = prev.rename(index=str, columns={"h.opt": "h.opt.previous"}, copy=True, inplace=False)
         return prev
