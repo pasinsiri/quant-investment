@@ -22,7 +22,8 @@ class AlphaFactorEvaluator():
         """
         factor_data_dict = dict()
         for factor in self.factor_names:
-            if verbose: print(f'Formatting factor data for {factor}')
+            if verbose: 
+                print(f'Formatting factor data for {factor}')
             factor_data_dict[factor] = al.utils.get_clean_factor_and_forward_returns(
                 factor = self.factor_return[factor],
                 prices = self.price,
