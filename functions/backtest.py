@@ -1,3 +1,11 @@
+"""
+A python module for continuous backtesting, with its own optimization function and its respective gradient
+
+Author: pasinsiri
+Initialized Date: 2023-07-18
+"""
+
+
 import pandas as pd
 import numpy as np
 import patsy
