@@ -49,7 +49,7 @@ class AlphaFactorEvaluator():
     
     # TODO: factor evaluation
     # * Sharpe ratio
-    def _sharpe_ratio(df, frequency:str):
+    def _sharpe_ratio(self, df, frequency:str):
         """calculate sharpe ratio of given factors
 
         Args:
