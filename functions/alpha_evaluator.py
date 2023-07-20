@@ -1,3 +1,10 @@
+"""
+Module: Alpha Factor Evaluator
+Description: evaluate the alpha factor in terms of contribution to the forward return of a given asset
+Author: pasinsiri
+Date: 2023-07-20
+"""
+
 import pandas as pd 
 import numpy as np
 import alphalens as al
