@@ -5,10 +5,10 @@ Author: pasinsiri
 Date: 2023-07-20
 """
 
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import alphalens as al
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 
 class AlphaFactorEvaluator():
     def __init__(self, factor_return, price) -> None:
@@ -38,7 +38,7 @@ class AlphaFactorEvaluator():
                 max_loss = max_loss
             )
         return factor_data_dict
-    
+
     def get_factor_returns(self, factor_data_dict, demeaned:bool, group_adjust:bool, equal_weight:bool):
         """utilize the alphalens library to calculate factor returns from factor values
 
@@ -58,7 +58,7 @@ class AlphaFactorEvaluator():
             factor_return.columns = [factor]
             factor_return_list.append(factor_return)
         return pd.concat(factor_return_list, axis = 1)
-    
+
     # TODO: factor evaluation
     # * Sharpe ratio
     def _sharpe_ratio(self, df, frequency:str):
@@ -77,11 +77,9 @@ class AlphaFactorEvaluator():
             annualization_factor = np.sqrt(12)
         else:
             annualization_factor = 1
-            
-        sharpe_ratio = annualization_factor * (df.mean() / df.std())
-        
+        sharpe_ratio = annualization_factor * (df.mean() / df.std())    
         return sharpe_ratio
-    
+
     def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
         """apply _sharpe_ratio function to a dataframe
 
@@ -112,7 +110,7 @@ class AlphaFactorEvaluator():
             rank_ic_list.append(rank_ic)
 
         return pd.concat(rank_ic_list, axis = 1)
-    
+
     # * factor rank autocorrelation (used as a proxy for portfolio turnover)
     def get_factor_rank_autocorrelation(self, factor_data_dict):
         """utilize the alphalens library to calculate the factor rank autocorrelation
@@ -131,7 +129,7 @@ class AlphaFactorEvaluator():
             rank_ac_list.append(rank_ac)
 
         return pd.concat(rank_ac_list, axis = 1)
-    
+
     def get_mean_return_by_quantile(self, factor_data_dict):
         """utilize the alphalens library to calculate the factor's mean return by quantile
 
