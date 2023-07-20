@@ -1,7 +1,14 @@
-import pandas as pd 
+"""
+Module: Alpha Factor Evaluator
+Description: evaluate the alpha factor in terms of contribution to the forward return of a given asset
+Author: pasinsiri
+Date: 2023-07-20
+"""
+
+import pandas as pd
 import numpy as np
 import alphalens as al
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 
 class AlphaFactorEvaluator():
     def __init__(self, factor_return, price) -> None:
@@ -20,9 +27,10 @@ class AlphaFactorEvaluator():
         Returns:
             dict: a dictionary of which keys represent factor name and values represent factor and forward returns 
         """
-        factor_data_dict = dict()
+        factor_data_dict = {}
         for factor in self.factor_names:
-            if verbose: print(f'Formatting factor data for {factor}')
+            if verbose:
+                print(f'Formatting factor data for {factor}')
             factor_data_dict[factor] = al.utils.get_clean_factor_and_forward_returns(
                 factor = self.factor_return[factor],
                 prices = self.price,
@@ -30,26 +38,30 @@ class AlphaFactorEvaluator():
                 max_loss = max_loss
             )
         return factor_data_dict
-    
-    def get_factor_returns(self, factor_data_dict):
+
+    def get_factor_returns(self, factor_data_dict, demeaned:bool, group_adjust:bool, equal_weight:bool):
         """utilize the alphalens library to calculate factor returns from factor values
 
         Args:
             factor_data_dict (dict): the result from the combine_factor_forward_returns function
+            demeaned (bool): should this computation happen on a long short portfolio? if True, weights are computed by demeaning factor values and dividing by the sum of their absolute value (achieving gross leverage of 1). The sum of positive weights will be the same as the negative weights (absolute value), suitable for a dollar neutral long-short portfolio
+            group_adjust (bool): should this computation happen on a group neutral portfolio? If True, compute group neutral weights: each group will weight the same and if 'demeaned' is enabled the factor values demeaning will occur on the group level.
+            equal_weight (bool): if True the assets will be equal-weighted instead of factor-weighted. If demeaned is True then the factor universe will be split in two equal sized groups, top assets with positive weights and bottom assets with negative weights
+
 
         Returns:
             pd.DataFrame: a dataframe of which rows represent the dates and columns represent the factors
         """
         factor_return_list = []
         for factor in self.factor_names:
-            factor_return = al.performance.factor_returns(factor_data_dict[factor])
+            factor_return = al.performance.factor_returns(factor_data_dict[factor], demeaned=demeaned, group_adjust=group_adjust, equal_weight=equal_weight)
             factor_return.columns = [factor]
             factor_return_list.append(factor_return)
         return pd.concat(factor_return_list, axis = 1)
-    
+
     # TODO: factor evaluation
     # * Sharpe ratio
-    def _sharpe_ratio(df, frequency:str):
+    def _sharpe_ratio(self, df, frequency:str):
         """calculate sharpe ratio of given factors
 
         Args:
@@ -65,11 +77,9 @@ class AlphaFactorEvaluator():
             annualization_factor = np.sqrt(12)
         else:
             annualization_factor = 1
-            
         sharpe_ratio = annualization_factor * (df.mean() / df.std())
-        
         return sharpe_ratio
-    
+
     def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
         """apply _sharpe_ratio function to a dataframe
 
@@ -100,7 +110,7 @@ class AlphaFactorEvaluator():
             rank_ic_list.append(rank_ic)
 
         return pd.concat(rank_ic_list, axis = 1)
-    
+
     # * factor rank autocorrelation (used as a proxy for portfolio turnover)
     def get_factor_rank_autocorrelation(self, factor_data_dict):
         """utilize the alphalens library to calculate the factor rank autocorrelation
@@ -119,7 +129,7 @@ class AlphaFactorEvaluator():
             rank_ac_list.append(rank_ac)
 
         return pd.concat(rank_ac_list, axis = 1)
-    
+
     def get_mean_return_by_quantile(self, factor_data_dict):
         """utilize the alphalens library to calculate the factor's mean return by quantile
 

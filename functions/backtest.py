@@ -1,4 +1,11 @@
-import pandas as pd 
+"""
+A python module for continuous backtesting, with its own optimization function and its respective gradient
+
+Author: pasinsiri
+Initialized Date: 2023-07-18
+"""
+
+import pandas as pd
 import numpy as np
 import patsy
 import scipy
@@ -7,8 +14,8 @@ from tqdm import tqdm
 
 class Backtest():
     def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
-        self.factor_df = factor_df 
-        self.covariance = covariance 
+        self.factor_df = factor_df
+        self.covariance = covariance
         self.return_df = return_df
         self.alpha_factors = alpha_factors
         self.risk_factors = risk_factors
@@ -60,10 +67,10 @@ class Backtest():
         """
         return np.where(x <= lower, lower, np.where(x >= upper, upper, x))
     
-    def _clean_nas(self, df): 
+    def _clean_nas(self, df):
         numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
         
-        for numeric_column in numeric_columns: 
+        for numeric_column in numeric_columns:
             df[numeric_column] = np.nan_to_num(df[numeric_column])
         
         return df
@@ -86,13 +93,12 @@ class Backtest():
     #     return list(filter(lambda x: factor_keyword in x, n))
 
 
-    def estimate_factor_returns(self, df, filter_n:int, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
+    def estimate_factor_returns(self, df, return_col:str = 'DlyReturn', lower_bound:float = -0.25, upper_bound:float = 0.25, factor_keyword:str = 'USFASTD_'):
         """estimate the factor return values
 
         Args:
             df (pd.DataFrame): a combined pandas dataframe of factor exposures and return
-            filter_n (int): an integer to be used in the filter
-            return_col (str, optional): a return column name from df. Defaults to 'DlyReturn'.
+            return_col (str): return's column name
             lower_bound (float, optional): a lower bound of which the return will be winsorized. Defaults to -0.25.
             upper_bound (float, optional): an upper bound of which the return will be winsorized. Defaults to 0.25.
             factor_keyword: a keyword use to identify factor columns in the dataframe. Defualts to USFASTD_
@@ -104,7 +110,7 @@ class Backtest():
         df[return_col] = self._winsorize(df[return_col], lower_bound, upper_bound)
     
         # all_factors = self.factors_from_names(list(df))
-        all_factors = list(filter(lambda x: factor_keyword in x, filter_n))
+        all_factors = list(filter(lambda x: factor_keyword in x, list(df)))
         form = self.get_formula(all_factors, return_col)
         model = ols(form, data=df)
         results = model.fit()
@@ -115,7 +121,7 @@ class Backtest():
     #     res_list = [x for x in base if x not in exs]
     #     return res_list
     
-    def model_matrix(self, formula, data): 
+    def model_matrix(self, formula, data):
         """generate patsy dmatrix from a given data and formula
 
         Args:
@@ -128,10 +134,18 @@ class Backtest():
         _, predictors = patsy.dmatrices(formula, data)
         return predictors
     
-    def colnames(self, B):
-        if type(B) == patsy.design_info.DesignMatrix:
+    def colnames(self, B) -> list:
+        """get column names from a given dataFrame
+
+        Args:
+            B (pandas dataframe or patsy dmatrices): a given data
+
+        Returns:
+            list: a list of column names
+        """
+        if isinstance(B, patsy.design_info.DesignMatrix):
             return B.design_info.column_names
-        elif type(B) == pd.core.frame.DataFrame:
+        if isinstance(B, pd.core.frame.DataFrame):
             return B.columns.tolist()
         return None
 
@@ -164,6 +178,15 @@ class Backtest():
         return factor_cov
     
     def get_lambda(self, universe, composite_volume_column:str = 'ADTCA_30'):
+        """calculate lambda (the transaction cost)
+
+        Args:
+            universe (pd.DataFrame): a time-series dataframe which contains the composite volume column
+            composite_volume_column (str, optional): a composite volumn column. Defaults to 'ADTCA_30'.
+
+        Returns:
+            pd.Series: a time-series of estimated transaction costs
+        """
         # TODO: lambda is transaction cost
         adv = universe[[composite_volume_column]]
         adv.loc[np.isnan(adv[composite_volume_column]), composite_volume_column] = 1.0e4
@@ -361,7 +384,7 @@ class Backtest():
         tmp['h.opt'] = np.nan_to_num(tmp['h.opt'])
         return tmp
     
-    def convert_to_previous(result): 
+    def convert_to_previous(self, result):
         prev = result['opt.portfolio']
         prev = prev.rename(index=str, columns={"h.opt": "h.opt.previous"}, copy=True, inplace=False)
         return prev
