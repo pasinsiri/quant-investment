@@ -27,7 +27,7 @@ class AlphaFactorEvaluator():
         Returns:
             dict: a dictionary of which keys represent factor name and values represent factor and forward returns 
         """
-        factor_data_dict = dict()
+        factor_data_dict = {}
         for factor in self.factor_names:
             if verbose:
                 print(f'Formatting factor data for {factor}')
@@ -77,7 +77,7 @@ class AlphaFactorEvaluator():
             annualization_factor = np.sqrt(12)
         else:
             annualization_factor = 1
-        sharpe_ratio = annualization_factor * (df.mean() / df.std())    
+        sharpe_ratio = annualization_factor * (df.mean() / df.std())
         return sharpe_ratio
 
     def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
