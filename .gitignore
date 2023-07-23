@@ -16,22 +16,8 @@ region_rank.csv
 sector_rank.csv 
 stock_rank.csv
 
-# all price data
-data/crypto/*
-data/set/*
-data/tmp/*
-
-# temp exclusion
-data/2021*
-data/ft-funds/*
-data/fred/*
-data/prices/*
-
-# loaded data (too much to upload) 
-data/edgar/*
-data/thai_sec/*
-data/thai_gov_open_data/*
-data/barra/*
+# all data
+data/*
 
 # credentials
 creds.json
