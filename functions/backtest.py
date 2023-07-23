@@ -13,6 +13,8 @@ from statsmodels.formula.api import ols
 from tqdm import tqdm
 
 class Backtest():
+    """perform backtesting on a given time-series data of asset price
+    """
     def __init__(self, factor_df, covariance, return_df, alpha_factors:list, risk_factors:list, n_forward_return:int, risk_aversion_coefficient:float, date_index:int = 1) -> None:
         self.factor_df = factor_df
         self.covariance = covariance
