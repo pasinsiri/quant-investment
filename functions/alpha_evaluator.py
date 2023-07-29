@@ -173,3 +173,17 @@ class AlphaFactorEvaluator():
             qt_return_list.append(qt_ret)
 
         return pd.concat(qt_return_list, axis = 1)
+    
+    # * alpha and beta of a factor
+    def get_factor_alpha_beta(self, factor_data_dict:dict, demeaned:bool = False, group_adjust:bool = False, equal_weight:bool = False):
+        res_list = []
+        for factor in self.factor_names:
+            alpha_beta = al.performance.factor_alpha_beta(
+                factor_data=factor_data_dict[factor],
+                demeaned=demeaned,
+                group_adjust=group_adjust,
+                equal_weight=equal_weight
+            )
+            alpha_beta.columns = [f'{factor}_return_{c}' for c in alpha_beta.columns]
+            res_list.append(alpha_beta)
+        return pd.concat(res_list, axis=1).T
