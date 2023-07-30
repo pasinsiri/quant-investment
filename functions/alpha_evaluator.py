@@ -198,3 +198,17 @@ class AlphaFactorEvaluator():
             alpha_beta.columns = [f'{factor}_return_{c}' for c in alpha_beta.columns]
             res_list.append(alpha_beta)
         return pd.concat(res_list, axis=1).T
+    
+    def get_quantile_turnover(self, factor_data_dict:dict, n_quantile:int):
+        quantile_turnover_dict = {}
+        for factor in self.factor_names:
+            turnover_list = []
+            for q in range(1, n_quantile):
+                quantile_turnover = al.performance.quantile_turnover(factor_data_dict[factor]['factor_quantile'], quantile=q, period=1) \
+                                        .to_frame()
+                quantile_turnover.columns = [f'q{q}']
+                turnover_list.append(quantile_turnover)
+            turnover_df = pd.concat(turnover_list, axis=1) \
+                            .dropna()
+            quantile_turnover_dict[factor] = turnover_df
+        return quantile_turnover_dict
