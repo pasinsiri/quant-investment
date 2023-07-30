@@ -176,6 +176,17 @@ class AlphaFactorEvaluator():
     
     # * alpha and beta of a factor
     def get_factor_alpha_beta(self, factor_data_dict:dict, demeaned:bool = False, group_adjust:bool = False, equal_weight:bool = False):
+        """calculate alpha and beta values of each factor using the ordinary least square (OLS) method
+
+        Args:
+            factor_data_dict (dict): a dictionary with factor names as keys and dataframes of factor values as values (you can get this dict from combine_factor_forward_returns)
+            demeaned (bool, optional): should this computation happen on a long short portfolio? if True, weights are computed by demeaning factor values and dividing by the sum of their absolute value (achieving gross leverage of 1). The sum of positive weights will be the same as the negative weights (absolute value), suitable for a dollar neutral long-short portfolio. Defaults to False
+            group_adjust (bool, optional): should this computation happen on a group neutral portfolio? If True, compute group neutral weights: each group will weight the same and if 'demeaned' is enabled the factor values demeaning will occur on the group level. Defaults to False
+            equal_weight (bool, optional): if True the assets will be equal-weighted instead of factor-weighted. If demeaned is True then the factor universe will be split in two equal sized groups, top assets with positive weights and bottom assets with negative weights. Defaults to False
+
+        Returns:
+            _type_: _description_
+        """
         res_list = []
         for factor in self.factor_names:
             alpha_beta = al.performance.factor_alpha_beta(
