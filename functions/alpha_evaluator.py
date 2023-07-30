@@ -200,6 +200,15 @@ class AlphaFactorEvaluator():
         return pd.concat(res_list, axis=1).T
     
     def get_quantile_turnover(self, factor_data_dict:dict, n_quantile:int):
+        """compute quantile turnover for each quantile in each factor
+
+        Args:
+            factor_data_dict (dict): a dictionary of factor data (you can get this dict from combine_factor_forward_returns)
+            n_quantile (int): number of quantiles
+
+        Returns:
+            dict: a dictionary with factor names as keys (like factor_data_dict) and quantile turnover dataframes as values. The quantile turnover dataframe is a time-series dataframe with each column representing percentage of quantile turnover for each quantile
+        """
         quantile_turnover_dict = {}
         for factor in self.factor_names:
             turnover_list = []
