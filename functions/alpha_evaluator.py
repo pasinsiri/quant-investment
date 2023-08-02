@@ -151,7 +151,7 @@ class AlphaFactorEvaluator():
 
         for factor in self.factor_names:
             rank_ac = al.performance.factor_rank_autocorrelation(factor_data_dict[factor]).to_frame()
-            rank_ac.columns = [factor]
+            rank_ac.columns = [f'{factor}_{c}' for c in rank_ac.columns]
             rank_ac_list.append(rank_ac)
 
         return pd.concat(rank_ac_list, axis = 1)
