@@ -16,11 +16,11 @@ class AlphaFactorEvaluator():
         self.factor_names = factor_return.columns
         self.price = price
 
-    def combine_factor_forward_returns(self, period:int, max_loss:float, verbose:bool = False):
+    def combine_factor_forward_returns(self, period:tuple, max_loss:float, verbose:bool = False):
         """utilize the alphalens library to combine a dataframe of factor return for each price and each date to a dataframe of stock price.
 
         Args:
-            period (int): a forward period of which the return will be calculated
+            period (tuple): a tuple of forward periods of which the return will be calculated. For example, if we are interested in only a single period, e.g. 1 day forward return, use (1) as input.
             max_loss (float): max loss to be parsed to alphalens
             verbose (bool, optional): if set to True, steps will be printed. Defaults to False.
 
