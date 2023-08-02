@@ -81,7 +81,7 @@ class AlphaFactorEvaluator():
         factor_return_list = []
         for factor in self.factor_names:
             factor_return = al.performance.factor_returns(factor_data_dict[factor], demeaned=demeaned, group_adjust=group_adjust, equal_weight=equal_weight, by_asset=by_asset)
-            factor_return.columns = [factor]
+            factor_return.columns = [f'{factor}_{c}' for c in factor_return.columns]
             factor_return_list.append(factor_return)
         return pd.concat(factor_return_list, axis = 1)
 
