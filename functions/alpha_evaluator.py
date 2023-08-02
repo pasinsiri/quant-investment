@@ -169,7 +169,7 @@ class AlphaFactorEvaluator():
 
         for factor in self.factor_names:
             qt_ret, _ = al.performance.mean_return_by_quantile(factor_data_dict[factor])
-            qt_ret.columns = [factor]
+            qt_ret.columns = [f'{factor}_{c}' for c in qt_ret.columns]
             qt_return_list.append(qt_ret)
 
         return pd.concat(qt_return_list, axis = 1)
