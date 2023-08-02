@@ -16,11 +16,11 @@ class AlphaFactorEvaluator():
         self.factor_names = factor_return.columns
         self.price = price
 
-    def combine_factor_forward_returns(self, period:int, max_loss:float, verbose:bool = False):
+    def combine_factor_forward_returns(self, periods:tuple, max_loss:float, verbose:bool = False):
         """utilize the alphalens library to combine a dataframe of factor return for each price and each date to a dataframe of stock price.
 
         Args:
-            period (int): a forward period of which the return will be calculated
+            periods (tuple): a tuple of forward periods of which the return will be calculated. For example, if we are interested in only a single period, e.g. 1 day forward return, use (1) as input.
             max_loss (float): max loss to be parsed to alphalens
             verbose (bool, optional): if set to True, steps will be printed. Defaults to False.
 
@@ -34,7 +34,7 @@ class AlphaFactorEvaluator():
             factor_data_dict[factor] = al.utils.get_clean_factor_and_forward_returns(
                 factor = self.factor_return[factor],
                 prices = self.price,
-                periods = [period],
+                periods = periods,
                 max_loss = max_loss
             )
         return factor_data_dict
@@ -81,7 +81,7 @@ class AlphaFactorEvaluator():
         factor_return_list = []
         for factor in self.factor_names:
             factor_return = al.performance.factor_returns(factor_data_dict[factor], demeaned=demeaned, group_adjust=group_adjust, equal_weight=equal_weight, by_asset=by_asset)
-            factor_return.columns = [factor]
+            factor_return.columns = [f'{factor}_{c}' for c in factor_return.columns]
             factor_return_list.append(factor_return)
         return pd.concat(factor_return_list, axis = 1)
 
@@ -132,7 +132,7 @@ class AlphaFactorEvaluator():
 
         for factor in self.factor_names:
             rank_ic = al.performance.factor_information_coefficient(factor_data_dict[factor])
-            rank_ic.columns = [factor]
+            rank_ic.columns = [f'{factor}_{c}' for c in rank_ic.columns]
             rank_ic_list.append(rank_ic)
 
         return pd.concat(rank_ic_list, axis = 1)
@@ -169,7 +169,7 @@ class AlphaFactorEvaluator():
 
         for factor in self.factor_names:
             qt_ret, _ = al.performance.mean_return_by_quantile(factor_data_dict[factor])
-            qt_ret.columns = [factor]
+            qt_ret.columns = [f'{factor}_{c}' for c in qt_ret.columns]
             qt_return_list.append(qt_ret)
 
         return pd.concat(qt_return_list, axis = 1)
