@@ -132,7 +132,7 @@ class AlphaFactorEvaluator():
 
         for factor in self.factor_names:
             rank_ic = al.performance.factor_information_coefficient(factor_data_dict[factor])
-            rank_ic.columns = [factor]
+            rank_ic.columns = [f'{factor}_{c}' for c in rank_ic.columns]
             rank_ic_list.append(rank_ic)
 
         return pd.concat(rank_ic_list, axis = 1)
