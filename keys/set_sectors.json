@@ -2,7 +2,7 @@
     "banking": ["BBL", "KBANK", "SCB", "BAY", "TISCO", "KTB", "KKP", "TTB"],
     "hospital": ["BDMS", "BCH", "BH", "THG", "PR9", "EKH", "IMH", "RJH", "RPH", "MEGA", "KLINIQ"],
     "infrastructure": ["AOT", "BAFS", "BEM", "DMT"],
-    "consumer_staple": ["BJC", "OR", "CPALL", "CRC", "MAJOR", "GFPT", "CPF", "MAKRO", "M", "TU", "TC"],
+    "consumer_staple": ["BJC", "OR", "CPALL", "CRC", "MAJOR", "GFPT", "CPF", "CPAXT", "M", "TU", "TC"],
     "consumer_discretionary": ["COM7", "CPW", "SYNEX", "JUBILE", "CPH", "HTC"],
     "technology": ["BBIK", "IIG", "BE8"],
     "industrial": ["WHA", "AMATA"],
