@@ -167,6 +167,33 @@ class AlphaVantageReader():
         df = pd.DataFrame(data['data']).set_index('date').sort_index()
         df['value'] = df['value'].astype(float)
         return self._convert_float(df)
+    
+    def get_us_bond_yield(self, maturity_list:list, interval:str = 'daily', time_sleep:int = 20):
+        params = {
+            'apikey': self.key,
+            'function': 'TREASURY_YIELD',
+            'interval': interval
+        }
+
+        allow_maturity_list = ['3month', '2year', '5year', '7year', '10year']
+        base_url = 'https://www.alphavantage.co/query'
+        bond_yield_list = []
+        for maturity in maturity_list:
+            if maturity not in maturity_list:
+                raise ValueError(f'Maturity is invalid: should be one of these: {", ".join(allow_maturity_list)}')
+            try:
+                res = requests.get(base_url, params=params)
+                bond_yield_df = pd.DataFrame(res.json()['data'])
+                bond_yield_df['value'] = bond_yield_df['value'].apply(lambda x: None if x == '.' else float(x))
+                bond_yield_df = bond_yield_df.rename(columns={'value': f'us_{maturity}'}) \
+                        .set_index('date').sort_index()
+                bond_yield_list.append(bond_yield_df)
+            except Exception as e:
+                print(f'Maturity {maturity} is failed, the error message is: {e}')
+            time.sleep(time_sleep)
+        bond_yield_df = pd.concat(bond_yield_list, axis=1).sort_index()
+        bond_yield_df.index = pd.to_datetime(bond_yield_df.index)
+        return bond_yield_df
 
     # * Stock Fundamental Data
     def get_company_data(self, function:str, ticker:str, mode:str = 'quarterly') -> pd.DataFrame:
