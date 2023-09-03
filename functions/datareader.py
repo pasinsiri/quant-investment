@@ -182,6 +182,7 @@ class AlphaVantageReader():
             if maturity not in maturity_list:
                 raise ValueError(f'Maturity is invalid: should be one of these: {", ".join(allow_maturity_list)}')
             try:
+                params['maturity'] = maturity
                 res = requests.get(base_url, params=params)
                 bond_yield_df = pd.DataFrame(res.json()['data'])
                 bond_yield_df['value'] = bond_yield_df['value'].apply(lambda x: None if x == '.' else float(x))
