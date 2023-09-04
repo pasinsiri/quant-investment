@@ -9,8 +9,8 @@
     "insurance": ["BLA", "TLI"],
     "infrastructure": ["ADVANC", "AOT", "BAFS", "BEM", "DMT"],
     "material": ["DOHOME", "GLOBAL", "HMPRO", "SCGP", "STGT", "THMUI", "TPIPL"],
-    "petrochemistry": ["BCP", "IRPC", "IVL", "PTTGC"],
-    "real_estate": ["AP", "BRI", "LALIN", "ORI", "QH", "SENA", "SIRI", "SPALI"],
-    "technology": ["BBIK", "BE8", "IIG"],
+    "petrochemistry": ["BCP", "GPSC", "IRPC", "IVL", "PTTGC"],
+    "real_estate": ["AP", "BRI", "LALIN", "LH", "ORI", "QH", "SENA", "SIRI", "SPALI"],
+    "technology": ["BBIK", "BE8", "HANA", "IIG", "KCE"],
     "utilities": ["ACE", "BANPU", "BGRIM", "BPP", "EA", "EGCO", "GULF", "RATCH", "TPIPP"]
 }
