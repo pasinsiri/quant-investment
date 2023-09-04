@@ -1,3 +1,11 @@
+"""
+File: stock_reader.py
+Author: pasins
+Latest Update: 2023-09-04
+How to run:
+    From your command line: python stock_reader.py --s 2023-08-01 --af 252 --ms .BK
+"""
+
 import json 
 import datetime as dt
 import logging
