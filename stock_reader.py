@@ -11,7 +11,7 @@ import json
 import datetime as dt
 import logging
 import argparse
-from functions.datareader import YFinanceReader
+from functions.data_reader import YFinanceReader
 
 # TODO: get arguments
 parser = argparse.ArgumentParser()
