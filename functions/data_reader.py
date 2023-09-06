@@ -40,7 +40,6 @@ class YFinanceReader():
         self.ticker_list = [v + market_suffix for s in stock_sectors.values() for v in s]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
         self.is_loaded = False
-        pass
 
     def _create_month(self, index) -> list:
         ym_arr = pd.DataFrame({'year': index.year, 'month': index.month}).drop_duplicates().to_numpy()
