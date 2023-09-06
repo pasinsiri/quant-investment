@@ -47,7 +47,7 @@ class YFinanceReader():
         return distinct_list
 
     def load_data(self, period:str = 'max'):
-        self.price_df = self.yfinance_meta.history(period = period)
+        self.price_df = self.yfinance_meta.history(period=period)
         self.is_loaded = True 
         print(f'Loaded data has the shape of {self.price_df.shape}')
         return 
@@ -63,7 +63,7 @@ class YFinanceReader():
                 os.mkdir(ticker_dir)
 
             ticker_cols = [c for c in self.price_df.columns if c[1] == t]
-            ticker_df = self.price_df[ticker_cols].dropna(axis = 0)
+            ticker_df = self.price_df[ticker_cols].dropna(axis=0)
             ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
             ticker_df.insert(0, 'ticker', t_trim)
             ticker_df.index.name = 'date'
@@ -80,7 +80,7 @@ class YFinanceReader():
             ym_arr = pd.DataFrame({'year': ticker_df.index.year, 'month': ticker_df.index.month}).drop_duplicates().to_numpy()
             distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
             distinct_arr = np.array(distinct_list).reshape(-1, 1)
-            months_arr = np.concatenate((ym_arr, distinct_arr), axis = 1)
+            months_arr = np.concatenate((ym_arr, distinct_arr), axis=1)
 
             for year, month, partition_str in months_arr:
                 month_df = ticker_df[
@@ -114,7 +114,7 @@ class AlphaVantageReader():
             download = s.get(url)
             decoded_content = download.content.decode('utf-8')
             cr = list(csv.reader(decoded_content.splitlines(), delimiter=','))
-            df = pd.DataFrame(cr[1:], columns = cr[0])
+            df = pd.DataFrame(cr[1:], columns=cr[0])
         return df
 
     def _try_float(self, v:str):
