@@ -4,7 +4,7 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line: 
-    python stock_reader.py --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set
+    python stock_reader.py --period 1y --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set
     (all parameters description can be found in the parser block below)
 """
 
@@ -16,6 +16,7 @@ from functions.data_reader import YFinanceReader
 
 # TODO: get arguments
 parser = argparse.ArgumentParser()
+parser.add_argument('--period', help='An interval to be parsed to yfinance to load data from Yahoo Finance, can be like 1m, 1y, or max')
 parser.add_argument('--start', help='Start month of (over)writing data, should be in the date format with day equal to 1')
 parser.add_argument('--ann_factor', help='Annualization factor')
 parser.add_argument('--market_suffix', help='Market suffix')
@@ -27,6 +28,7 @@ parser.add_argument('--log', default='warning')
 # ANNUALIZATION_FACTOR = 252 # ? parsing example
 # MARKET_SUFFIX = '.BK' # ? parsing example
 args = parser.parse_args()
+PERIOD = args.period or '1y'
 START = dt.datetime.strptime(args.start, '%Y-%m-%d')
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
@@ -56,5 +58,5 @@ all_tickers = [v + MARKET_SUFFIX for s in all_tickers for v in s]
 logging.info(f'Getting data of {len(all_tickers)} tickers')
 
 yfr = YFinanceReader(stock_sectors = sectors, market_suffix = MARKET_SUFFIX)
-yfr.load_data(period = '1y')
+yfr.load_data(period = PERIOD)
 yfr.save(EXPORT_PATH, start_writing_date=START)
