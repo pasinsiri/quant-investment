@@ -46,17 +46,16 @@ log_level_mapping = {
 log_level = log_level_mapping[LOGGING_LEVEL.lower()]
 logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info(f'Retrieving data and saving since {START}.')
+logging.info(f'Period is set to {PERIOD}.')
 logging.info(f'Using annualization factor of {ANNUALIZATION_FACTOR}')
 logging.info(f'The market suffix is {MARKET_SUFFIX}')
+logging.info(f'The result will be exported to {EXPORT_PATH}')
 
 # TODO: load stock and sector data
 with open('./keys/set_sectors.json', 'r') as f:
     sectors = json.load(f)
 
-all_tickers = sectors.values()
-all_tickers = [v + MARKET_SUFFIX for s in all_tickers for v in s]
-logging.info(f'Getting data of {len(all_tickers)} tickers')
-
-yfr = YFinanceReader(stock_sectors = sectors, market_suffix = MARKET_SUFFIX)
+logging.info(f'Getting data of {len(sectors)} tickers')
+yfr = YFinanceReader(stock_sectors=sectors, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period = PERIOD)
 yfr.save(EXPORT_PATH, start_writing_date=START)
