@@ -8,7 +8,7 @@ How to run:
     (all parameters description can be found in the parser block below)
 """
 
-import json 
+import json
 import datetime as dt
 import logging
 import argparse
