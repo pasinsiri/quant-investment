@@ -31,7 +31,7 @@ def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str
                     year_df.to_parquet(export_path)
                 time.sleep(sleep)
             if verbose == True:
-                print(f'{t} is completed')
+                logging.info(f'{t} is completed')
     return
 
 # ? Yahoo Finance with yfinance library
@@ -49,7 +49,7 @@ class YFinanceReader():
 
     def load_data(self, period:str = 'max'):
         self.price_df = self.yfinance_meta.history(period=period)
-        self.is_loaded = True 
+        self.is_loaded = True
         logging.info(f'Loaded data has the shape of {self.price_df.shape}')
         logging.info(f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
         return 
@@ -92,7 +92,7 @@ class YFinanceReader():
                 month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
 
         if verbose:
-            print('saving completed')
+            logging.info('saving completed')
 
 # ? AlphaVantage API
 class AlphaVantageReader():
@@ -190,7 +190,7 @@ class AlphaVantageReader():
                         .set_index('date').sort_index()
                 bond_yield_list.append(bond_yield_df)
             except Exception as e:
-                print(f'Maturity {maturity} is failed, the error message is: {e}')
+                logging.error(f'Maturity {maturity} is failed, the error message is: {e}')
             time.sleep(time_sleep)
         bond_yield_df = pd.concat(bond_yield_list, axis=1).sort_index()
         bond_yield_df.index = pd.to_datetime(bond_yield_df.index)
