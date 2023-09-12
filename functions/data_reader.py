@@ -5,6 +5,7 @@ import datetime as dt
 import time 
 import requests
 import warnings
+import logging
 import os
 import yfinance as yf
 import csv 
@@ -49,7 +50,8 @@ class YFinanceReader():
     def load_data(self, period:str = 'max'):
         self.price_df = self.yfinance_meta.history(period=period)
         self.is_loaded = True 
-        print(f'Loaded data has the shape of {self.price_df.shape}')
+        logging.info(f'Loaded data has the shape of {self.price_df.shape}')
+        logging.info(f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
         return 
     
     def save(self, parent_dir:str, start_writing_date:dt.date = None, verbose:bool = False):
