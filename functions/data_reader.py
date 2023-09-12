@@ -1,14 +1,14 @@
-import pandas_datareader.data as web 
-import pandas as pd 
+import pandas_datareader.data as web
+import pandas as pd
 import numpy as np
 import datetime as dt
-import time 
+import time
 import requests
 import warnings
 import logging
 import os
 import yfinance as yf
-import csv 
+import csv
 
 # TODO: Stock Reader
 # ? Yahoo Finance
