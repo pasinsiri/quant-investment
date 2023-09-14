@@ -1,9 +1,8 @@
 name: Test Auto Market Alert
 
 on:
-  push:
-    branches:
-      - main  # Set the branch you want to trigger the deployment on
+  schedule:
+    - cron: 0 8 * * 1-5
 
 jobs:
   deploy:
