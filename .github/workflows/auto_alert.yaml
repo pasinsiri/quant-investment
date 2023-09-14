@@ -48,5 +48,5 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: "Price Alert: $CURRENT_DATE"
+          content: "Price Alert: ${{ CURRENT_DATE }}"
           filename: "alert_list.txt"
