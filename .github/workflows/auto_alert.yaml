@@ -33,11 +33,6 @@ jobs:
           name: price-alert-artifact
           path: alert_list.txt
 
-      - name: Send Webhook Request
-        run: |
-          result=$(cat my-artifact-name/alert_list.txt)  # Assuming result is in a file called result.txt
-          curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
-
   message:
     needs: deploy
     runs-on: ubuntu-latest
@@ -51,3 +46,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           content: "Hello"
+      - name: Send Webhook Request
+        run: |
+          result=$(cat my-artifact-name/alert_list.txt)  # Assuming result is in a file called result.txt
+          curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
