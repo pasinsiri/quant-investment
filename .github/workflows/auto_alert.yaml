@@ -46,7 +46,8 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           content: "Hello"
+          filename: "alert_list.txt"
       - name: Send Webhook Request
         run: |
-          result=$(cat price-alert-artifact/alert_list.txt)  # Assuming result is in a file called result.txt
+          result=$(cat price-alert-artifact/alert_list.txt)
           curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
