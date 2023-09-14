@@ -25,7 +25,7 @@ def flag_ma(series, n:int = 20):
 
 ticker_list = ['AAPL', 'GOOG', 'NFLX', 'NVDA', 'TSLA']
 yfinance_meta = yf.Tickers(ticker_list)
-raw_df = yfinance_meta.history(period='1y', auto_adjust=True)
+raw_df = yfinance_meta.history(period='1y', auto_adjust=True, progress=False)
 raw_df.index = pd.to_datetime(raw_df.index)
 
 close_cols = [c for c in raw_df.columns if c[0] == 'Close']
