@@ -1,6 +1,4 @@
-import pandas_datareader as pdr
 import pandas as pd
-import numpy as np
 import yfinance as yf
 
 def flag_new_high_new_low(series, n:int = 20):
