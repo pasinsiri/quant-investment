@@ -35,7 +35,7 @@ jobs:
 
       - name: Send Webhook Request
         run: |
-          result=$(cat my-artifact-name/result.txt)  # Assuming result is in a file called result.txt
+          result=$(cat my-artifact-name/alert_list.txt)  # Assuming result is in a file called result.txt
           curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   message:
