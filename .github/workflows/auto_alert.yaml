@@ -19,7 +19,7 @@ jobs:
           python-version: '3.x' 
 
       - name: Install dependencies
-        run: pip install pandas_datareader, pandas, numpy, yfinance
+        run: pip install pandas_datareader pandas numpy yfinance
   
       - name: Set current timestamp
         run: echo "CURRENT_TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
