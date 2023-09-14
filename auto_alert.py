@@ -24,6 +24,17 @@ def flag_ma(series, n:int = 20):
         return f'below MA {n}'
     else:
         return None
-    
 
-ticker_list = ['AAPL', 'FB', 'GOOG', 'NFLX', 'NVDA', 'TSLA']
+ticker_list = ['AAPL', 'GOOG', 'NFLX', 'NVDA', 'TSLA']
+yfinance_meta = yf.Tickers(ticker_list)
+raw_df = yfinance_meta.history(period='1y', auto_adjust=True)
+raw_df.index = pd.to_datetime(raw_df.index)
+
+close_cols = [c for c in raw_df.columns if c[0] == 'Close']
+close_df = raw_df[close_cols]
+close_df.columns = [c[1] for c in close_df.columns]
+close_df.head()
+
+res = close_df.apply(flag_new_high_new_low, axis=0, n=7)
+res = res[res.notnull()]
+res
