@@ -13,10 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set current date
+        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x' 
+          python-version: '3.x'
 
       - name: Install dependencies
         run: pip install pandas yfinance
@@ -45,9 +48,5 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: "Hello"
+          content: "Price Alert: $CURRENT_DATE"
           filename: "alert_list.txt"
-      - name: Send Webhook Request
-        run: |
-          result=$(cat price-alert-artifact/alert_list.txt)
-          curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
