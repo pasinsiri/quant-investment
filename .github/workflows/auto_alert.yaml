@@ -33,6 +33,11 @@ jobs:
           name: price-alert-artifact
           path: alert_list.txt
 
+      - name: Send Webhook Request
+        run: |
+          result=$(cat my-artifact-name/result.txt)  # Assuming result is in a file called result.txt
+          curl -X POST -H "Content-Type: application/json" -d "{\"data\": \"$result\"}" ${{ secrets.DISCORD_WEBHOOK_URL }}
+
   message:
     needs: deploy
     runs-on: ubuntu-latest
@@ -45,4 +50,4 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: "$(cat price-alert-artifact/alert_list.txt)"
+          content: "Hello"
