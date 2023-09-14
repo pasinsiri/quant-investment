@@ -37,4 +37,6 @@ close_df.head()
 
 res = close_df.apply(flag_new_high_new_low, axis=0, n=7)
 res = res[res.notnull()]
-res
+msg_list = [': '.join([i, res.loc[i]]) for i in res.index]
+for msg in msg_list:
+    print(msg)
