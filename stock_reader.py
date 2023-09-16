@@ -57,7 +57,10 @@ logging.info(f'The result will be exported to {EXPORT_PATH}')
 with open('./keys/set_sectors.json', 'r') as f:
     sectors = json.load(f)
 
+# * flatten sectors' values
+ticker_list = [t for v in sectors.values() for t in v]
+
 logging.info(f'Getting data of {len(sectors)} tickers')
-yfr = YFinanceReader(stock_sectors=sectors, market_suffix=MARKET_SUFFIX)
-yfr.load_data(period = PERIOD)
+yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
+yfr.load_data(period=PERIOD)
 yfr.save(EXPORT_PATH, start_writing_date=START)
