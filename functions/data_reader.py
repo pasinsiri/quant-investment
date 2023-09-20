@@ -46,8 +46,8 @@ class YFinanceReader():
         distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
         return distinct_list
 
-    def load_data(self, period:str = 'max'):
-        self.price_df = self.yfinance_meta.history(period=period)
+    def load_data(self, period:str = 'max', auto_adjust:bool = False, actions:bool = False):
+        self.price_df = self.yfinance_meta.history(period=period, auto_adjust=auto_adjust, actions=actions)
         self.is_loaded = True
         logging.info(f'Loaded data has the shape of {self.price_df.shape}')
         logging.info(f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
