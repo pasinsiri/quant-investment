@@ -1,4 +1,0 @@
-{
-    "Indexes": ["^GSPC", "^IXIC", "^RUT", "^STOXX", "^FTSE", "^GDAXI", "^FCHI", "^N225", "^BSESN", "^SET50.BK"],
-    "Commodities": ["GC=F", "CL=F"]
-}
