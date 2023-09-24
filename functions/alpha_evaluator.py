@@ -10,13 +10,18 @@ import numpy as np
 import alphalens as al
 import matplotlib.pyplot as plt
 
+
 class AlphaFactorEvaluator():
     def __init__(self, factor_return, price) -> None:
         self.factor_return = factor_return
         self.factor_names = factor_return.columns
         self.price = price
 
-    def combine_factor_forward_returns(self, periods:tuple, max_loss:float, verbose:bool = False):
+    def combine_factor_forward_returns(
+            self,
+            periods: tuple,
+            max_loss: float,
+            verbose: bool = False):
         """utilize the alphalens library to combine a dataframe of factor return for each price and each date to a dataframe of stock price.
 
         Args:
@@ -25,21 +30,26 @@ class AlphaFactorEvaluator():
             verbose (bool, optional): if set to True, steps will be printed. Defaults to False.
 
         Returns:
-            dict: a dictionary of which keys represent factor name and values represent factor and forward returns 
+            dict: a dictionary of which keys represent factor name and values represent factor and forward returns
         """
         factor_data_dict = {}
         for factor in self.factor_names:
             if verbose:
                 print(f'Formatting factor data for {factor}')
             factor_data_dict[factor] = al.utils.get_clean_factor_and_forward_returns(
-                factor = self.factor_return[factor],
-                prices = self.price,
-                periods = periods,
-                max_loss = max_loss
+                factor=self.factor_return[factor],
+                prices=self.price,
+                periods=periods,
+                max_loss=max_loss
             )
         return factor_data_dict
-    
-    def get_factor_weights(self, factor_data_dict:dict, demeaned:bool = False, group_adjust:bool = False, equal_weight:bool = False):
+
+    def get_factor_weights(
+            self,
+            factor_data_dict: dict,
+            demeaned: bool = False,
+            group_adjust: bool = False,
+            equal_weight: bool = False):
         """utilize the alphalens library to compute factor-wise asset weights in a specific period. The weights is calculated by normalizing the factor values of a given factor (dividing by the absolute sum of such factor values in a given time). Please note that if all factor values in the period are positive. The weights will range from zero to one and the sum of all weights will be one. Otherwise it may not being so.
 
         Args:
@@ -64,7 +74,13 @@ class AlphaFactorEvaluator():
 
         return pd.concat(factor_weight_list, axis=1)
 
-    def get_factor_returns(self, factor_data_dict, by_asset:bool = False, demeaned:bool = False, group_adjust:bool = False, equal_weight:bool = False):
+    def get_factor_returns(
+            self,
+            factor_data_dict,
+            by_asset: bool = False,
+            demeaned: bool = False,
+            group_adjust: bool = False,
+            equal_weight: bool = False):
         """utilize the alphalens library to calculate factor returns from factor values
 
         Args:
@@ -80,21 +96,27 @@ class AlphaFactorEvaluator():
         """
         factor_return_list = []
         for factor in self.factor_names:
-            factor_return = al.performance.factor_returns(factor_data_dict[factor], demeaned=demeaned, group_adjust=group_adjust, equal_weight=equal_weight, by_asset=by_asset)
-            factor_return.columns = [f'{factor}_{c}' for c in factor_return.columns]
+            factor_return = al.performance.factor_returns(
+                factor_data_dict[factor],
+                demeaned=demeaned,
+                group_adjust=group_adjust,
+                equal_weight=equal_weight,
+                by_asset=by_asset)
+            factor_return.columns = [
+                f'{factor}_{c}' for c in factor_return.columns]
             factor_return_list.append(factor_return)
-        return pd.concat(factor_return_list, axis = 1)
+        return pd.concat(factor_return_list, axis=1)
 
     # TODO: factor evaluation
     # * Sharpe ratio
-    def _sharpe_ratio(self, df, frequency:str):
+    def _sharpe_ratio(self, df, frequency: str):
         """calculate sharpe ratio of given factors
 
         Args:
             df (pd.DataFrame): a dataframe of factor values in each time period where indices represent dates and columns represent factors
             frequency (str): a frequency multiplier, can be either daily or monthly
 
-        Returns:    
+        Returns:
             pd.DataFrame: a dataframe consisting of sharpe ratio of each factor
         """
         if frequency == "daily":
@@ -106,7 +128,7 @@ class AlphaFactorEvaluator():
         sharpe_ratio = annualization_factor * (df.mean() / df.std())
         return sharpe_ratio
 
-    def get_sharpe_ratio(self, factor_return_df, frequency:str = 'daily'):
+    def get_sharpe_ratio(self, factor_return_df, frequency: str = 'daily'):
         """apply _sharpe_ratio function to a dataframe
 
         Args:
@@ -116,7 +138,8 @@ class AlphaFactorEvaluator():
         Returns:
             pd.DataFrame: a dataframe of sharpe ratio
         """
-        return factor_return_df.apply(self._sharpe_ratio, frequency = frequency, axis = 1)
+        return factor_return_df.apply(
+            self._sharpe_ratio, frequency=frequency, axis=1)
 
     # * information coefficient
     def get_information_coefficient(self, factor_data_dict):
@@ -131,11 +154,12 @@ class AlphaFactorEvaluator():
         rank_ic_list = []
 
         for factor in self.factor_names:
-            rank_ic = al.performance.factor_information_coefficient(factor_data_dict[factor])
+            rank_ic = al.performance.factor_information_coefficient(
+                factor_data_dict[factor])
             rank_ic.columns = [f'{factor}_{c}' for c in rank_ic.columns]
             rank_ic_list.append(rank_ic)
 
-        return pd.concat(rank_ic_list, axis = 1)
+        return pd.concat(rank_ic_list, axis=1)
 
     # * factor rank autocorrelation (used as a proxy for portfolio turnover)
     def get_factor_rank_autocorrelation(self, factor_data_dict):
@@ -150,11 +174,12 @@ class AlphaFactorEvaluator():
         rank_ac_list = []
 
         for factor in self.factor_names:
-            rank_ac = al.performance.factor_rank_autocorrelation(factor_data_dict[factor]).to_frame()
+            rank_ac = al.performance.factor_rank_autocorrelation(
+                factor_data_dict[factor]).to_frame()
             rank_ac.columns = [factor]
             rank_ac_list.append(rank_ac)
 
-        return pd.concat(rank_ac_list, axis = 1)
+        return pd.concat(rank_ac_list, axis=1)
 
     def get_mean_return_by_quantile(self, factor_data_dict):
         """utilize the alphalens library to calculate the factor's mean return by quantile
@@ -168,14 +193,20 @@ class AlphaFactorEvaluator():
         qt_return_list = []
 
         for factor in self.factor_names:
-            qt_ret, _ = al.performance.mean_return_by_quantile(factor_data_dict[factor])
+            qt_ret, _ = al.performance.mean_return_by_quantile(
+                factor_data_dict[factor])
             qt_ret.columns = [f'{factor}_{c}' for c in qt_ret.columns]
             qt_return_list.append(qt_ret)
 
-        return pd.concat(qt_return_list, axis = 1)
-    
+        return pd.concat(qt_return_list, axis=1)
+
     # * alpha and beta of a factor
-    def get_factor_alpha_beta(self, factor_data_dict:dict, demeaned:bool = False, group_adjust:bool = False, equal_weight:bool = False):
+    def get_factor_alpha_beta(
+            self,
+            factor_data_dict: dict,
+            demeaned: bool = False,
+            group_adjust: bool = False,
+            equal_weight: bool = False):
         """calculate alpha and beta values of each factor using the ordinary least square (OLS) method
 
         Args:
@@ -195,11 +226,12 @@ class AlphaFactorEvaluator():
                 group_adjust=group_adjust,
                 equal_weight=equal_weight
             )
-            alpha_beta.columns = [f'{factor}_return_{c}' for c in alpha_beta.columns]
+            alpha_beta.columns = [
+                f'{factor}_return_{c}' for c in alpha_beta.columns]
             res_list.append(alpha_beta)
         return pd.concat(res_list, axis=1).T
-    
-    def get_quantile_turnover(self, factor_data_dict:dict, n_quantile:int):
+
+    def get_quantile_turnover(self, factor_data_dict: dict, n_quantile: int):
         """compute quantile turnover for each quantile in each factor
 
         Args:
@@ -213,8 +245,8 @@ class AlphaFactorEvaluator():
         for factor in self.factor_names:
             turnover_list = []
             for q in range(1, n_quantile):
-                quantile_turnover = al.performance.quantile_turnover(factor_data_dict[factor]['factor_quantile'], quantile=q, period=1) \
-                                        .to_frame()
+                quantile_turnover = al.performance.quantile_turnover(
+                    factor_data_dict[factor]['factor_quantile'], quantile=q, period=1) .to_frame()
                 quantile_turnover.columns = [f'q{q}']
                 turnover_list.append(quantile_turnover)
             turnover_df = pd.concat(turnover_list, axis=1) \
