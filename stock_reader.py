@@ -36,6 +36,8 @@ ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
 EXPORT_PATH = args.export_path
 LOGGING_LEVEL = args.log
+AUTO_ADJUST = args.auto_adjust or False
+ACTIONS = args.actions or False
 
 # * check logging config
 log_level_mapping = {
@@ -62,5 +64,5 @@ ticker_list = [t for v in sectors.values() for t in v]
 
 logging.info(f'Getting data of {len(sectors)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
-yfr.load_data(period=PERIOD)
+yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
 yfr.save(EXPORT_PATH, start_writing_date=START)
