@@ -4,7 +4,8 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line: 
-    python stock_reader.py --period 1y --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set
+    python stock_reader.py --period 1y --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+        --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
 

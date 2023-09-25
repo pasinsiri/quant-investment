@@ -1,5 +1,7 @@
 import pandas as pd
 import yfinance as yf
+import json
+from functions.indicators import TechnicalIndicators
 
 def flag_new_high_new_low(series, n:int = 20):
     series = series.iloc[series.shape[0] - n:]
@@ -12,7 +14,7 @@ def flag_new_high_new_low(series, n:int = 20):
         return f'{n} day low'
     else:
         return None
-    
+
 def flag_ma(series, n:int = 20):
     current_index = series.index.max()
     rolling_ma = series.rolling(n).mean()
@@ -23,9 +25,18 @@ def flag_ma(series, n:int = 20):
     else:
         return None
 
-ticker_list = ['AAPL', 'GOOG', 'NFLX', 'NVDA', 'TSLA']
-yfinance_meta = yf.Tickers(ticker_list)
+# TODO: technical indicators
+ti = TechnicalIndicators()
+
+
+
+# TODO: load ticker list
+with open('./meta/auto_alert_tickers.json', 'r') as f:
+    tickers = json.load(f)
+
+yfinance_meta = yf.Tickers(list(tickers['Indexes'].keys()))
 raw_df = yfinance_meta.history(period='1y', auto_adjust=True, progress=False)
+raw_df.columns = [(c[0], tickers['Indexes'][c[1]]) for c in raw_df.columns]
 raw_df.index = pd.to_datetime(raw_df.index)
 
 close_cols = [c for c in raw_df.columns if c[0] == 'Close']
