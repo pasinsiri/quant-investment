@@ -4,8 +4,8 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line:
-    python stock_reader.py --period max --ann_factor 252 --export_path ./data/indexes \
-        --start_writing 1900-01-01 --auto_adjust --actions
+    python stock_reader.py --period 1y --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+        --start_writing 2023-08-01 --auto_adjust --actions
     Or:
     python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
         --auto_adjust --actions
@@ -24,7 +24,7 @@ parser.add_argument('--start', help='Start date', default=None)
 parser.add_argument('--end', help='End date', default=None)
 parser.add_argument('--period', help='An interval to be parsed to yfinance to load data from Yahoo Finance, can be like 1m, 1y, or max', default=None)
 parser.add_argument('--ann_factor', help='Annualization factor')
-parser.add_argument('--market_suffix', help='Market suffix', default=None)
+parser.add_argument('--market_suffix', help='Market suffix')
 parser.add_argument('--export_path', help='Path to save file (data will be partitioned by ticker and then year and month in the given path)')
 parser.add_argument('--auto_adjust', help='If called, the OHLC prices will be auto-adjusted based on dividends and stock splits', action=argparse.BooleanOptionalAction)
 parser.add_argument('--actions', help='If called, the result will have dividends and stock splits columns in addition to the OHLCV data', action=argparse.BooleanOptionalAction)
@@ -40,7 +40,7 @@ START = dt.datetime.strptime(args.start, '%Y-%m-%d') if args.start else None
 END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
 PERIOD = args.period or '1y'
 ANNUALIZATION_FACTOR = args.ann_factor
-MARKET_SUFFIX = args.market_suffix or None
+MARKET_SUFFIX = args.market_suffix
 EXPORT_PATH = args.export_path
 START_WRITING = dt.datetime.strptime(args.start_writing, '%Y-%m-%d') if args.start_writing else None
 LOGGING_LEVEL = args.log
@@ -68,14 +68,13 @@ logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
 logging.info(f'actions is set to {ACTIONS}.')
 
 # TODO: load stock and sector data
-with open('./keys/global_indexes.json', 'r') as f:
+with open('./keys/set_sectors.json', 'r') as f:
     sectors = json.load(f)
 
 # * flatten sectors' values
-# ticker_list = [t for v in sectors.values() for t in v]
-ticker_list = [i for v in sectors.values() for i in v.keys()]
+ticker_list = [t for v in sectors.values() for t in v]
 
 logging.info(f'Getting data of {len(sectors)} tickers')
-yfr = YFinanceReader(ticker_list=ticker_list, market_suffix='')
+yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
 yfr.save(EXPORT_PATH, start_writing_date=START_WRITING)
