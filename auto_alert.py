@@ -26,7 +26,7 @@ def flag_ma(series, n:int = 20):
         return None
 
 # TODO: technical indicators
-ti = TechnicalIndicators()
+# ti = TechnicalIndicators()
 
 
 
