@@ -4,10 +4,10 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line:
-    python stock_reader.py --period 1y --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
-        --auto_adjust --actions
+    python stock_reader.py --period 1y --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+        --start_writing 2023-08-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --period 1y --start 2023-08-01 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
@@ -36,11 +36,13 @@ parser.add_argument('--log', default='warning')
 # ANNUALIZATION_FACTOR = 252 # ? parsing example
 # MARKET_SUFFIX = '.BK' # ? parsing example
 args = parser.parse_args()
-PERIOD = args.period or '1y'
 START = dt.datetime.strptime(args.start, '%Y-%m-%d') if args.start else None
+END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
+PERIOD = args.period or '1y'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
 EXPORT_PATH = args.export_path
+START_WRITING = dt.datetime.strptime(args.start_writing, '%Y-%m-%d') if args.start_writing else None
 LOGGING_LEVEL = args.log
 AUTO_ADJUST = args.auto_adjust or False
 ACTIONS = args.actions or False
@@ -55,11 +57,15 @@ log_level_mapping = {
 }
 log_level = log_level_mapping[LOGGING_LEVEL.lower()]
 logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s - %(message)s')
-logging.info(f'Retrieving data and saving since {START}.')
+logging.info(f'start_date is set to {START}.')
+logging.info(f'end_date is set to {END}.')
 logging.info(f'Period is set to {PERIOD}.')
 logging.info(f'Using annualization factor of {ANNUALIZATION_FACTOR}')
 logging.info(f'The market suffix is {MARKET_SUFFIX}')
 logging.info(f'The result will be exported to {EXPORT_PATH}')
+logging.info(f'Retrieving data and saving since {START_WRITING}.')
+logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
+logging.info(f'actions is set to {ACTIONS}.')
 
 # TODO: load stock and sector data
 with open('./keys/set_sectors.json', 'r') as f:
@@ -71,4 +77,4 @@ ticker_list = [t for v in sectors.values() for t in v]
 logging.info(f'Getting data of {len(sectors)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
-yfr.save(EXPORT_PATH, start_writing_date=START)
+yfr.save(EXPORT_PATH, start_writing_date=START_WRITING)
