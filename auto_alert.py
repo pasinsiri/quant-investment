@@ -31,7 +31,7 @@ def flag_ma(series, n:int = 20):
 
 
 # TODO: load ticker list
-with open('./meta/auto_alert_tickers.json', 'r') as f:
+with open('./keys/global_indexes.json', 'r') as f:
     tickers = json.load(f)
 
 yfinance_meta = yf.Tickers(list(tickers['Indexes'].keys()))
