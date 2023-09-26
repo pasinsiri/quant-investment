@@ -62,15 +62,26 @@ class YFinanceReader():
 
     def load_data(
             self,
-            period: str = 'max',
+            start: str = None,
+            end:str = None,
+            period: str = None,
             auto_adjust: bool = False,
             actions: bool = False):
-        self.price_df = self.yfinance_meta.history(
-            period=period, auto_adjust=auto_adjust, actions=actions)
+        if start and end and period:
+            warnings.warn('Unused argument: start and end were parsed, period will be ignored')
+            self.price_df = self.yfinance_meta.history(
+                start=start, end=end, auto_adjust=auto_adjust, actions=actions)
+        else:
+            if period:
+                self.price_df = self.yfinance_meta.history(
+                    period=period, auto_adjust=auto_adjust, actions=actions)
+            else:
+                raise ValueError('Invalid argument: either a pair of start and end or period must be parsed')
         self.is_loaded = True
         logging.info(f'Loaded data has the shape of {self.price_df.shape}')
         logging.info(
             f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
+        
         return
 
     def save(
