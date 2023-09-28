@@ -48,7 +48,7 @@ def pull_stock_data(
 
 
 class YFinanceReader():
-    def __init__(self, ticker_list: list, market_suffix: str) -> None:
+    def __init__(self, ticker_list: list, market_suffix: str = '') -> None:
         self.ticker_list = [ticker + market_suffix for ticker in ticker_list]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
         self.is_loaded = False
