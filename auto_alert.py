@@ -43,15 +43,21 @@ close_cols = [c for c in raw_df.columns if c[0] == 'Close']
 # TODO: technical indicators
 for ticker in ticker_list:
     ticker_df = raw_df[raw_df[ticker]]
-    ticker_df.columns = [c[1] for c in ticker_df.columns]
+    ticker_df.columns = [c[1].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
 
-    res_dict = dict()
+    # * initialize the terminal dataframe
+    res_df = ticker_df[['close']]
 
     # * add indicators
-    res_dict['rsi'] = ti.RSI(n=14)
-    res_dict['macd'], res_dict['macd_signal'] = ti.MACD(n_long=26, n_short=12)
-    res_dict['bollinger_ratio'] = ti.bollinger_ratio(n=20, k=2)
+    res_df['ma_50'] = res_df['close'].rolling(50).mean()
+    res_df['ma_50_pct'] = (res_df['close'] - res_df['ma_50']) / res_df['ma_50']
+    res_df['ma_200'] = res_df['close'].rolling(200).mean()
+    res_df['ma_200_pct'] = (res_df['close'] - res_df['ma_200']) / res_df['ma_200']
+    res_df['cross_signal'] = res_df['ma_50'] - res_df['ma_200']
+    res_df['rsi'] = ti.RSI(n=14)
+    res_df['macd'], res_df['macd_signal'] = ti.MACD(n_long=26, n_short=12)
+    res_df['bollinger_ratio'] = ti.bollinger_ratio(n=20, k=2)
 
 # res = close_df.apply(flag_new_high_new_low, axis=0, n=7)
 # res = res[res.notnull()]
