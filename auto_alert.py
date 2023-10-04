@@ -33,8 +33,9 @@ def flag_ma(series, n:int = 20):
 # TODO: load ticker list
 with open('./keys/global_indexes.json', 'r') as f:
     tickers = json.load(f)
+ticker_list = list(tickers['Indexes'].keys())
 
-yfinance_meta = yf.Tickers(list(tickers['Indexes'].keys()))
+yfinance_meta = yf.Tickers(ticker_list)
 raw_df = yfinance_meta.history(period='1y', auto_adjust=True, progress=False)
 raw_df.columns = [(c[0], tickers['Indexes'][c[1]]) for c in raw_df.columns]
 raw_df.index = pd.to_datetime(raw_df.index)
