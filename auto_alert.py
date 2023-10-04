@@ -42,7 +42,7 @@ close_cols = [c for c in raw_df.columns if c[0] == 'Close']
 
 # TODO: technical indicators
 for ticker in ticker_list:
-    ticker_df = raw_df[raw_df[ticker]]
+    ticker_df = raw_df[raw_df[ticker]].sort_index()
     ticker_df.columns = [c[1].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
 
