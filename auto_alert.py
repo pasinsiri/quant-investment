@@ -1,6 +1,7 @@
 import pandas as pd
 import yfinance as yf
 import json
+import logging
 from functions.indicators import TechnicalIndicators
 
 def flag_new_high_new_low(series, n:int = 20):
@@ -29,6 +30,7 @@ def flag_ma(series, n:int = 20):
 with open('./keys/global_indexes.json', 'r') as f:
     tickers = json.load(f)
 ticker_list = list(tickers['Indexes'].keys())
+ticker_values = list(tickers['Indexes'].values())
 
 yfinance_meta = yf.Tickers(ticker_list)
 raw_df = yfinance_meta.history(period='1y', auto_adjust=True, progress=False)
@@ -41,13 +43,16 @@ close_cols = [c for c in raw_df.columns if c[0] == 'Close']
 # close_df.head()
 
 # TODO: technical indicators
-for ticker in ticker_list:
-    ticker_df = raw_df[raw_df[ticker]].sort_index()
-    ticker_df.columns = [c[1].lower() for c in ticker_df.columns]
+for ticker in ticker_values:
+    # filtered_columns = [c for c in raw_df.columns if c[1] == ticker]
+    ticker_df = raw_df[[c for c in raw_df.columns if c[1] == ticker]].sort_index()
+    ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
 
     # * initialize the terminal dataframe
-    res_df = ticker_df[['close']]
+    res_df = ticker_df.loc[:, ['close']]
+    latest_date = res_df.index.max()
+    logging.info(f'Latest date found is {latest_date}')
 
     # * add indicators
     res_df['ma_50'] = res_df['close'].rolling(50).mean()
@@ -62,12 +67,23 @@ for ticker in ticker_list:
     res_df['macd'], res_df['macd_signal'] = ti.MACD(n_long=26, n_short=12)
     res_df['bollinger_ratio'] = ti.bollinger_ratio(n=20, k=2)
 
-    # evaluate trigger conditions
-    
-    
+    # * evaluate trigger conditions
+    current_data = res_df.loc[latest_date]
+    # ? golden cross / death cross
+    if current_data.loc['cross_signal'] > 0 and current_data.loc['lag_cross_signal'] < 0:
+        print(f'{ticker}: Golden Cross!!!')
+    elif current_data.loc['cross_signal'] < 0 and current_data.loc['lag_cross_signal'] > 0:
+        print(f'{ticker}: Death Cross!!!')
 
-# res = close_df.apply(flag_new_high_new_low, axis=0, n=7)
-# res = res[res.notnull()]
-# msg_list = [': '.join([i, res.loc[i]]) for i in res.index]
-# for msg in msg_list:
-#     print(msg)
+    # ? cross MA lines (50 / 200) in either direction
+    for ma_range in [50, 200]:
+        if current_data.loc[f'ma_{ma_range}'] > 0 and current_data.loc[f'lag_ma_{ma_range}'] < 0:
+            print(f'{ticker}: Price crosses MA{ma_range} upwards')
+        elif current_data.loc[f'ma_{ma_range}'] < 0 and current_data.loc[f'lag_ma_{ma_range}'] > 0:
+            print(f'{ticker}: Price crosses MA{ma_range} downwards')
+
+    # ? RSI
+    if current_data.loc['rsi'] < 30:
+        print(f'{ticker}: RSI trades below 30')
+    elif current_data.loc['rsi'] > 70:
+        print(f'{ticker}: RSI trades above 70')
