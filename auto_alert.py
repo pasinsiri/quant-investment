@@ -37,14 +37,8 @@ raw_df = yfinance_meta.history(period='1y', auto_adjust=True, progress=False)
 raw_df.columns = [(c[0], tickers['Indexes'][c[1]]) for c in raw_df.columns]
 raw_df.index = pd.to_datetime(raw_df.index)
 
-close_cols = [c for c in raw_df.columns if c[0] == 'Close']
-# close_df = raw_df[close_cols]
-# close_df.columns = [c[1] for c in close_df.columns]
-# close_df.head()
-
 # TODO: technical indicators
 for ticker in ticker_values:
-    # filtered_columns = [c for c in raw_df.columns if c[1] == ticker]
     ticker_df = raw_df[[c for c in raw_df.columns if c[1] == ticker]].sort_index()
     ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
