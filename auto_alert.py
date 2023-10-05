@@ -78,8 +78,8 @@ for ticker in ticker_values:
 
     # ? RSI
     if current_data.loc['rsi'] < 30 or current_data.loc['rsi'] > 70:
-        print(f'{ticker}: RSI is at {current_data.loc["rsi"]}')
+        print(f'{ticker}: RSI is at {current_data.loc["rsi"]:.2f}')
 
     # ? Bollinger Ratio
     if current_data.loc['bollinger_ratio'] > 1 or current_data.loc['bollinger_ratio'] < 0:
-        print(f'{ticker}: Bollinger ratio is at {current_data.loc["bollinger_ratio"]}')
+        print(f'{ticker}: Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
