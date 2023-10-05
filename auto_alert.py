@@ -52,12 +52,19 @@ for ticker in ticker_list:
     # * add indicators
     res_df['ma_50'] = res_df['close'].rolling(50).mean()
     res_df['ma_50_pct'] = (res_df['close'] - res_df['ma_50']) / res_df['ma_50']
+    res_df['lag_ma_50_pct'] = res_df['ma_50_pct'].shift(1)
     res_df['ma_200'] = res_df['close'].rolling(200).mean()
     res_df['ma_200_pct'] = (res_df['close'] - res_df['ma_200']) / res_df['ma_200']
+    res_df['lag_ma_200_pct'] = res_df['ma_200_pct'].shift(1)
     res_df['cross_signal'] = res_df['ma_50'] - res_df['ma_200']
+    res_df['lag_cross_signal'] = res_df['cross_signal'].shift(1)
     res_df['rsi'] = ti.RSI(n=14)
     res_df['macd'], res_df['macd_signal'] = ti.MACD(n_long=26, n_short=12)
     res_df['bollinger_ratio'] = ti.bollinger_ratio(n=20, k=2)
+
+    # evaluate trigger conditions
+    
+    
 
 # res = close_df.apply(flag_new_high_new_low, axis=0, n=7)
 # res = res[res.notnull()]
