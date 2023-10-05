@@ -77,7 +77,9 @@ for ticker in ticker_values:
             print(f'{ticker}: Price crosses MA{ma_range} downwards')
 
     # ? RSI
-    if current_data.loc['rsi'] < 30:
-        print(f'{ticker}: RSI trades below 30')
-    elif current_data.loc['rsi'] > 70:
-        print(f'{ticker}: RSI trades above 70')
+    if current_data.loc['rsi'] < 30 or current_data.loc['rsi'] > 70:
+        print(f'{ticker}: RSI is at {current_data.loc["rsi"]}')
+
+    # ? Bollinger Ratio
+    if current_data.loc['bollinger_ratio'] > 1 or current_data.loc['bollinger_ratio'] < 0:
+        print(f'{ticker}: Bollinger ratio is at {current_data.loc["bollinger_ratio"]}')
