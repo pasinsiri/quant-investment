@@ -406,3 +406,19 @@ class Backtest():
             'trades': trades,
             'port': port
         }
+
+class SimpleBacktest():
+    def __init__(self, factor_df, price_df, n_offset: int = 1, allow_overlap: bool = False, trading_cost_in: float = 0.0, trading_cost_out: float = 0.0) -> None:
+        self.factor_df = factor_df
+        self.price_df = price_df
+        self.n_offset = n_offset
+        self.allow_overlap = allow_overlap
+        self.trading_cost_in = trading_cost_in
+        self.trading_cost_out = trading_cost_out
+        self.signal_df = None
+
+    def generate_signal(self, signal_function: callable, func_arg: dict, **kwargs):
+        if not callable(signal_function):
+            raise TypeError('signal_function must be callable.')
+        
+        self.signal_df = signal_function(self.factor_df)
