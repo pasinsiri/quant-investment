@@ -71,9 +71,9 @@ for ticker in ticker_values:
 
     # ? cross MA lines (50 / 200) in either direction
     for ma_range in [50, 200]:
-        if current_data.loc[f'ma_{ma_range}'] > 0 and current_data.loc[f'lag_ma_{ma_range}'] < 0:
+        if current_data.loc[f'ma_{ma_range}_pct'] > 0 and current_data.loc[f'lag_ma_{ma_range}_pct'] < 0:
             print(f'{ticker}: Price crosses MA{ma_range} upwards')
-        elif current_data.loc[f'ma_{ma_range}'] < 0 and current_data.loc[f'lag_ma_{ma_range}'] > 0:
+        elif current_data.loc[f'ma_{ma_range}_pct'] < 0 and current_data.loc[f'lag_ma_{ma_range}_pct'] > 0:
             print(f'{ticker}: Price crosses MA{ma_range} downwards')
 
     # ? RSI
