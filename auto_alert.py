@@ -46,6 +46,7 @@ for ticker in ticker_values:
     # * initialize the terminal dataframe
     res_df = ticker_df.loc[:, ['close']]
     latest_date = res_df.index.max()
+    print(f'{ticker}: close at {res_df.loc[latest_date].values[0]:.2f}')
     logging.info(f'Latest date found is {latest_date}')
 
     # * add indicators
