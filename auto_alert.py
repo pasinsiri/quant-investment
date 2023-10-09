@@ -85,3 +85,5 @@ for ticker in ticker_values:
     # ? Bollinger Ratio
     if current_data.loc['bollinger_ratio'] > 1 or current_data.loc['bollinger_ratio'] < 0:
         print(f'Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
+
+    print('\n')
