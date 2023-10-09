@@ -4,7 +4,8 @@ import json
 import logging
 from functions.indicators import TechnicalIndicators
 
-def flag_new_high_new_low(series, n:int = 20):
+
+def flag_new_high_new_low(series, n: int = 20):
     series = series.iloc[series.shape[0] - n:]
     last = series.loc[series.index.max()]
     highest = series.max()
@@ -16,7 +17,8 @@ def flag_new_high_new_low(series, n:int = 20):
     else:
         return None
 
-def flag_ma(series, n:int = 20):
+
+def flag_ma(series, n: int = 20):
     current_index = series.index.max()
     rolling_ma = series.rolling(n).mean()
     if series.loc[current_index] > rolling_ma.loc[current_index]:
@@ -25,6 +27,7 @@ def flag_ma(series, n:int = 20):
         return f'below MA {n}'
     else:
         return None
+
 
 # TODO: load ticker list
 with open('./keys/global_indexes.json', 'r') as f:
@@ -40,7 +43,8 @@ raw_df.index = pd.to_datetime(raw_df.index)
 # TODO: technical indicators
 for ticker in ticker_values:
     print(f'----- {ticker} -----')
-    ticker_df = raw_df[[c for c in raw_df.columns if c[1] == ticker]].sort_index()
+    ticker_df = raw_df[[
+        c for c in raw_df.columns if c[1] == ticker]].sort_index()
     ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
 
@@ -55,7 +59,8 @@ for ticker in ticker_values:
     res_df['ma_50_pct'] = (res_df['close'] - res_df['ma_50']) / res_df['ma_50']
     res_df['lag_ma_50_pct'] = res_df['ma_50_pct'].shift(1)
     res_df['ma_200'] = res_df['close'].rolling(200).mean()
-    res_df['ma_200_pct'] = (res_df['close'] - res_df['ma_200']) / res_df['ma_200']
+    res_df['ma_200_pct'] = (
+        res_df['close'] - res_df['ma_200']) / res_df['ma_200']
     res_df['lag_ma_200_pct'] = res_df['ma_200_pct'].shift(1)
     res_df['cross_signal'] = res_df['ma_50'] - res_df['ma_200']
     res_df['lag_cross_signal'] = res_df['cross_signal'].shift(1)
@@ -86,6 +91,7 @@ for ticker in ticker_values:
 
     # ? Bollinger Ratio
     if current_data.loc['bollinger_ratio'] > 1 or current_data.loc['bollinger_ratio'] < 0:
-        print(f'Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
+        print(
+            f'Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
 
     print('\n')
