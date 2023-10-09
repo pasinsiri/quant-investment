@@ -199,7 +199,7 @@ class OptimalHoldings(AbstractOptimalHoldings):
         constraints : List of CVXPY Constraint
             Constraints
         """
-        assert(len(factor_betas.shape) == 2)
+        assert (len(factor_betas.shape) == 2)
         constraints = [
             risk <= self.risk_cap ** 2,
             factor_betas.T * weights <= self.factor_max,
@@ -247,7 +247,7 @@ class OptimalHoldingsStrictFactor(OptimalHoldings):
         objective : CVXPY Objective
             Objective function
         """
-        assert(len(alpha_vector.columns) == 1)
+        assert (len(alpha_vector.columns) == 1)
 
         # TODO: Implement function
         weights_star = (alpha_vector.values.flatten(
