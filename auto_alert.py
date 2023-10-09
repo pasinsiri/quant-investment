@@ -39,6 +39,7 @@ raw_df.index = pd.to_datetime(raw_df.index)
 
 # TODO: technical indicators
 for ticker in ticker_values:
+    print(f'----- {ticker} -----')
     ticker_df = raw_df[[c for c in raw_df.columns if c[1] == ticker]].sort_index()
     ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
     ti = TechnicalIndicators(ticker_df)
@@ -46,6 +47,7 @@ for ticker in ticker_values:
     # * initialize the terminal dataframe
     res_df = ticker_df.loc[:, ['close']]
     latest_date = res_df.index.max()
+    print(f'closes at {res_df.loc[latest_date].values[0]:.2f}')
     logging.info(f'Latest date found is {latest_date}')
 
     # * add indicators
@@ -65,21 +67,25 @@ for ticker in ticker_values:
     current_data = res_df.loc[latest_date]
     # ? golden cross / death cross
     if current_data.loc['cross_signal'] > 0 and current_data.loc['lag_cross_signal'] < 0:
-        print(f'{ticker}: Golden Cross!!!')
+        print(f'Golden Cross!!!')
     elif current_data.loc['cross_signal'] < 0 and current_data.loc['lag_cross_signal'] > 0:
-        print(f'{ticker}: Death Cross!!!')
+        print(f'Death Cross!!!')
 
     # ? cross MA lines (50 / 200) in either direction
     for ma_range in [50, 200]:
         if current_data.loc[f'ma_{ma_range}_pct'] > 0 and current_data.loc[f'lag_ma_{ma_range}_pct'] < 0:
-            print(f'{ticker}: Price crosses MA{ma_range} upwards')
+            print(f'Price crosses MA{ma_range} upwards')
         elif current_data.loc[f'ma_{ma_range}_pct'] < 0 and current_data.loc[f'lag_ma_{ma_range}_pct'] > 0:
-            print(f'{ticker}: Price crosses MA{ma_range} downwards')
+            print(f'Price crosses MA{ma_range} downwards')
 
     # ? RSI
-    if current_data.loc['rsi'] < 30 or current_data.loc['rsi'] > 70:
-        print(f'{ticker}: RSI is at {current_data.loc["rsi"]:.2f}')
+    if current_data.loc['rsi'] < 30:
+        print(f'RSI is at {current_data.loc["rsi"]:.2f}, which is oversold')
+    elif current_data.loc['rsi'] > 70:
+        print(f'RSI is at {current_data.loc["rsi"]:.2f}, which is overbought')
 
     # ? Bollinger Ratio
     if current_data.loc['bollinger_ratio'] > 1 or current_data.loc['bollinger_ratio'] < 0:
-        print(f'{ticker}: Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
+        print(f'Bollinger ratio is at {current_data.loc["bollinger_ratio"]:.2f}')
+
+    print('\n')
