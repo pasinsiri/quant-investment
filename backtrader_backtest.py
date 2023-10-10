@@ -41,6 +41,8 @@ if len(price_filtered) == 0:
 data = price_filtered[COLUMNS]
 
 # TODO: create backtesting strategy
+
+
 class TradingStrategy(bt.strategy.Strategy):
     params = (
         ('maperiod', 15),
@@ -105,7 +107,8 @@ class TradingStrategy(bt.strategy.Strategy):
         if not trade.isclosed:
             return
 
-        self.log(f'OPERATION PROFIT, GROSS {trade.pnl:.2f}, NET {trade.pnlcomm:.2f}')
+        self.log(
+            f'OPERATION PROFIT, GROSS {trade.pnl:.2f}, NET {trade.pnlcomm:.2f}')
 
     def next(self):
         # Simply log the closing price of the series from the reference
@@ -135,6 +138,7 @@ class TradingStrategy(bt.strategy.Strategy):
 
                 # Keep track of the created order to avoid a 2nd order
                 self.order = self.sell()
+
 
 if __name__ == '__main__':
 
