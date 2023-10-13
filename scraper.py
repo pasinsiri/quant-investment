@@ -17,7 +17,7 @@ driver = webdriver.Chrome(service=service, options=options)
 driver.get(url)
 
 # Wait for the table to load (adjust the timeout as needed)
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 120)
 element = wait.until(EC.presence_of_element_located((By.ID, "table-duh0uyue18")))
 
 # Extract the table data
