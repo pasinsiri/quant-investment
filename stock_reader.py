@@ -22,13 +22,26 @@ from functions.data_reader import YFinanceReader
 parser = argparse.ArgumentParser()
 parser.add_argument('--start', help='Start date', default=None)
 parser.add_argument('--end', help='End date', default=None)
-parser.add_argument('--period', help='An interval to be parsed to yfinance to load data from Yahoo Finance, can be like 1m, 1y, or max', default=None)
+parser.add_argument(
+    '--period',
+    help='An interval to be parsed to yfinance to load data from Yahoo Finance, can be like 1m, 1y, or max',
+    default=None)
 parser.add_argument('--ann_factor', help='Annualization factor')
 parser.add_argument('--market_suffix', help='Market suffix')
-parser.add_argument('--export_path', help='Path to save file (data will be partitioned by ticker and then year and month in the given path)')
-parser.add_argument('--auto_adjust', help='If called, the OHLC prices will be auto-adjusted based on dividends and stock splits', action=argparse.BooleanOptionalAction)
-parser.add_argument('--actions', help='If called, the result will have dividends and stock splits columns in addition to the OHLCV data', action=argparse.BooleanOptionalAction)
-parser.add_argument('--start_writing', help='Start month of (over)writing data, should be in the date format with day equal to 1')
+parser.add_argument(
+    '--export_path',
+    help='Path to save file (data will be partitioned by ticker and then year and month in the given path)')
+parser.add_argument(
+    '--auto_adjust',
+    help='If called, the OHLC prices will be auto-adjusted based on dividends and stock splits',
+    action=argparse.BooleanOptionalAction)
+parser.add_argument(
+    '--actions',
+    help='If called, the result will have dividends and stock splits columns in addition to the OHLCV data',
+    action=argparse.BooleanOptionalAction)
+parser.add_argument(
+    '--start_writing',
+    help='Start month of (over)writing data, should be in the date format with day equal to 1')
 parser.add_argument('--log', default='warning')
 
 # TODO: access arguments
@@ -42,7 +55,9 @@ PERIOD = args.period or '1y'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
 EXPORT_PATH = args.export_path
-START_WRITING = dt.datetime.strptime(args.start_writing, '%Y-%m-%d') if args.start_writing else None
+START_WRITING = dt.datetime.strptime(
+    args.start_writing,
+    '%Y-%m-%d') if args.start_writing else None
 LOGGING_LEVEL = args.log
 AUTO_ADJUST = args.auto_adjust or False
 ACTIONS = args.actions or False
@@ -56,7 +71,9 @@ log_level_mapping = {
     'critical': logging.CRITICAL
 }
 log_level = log_level_mapping[LOGGING_LEVEL.lower()]
-logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=log_level,
+    format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info(f'start_date is set to {START}.')
 logging.info(f'end_date is set to {END}.')
 logging.info(f'Period is set to {PERIOD}.')

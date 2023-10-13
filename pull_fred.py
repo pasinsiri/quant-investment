@@ -1,7 +1,7 @@
-import pandas as pd 
-import pandas_datareader as pdr 
+import pandas as pd
+import pandas_datareader as pdr
 import json
-import datetime as dt 
+import datetime as dt
 
 with open('./keys/fred_quotes.json', 'r') as f:
     fred_key = json.load(f)
@@ -13,15 +13,15 @@ for time in fred_key:
     time_df = dict()
 
     for quote in fred_key[time]:
-        url_quote = fred_key[time][quote] 
+        url_quote = fred_key[time][quote]
         try:
             tmp_df = pdr.DataReader(url_quote, 'fred', start, end)
             time_df[quote] = tmp_df[url_quote]
-        except:
+        except BaseException:
             print('Failed: {0}'.format(quote))
-        
+
     table_dict[time] = pd.DataFrame.from_dict(time_df)
 
 # * save to csv
 for time in table_dict:
-    table_dict[time].to_csv('./data/fred/' + time + '.csv', index = 'False')
+    table_dict[time].to_csv('./data/fred/' + time + '.csv', index='False')

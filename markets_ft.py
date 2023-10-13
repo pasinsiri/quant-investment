@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import requests
 import time
@@ -7,11 +7,13 @@ import json
 import re
 from bs4 import BeautifulSoup
 
+
 def clean_percent(percent):
     if percent == '--':
         return 0.0
     else:
         return float(percent.replace('%', ''))
+
 
 def clean_stock_name(stock, ticker):
     if ticker is not None:
@@ -19,17 +21,20 @@ def clean_stock_name(stock, ticker):
     else:
         return stock
 
+
 def ticker_market_join(ticker, market):
     if ticker is not None and market is not None:
         return ':'.join([ticker, market])
     else:
         return None
 
-def split_ticker(ticker, sep = ':'):
-    splits = ticker.split(sep) 
+
+def split_ticker(ticker, sep=':'):
+    splits = ticker.split(sep)
     if len(splits) > 2:
         splits = [splits[0]] + [sep.join(splits[1:])]
     return splits
+
 
 def pull_ft_markets(fund_source):
     res = requests.get(fund_source)
@@ -37,36 +42,51 @@ def pull_ft_markets(fund_source):
     soup = BeautifulSoup(res.text, 'html.parser')
 
     # fund name
-    fund_name = soup.find('div', {'class': 'mod-tearsheet-overview__header__container'}).text.replace('+ Add to watchlist', '').strip()
+    fund_name = soup.find(
+        'div', {
+            'class': 'mod-tearsheet-overview__header__container'}).text.replace(
+        '+ Add to watchlist', '').strip()
 
     # sectors
-    sectors = soup.find('div', {'class': 'mod-weightings__sectors__table'}).find('table', {'class': 'mod-ui-table'}).findAll('tr')
-    sector_df = pd.DataFrame([[fund_name] + [y.text for y in x.findAll('td')] for x in sectors], columns=['feeder_fund', 'sector', 'percent_asset', 'category_average'])
-    sector_df['percent_asset'] = sector_df['percent_asset'].apply(clean_percent)
-    sector_df['category_average'] = sector_df['category_average'].apply(clean_percent)
+    sectors = soup.find('div',
+                        {'class': 'mod-weightings__sectors__table'}).find('table',
+                                                                          {'class': 'mod-ui-table'}).findAll('tr')
+    sector_df = pd.DataFrame([[fund_name] + [y.text for y in x.findAll('td')]
+                             for x in sectors], columns=['feeder_fund', 'sector', 'percent_asset', 'category_average'])
+    sector_df['percent_asset'] = sector_df['percent_asset'].apply(
+        clean_percent)
+    sector_df['category_average'] = sector_df['category_average'].apply(
+        clean_percent)
     sector_df['timestamp'] = dt.date.today()
 
     # regions
-    regions = soup.find('div', {'class': 'mod-weightings__regions__table'}).find('table', {'class': 'mod-ui-table'}).findAll('tr')
-    region_df = pd.DataFrame([[fund_name] + [y.text for y in x.findAll('td')] for x in regions], columns=['feeder_fund', 'region', 'percent_asset', 'category_average'])
-    region_df['percent_asset'] = region_df['percent_asset'].apply(clean_percent)
-    region_df['category_average'] = region_df['category_average'].apply(clean_percent)
+    regions = soup.find('div',
+                        {'class': 'mod-weightings__regions__table'}).find('table',
+                                                                          {'class': 'mod-ui-table'}).findAll('tr')
+    region_df = pd.DataFrame([[fund_name] + [y.text for y in x.findAll('td')]
+                             for x in regions], columns=['feeder_fund', 'region', 'percent_asset', 'category_average'])
+    region_df['percent_asset'] = region_df['percent_asset'].apply(
+        clean_percent)
+    region_df['category_average'] = region_df['category_average'].apply(
+        clean_percent)
     region_df['timestamp'] = dt.date.today()
 
     # stocks
     stock_page = soup.find('div', {'data-module-name': 'TopHoldingsApp'})
     # Stock name
-    tickers = stock_page.findAll('span', {'class': 'mod-ui-table__cell__disclaimer'})
+    tickers = stock_page.findAll(
+        'span', {'class': 'mod-ui-table__cell__disclaimer'})
     tickers = [split_ticker(t) for t in [s.text for s in tickers]]
 
     # Stock ratio
-    stocks = stock_page.findAll('table', {'class': 'mod-ui-table'})[1].findAll('tr')
+    stocks = stock_page.findAll(
+        'table', {'class': 'mod-ui-table'})[1].findAll('tr')
     stock_data = [[y.text for y in x.findAll('td')][:-1] for x in stocks][:-1]
-
 
     # assert len(stock_data) == len(tickers)
     if len(stock_data) == len(tickers):
-        tickers = [[fund_name] + tickers[i] + stock_data[i] for i in range(len(stock_data))]
+        tickers = [[fund_name] + tickers[i] + stock_data[i]
+                   for i in range(len(stock_data))]
 
     else:
         ticker_list = []
@@ -80,7 +100,7 @@ def pull_ft_markets(fund_source):
                     to_append.extend(s)
                     ticker_list.append(to_append)
                     found = 1
-                    break 
+                    break
                 # if ticker not found
             if found == 0:
                 to_append = [fund_name] + [None, None]
@@ -88,12 +108,23 @@ def pull_ft_markets(fund_source):
                 ticker_list.append(to_append)
         tickers = ticker_list
 
-    stock_df = pd.DataFrame(tickers, columns=['feeder_fund', 'ticker', 'market', 'full_name', '1yr_change', 'percent_asset'])
+    stock_df = pd.DataFrame(
+        tickers,
+        columns=[
+            'feeder_fund',
+            'ticker',
+            'market',
+            'full_name',
+            '1yr_change',
+            'percent_asset'])
     stock_df['1yr_change'] = stock_df['1yr_change'].apply(clean_percent)
     stock_df['percent_asset'] = stock_df['percent_asset'].apply(clean_percent)
-    stock_df['full_name'] = stock_df.apply(lambda x: clean_stock_name(x['full_name'], ticker_market_join(x['ticker'], x['market'])), axis = 1)
+    stock_df['full_name'] = stock_df.apply(
+        lambda x: clean_stock_name(
+            x['full_name'], ticker_market_join(
+                x['ticker'], x['market'])), axis=1)
     stock_df['timestamp'] = dt.date.today()
-    
+
     return sector_df, region_df, stock_df
 
 
@@ -110,7 +141,7 @@ count = 0
 
 # ? new format: add URLs and ETFs in the JSON file
 for k in quotes:
-    url_format = quotes[k]['url'] 
+    url_format = quotes[k]['url']
     for q in quotes[k]['lists']:
         ft_quote = quotes[k]['lists'][q]
         url = url_format.replace('[0]', ft_quote)
@@ -144,9 +175,9 @@ for i in range(len(sectors)):
 sector_df['timestamp'] = dt.date.today()
 region_df['timestamp'] = dt.date.today()
 stock_df['timestamp'] = dt.date.today()
-    
+
 # ? Save
-sector_df.to_csv('./data/ft-funds/sectors.csv', index = False)
-region_df.to_csv('./data/ft-funds/regions.csv', index = False)
-stock_df.to_csv('./data/ft-funds/stocks.csv', index = False)
+sector_df.to_csv('./data/ft-funds/sectors.csv', index=False)
+region_df.to_csv('./data/ft-funds/regions.csv', index=False)
+stock_df.to_csv('./data/ft-funds/stocks.csv', index=False)
 print('Scraping Completed!')
