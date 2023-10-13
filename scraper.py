@@ -20,3 +20,12 @@ driver.get(url)
 wait = WebDriverWait(driver, 10)
 element = wait.until(EC.presence_of_element_located((By.ID, "table-duh0uyue18")))
 
+# Extract the table data
+table = driver.find_element(By.ID, "table-duh0uyue18")
+table_html = table.get_attribute("outerHTML")
+
+# Close the web driver
+driver.quit()
+
+# Now you can parse the table HTML using BeautifulSoup or any other method
+print(table_html)
