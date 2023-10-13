@@ -13,3 +13,10 @@ service = Service(executable_path="./config/chromedriver")
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(service=service, options=options)
 
+# Open the URL in the web driver
+driver.get(url)
+
+# Wait for the table to load (adjust the timeout as needed)
+wait = WebDriverWait(driver, 10)
+element = wait.until(EC.presence_of_element_located((By.ID, "table-duh0uyue18")))
+
