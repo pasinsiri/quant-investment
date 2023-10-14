@@ -49,7 +49,7 @@ for ticker in ticker_values:
     ti = TechnicalIndicators(ticker_df)
 
     # * initialize the terminal dataframe
-    res_df = ticker_df.loc[:, ['close']]
+    res_df = ticker_df[ticker_df['close'].notnull()].loc[:, ['close']]
     latest_date = res_df.index.max()
     print(f'closes at {res_df.loc[latest_date].values[0]:.2f}')
     logging.info(f'Latest date found is {latest_date}')
