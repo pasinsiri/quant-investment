@@ -2,7 +2,7 @@ name: Test Auto Market Alert
 
 on:
   schedule:
-    - cron: 0 0 * * 1-5
+    - cron: 0 2 * * 1-5
 
 jobs:
   deploy:
