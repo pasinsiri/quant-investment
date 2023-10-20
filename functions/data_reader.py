@@ -44,10 +44,13 @@ def pull_stock_data(
                 logging.info(f'{t} is completed')
     return
 
-# ? Yahoo Finance with yfinance library
-
 
 class YFinanceReader():
+    """
+    Load data from YahooFinance using the yfinance library.
+    The arguments are ticker_list which is a list of tickers and market_suffix which represents market of interest,
+    i.e. .BK for Thailand stock market
+    """
     def __init__(self, ticker_list: list, market_suffix: str = '') -> None:
         self.ticker_list = [ticker + market_suffix for ticker in ticker_list]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
