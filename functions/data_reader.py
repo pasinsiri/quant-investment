@@ -96,6 +96,17 @@ class YFinanceReader():
             raise ReferenceError('call load_data first before saving')
         
         # * save data, partition by month and year first, and then ticker list
+        # ? get list of dates and convert to months
+        dates = [d.replace(day=1) for d in self.price_df.index]
+        months = list(set(dates))
+
+        # ? set start_writing_date
+        if start_writing_date is None:
+            start_writing_date = min(months)
+        elif start_writing_date.day != 1:
+            logging.warning('The date of start_writing_date is replaced by 1')
+            start_writing_date = start_writing_date.replace(day=1)
+
         
 
         # for t in self.ticker_list:
