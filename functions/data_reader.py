@@ -97,28 +97,29 @@ class YFinanceReader():
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
         
+        # ? if start_writing_date is defined, filter the price dataframe
+        if start_writing_date is not None:
+            if start_writing_date.day != 1:
+                logging.warning('The date of start_writing_date is replaced by 1')
+                start_writing_date = start_writing_date.replace(day=1)
+                self.price_df = self.price_df[self.price_df.index >= start_writing_date]
+        
         # * save data, partition by month and year first, and then ticker list
         # ? get list of dates and convert to months
-        # dates = [d.replace(day=1) for d in self.price_df.index]
         self.price_df['month'] = self.price_df.index.replace(day=1)
+        months = [m for m in set(self.price_df['month'].values)]
 
-        # ? set start_writing_date
-        if start_writing_date.day != 1:
-            logging.warning('The date of start_writing_date is replaced by 1')
-            start_writing_date = start_writing_date.replace(day=1)
-
-        months = [m for m in set(self.price_df['month'].values) if m >= start_writing_date]
         for m in months:
-            month_dir = os.path.join(parent_dir, f'{str(m.year)}_{str(m.month)}')
+            month_dir = os.path.join(parent_dir, m)
             if not os.path.exists(month_dir):
                 os.mkdir(month_dir)
 
             month_df = self.price_df[self.price_df['month'] == m]
-            monthly_ticker_list = month_df
+            monthly_ticker_list = list(set([c[1] for c in month_df.columns]))
 
             for t in monthly_ticker_list:
                 t_trim = t.replace('.BK', '')
-                ticker_dir = os.path.join(month_dir, ticker_dir)
+                ticker_dir = os.path.join(month_dir, t_trim)
                 if not os.path.exists(ticker_dir):
                     os.mkdir(ticker_dir)
                 
@@ -127,7 +128,6 @@ class YFinanceReader():
                 ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
                 ticker_df.insert(0, 'ticker', t_trim)
                 ticker_df.index.name = 'date'
-
 
 
         # for t in self.ticker_list:
