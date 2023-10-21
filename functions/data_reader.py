@@ -123,9 +123,6 @@ class YFinanceReader():
 
             for t in monthly_ticker_list:
                 t_trim = t.replace('.BK', '')
-                ticker_dir = os.path.join(month_dir, t_trim)
-                if not os.path.exists(ticker_dir):
-                    os.mkdir(ticker_dir)
                 
                 ticker_cols = [c for c in self.price_df.columns if c[1] == t]
                 ticker_df = self.price_df[ticker_cols].dropna(axis=0)
