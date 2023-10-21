@@ -4,10 +4,10 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line:
-    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/thai_stock_prices/set \
+    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
@@ -87,6 +87,7 @@ logging.info(f'actions is set to {ACTIONS}.')
 # TODO: load stock and sector data
 with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
     sectors = json.load(f)
+unused = sectors.pop('set100')
 
 # * flatten sectors' values
 ticker_list = [t for v in sectors.values() for t in v]
