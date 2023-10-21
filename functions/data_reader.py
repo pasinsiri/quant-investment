@@ -103,9 +103,7 @@ class YFinanceReader():
         self.price_df['month'] = self.price_df.index.replace(day=1)
 
         # ? set start_writing_date
-        if start_writing_date is None:
-            start_writing_date = min(months)
-        elif start_writing_date.day != 1:
+        if start_writing_date.day != 1:
             logging.warning('The date of start_writing_date is replaced by 1')
             start_writing_date = start_writing_date.replace(day=1)
 
