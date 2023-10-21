@@ -97,8 +97,8 @@ class YFinanceReader():
         
         # * save data, partition by month and year first, and then ticker list
         # ? get list of dates and convert to months
-        dates = [d.replace(day=1) for d in self.price_df.index]
-        months = list(set(dates))
+        # dates = [d.replace(day=1) for d in self.price_df.index]
+        self.price_df['month'] = self.price_df.index.replace(day=1)
 
         # ? set start_writing_date
         if start_writing_date is None:
@@ -107,7 +107,23 @@ class YFinanceReader():
             logging.warning('The date of start_writing_date is replaced by 1')
             start_writing_date = start_writing_date.replace(day=1)
 
-        
+        months = [m for m in set(self.price_df['month'].values) if m >= start_writing_date]
+        for m in months:
+            month_dir = os.path.join(parent_dir, f'{str(m.year)}_{str(m.month)}')
+            if not os.path.exists(month_dir):
+                os.mkdir(month_dir)
+
+            month_df = self.price_df[self.price_df['month'] == m]
+            monthly_ticker_list = month_df
+
+            for t in monthly_ticker_list:
+                t_trim = t.replace('.BK', '')
+                ticker_dir = os.path.join(month_dir, ticker_dir)
+                if not os.path.exists(ticker_dir):
+                    os.mkdir(ticker_dir)
+                
+                
+
 
         # for t in self.ticker_list:
         #     t_trim = t.replace('.BK', '')
