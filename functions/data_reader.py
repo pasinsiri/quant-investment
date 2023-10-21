@@ -119,7 +119,7 @@ class YFinanceReader():
                 os.mkdir(month_dir)
 
             month_df = self.price_df[self.price_df['ym'] == m]
-            monthly_ticker_list = list(set([c[1] for c in month_df.columns]))
+            monthly_ticker_list = list(set([c[1] for c in month_df.columns if c[1] != '']))
 
             for t in monthly_ticker_list:
                 t_trim = t.replace('.BK', '')
