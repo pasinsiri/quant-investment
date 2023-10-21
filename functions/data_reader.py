@@ -71,8 +71,9 @@ class YFinanceReader():
             interval:str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
-        if start and end and period:
-            warnings.warn('Unused argument: start and end were parsed, period will be ignored')
+        if start and end:
+            if period:
+                warnings.warn('Unused argument: start and end were parsed, period will be ignored')
             self.price_df = self.yfinance_meta.history(
                 start=start, end=end, interval=interval, auto_adjust=auto_adjust, actions=actions)
         else:
