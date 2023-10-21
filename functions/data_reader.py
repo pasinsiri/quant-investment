@@ -124,8 +124,8 @@ class YFinanceReader():
             for t in monthly_ticker_list:
                 t_trim = t.replace('.BK', '')
                 
-                ticker_cols = [c for c in self.price_df.columns if c[1] == t]
-                ticker_df = self.price_df[ticker_cols].dropna(axis=0)
+                ticker_cols = [c for c in month_df.columns if c[1] == t]
+                ticker_df = month_df[ticker_cols].dropna(axis=0)
                 ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
                 ticker_df.insert(0, 'ticker', t_trim)
                 ticker_df.index.name = 'date'
