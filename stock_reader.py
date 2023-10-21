@@ -84,10 +84,9 @@ logging.info(f'Retrieving data and saving since {START_WRITING}.')
 logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
 logging.info(f'actions is set to {ACTIONS}.')
 
-# TODO: load stock and sector data
+# TODO: load stock and sector data (currently using SET tickers)
 with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
     sectors = json.load(f)
-unused = sectors.pop('set100')
 
 # * flatten sectors' values
 ticker_list = [t for v in sectors.values() for t in v]
