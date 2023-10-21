@@ -4,10 +4,10 @@ Author: pasins
 Latest Update: 2023-09-04
 How to run:
     From your command line:
-    python stock_reader.py --period 1y --ann_factor 252 --market_suffix .BK --export_path ./data/set \
-        --start_writing 2023-08-01 --auto_adjust --actions
+    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
+        --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/set \
+    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
@@ -84,8 +84,8 @@ logging.info(f'Retrieving data and saving since {START_WRITING}.')
 logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
 logging.info(f'actions is set to {ACTIONS}.')
 
-# TODO: load stock and sector data
-with open('./keys/set_sectors.json', 'r') as f:
+# TODO: load stock and sector data (currently using SET tickers)
+with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
     sectors = json.load(f)
 
 # * flatten sectors' values
