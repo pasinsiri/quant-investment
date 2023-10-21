@@ -106,15 +106,19 @@ class YFinanceReader():
         
         # * save data, partition by month and year first, and then ticker list
         # ? get list of dates and convert to months
-        self.price_df['month'] = self.price_df.index.replace(day=1)
-        months = [m for m in set(self.price_df['month'].values)]
+        self.price_df['ym'] = self.price_df.index.map(lambda d: tuple(['{:04d}'.format(d.year), '{:02d}'.format(d.month)]))
+        months = [m for m in set(self.price_df['ym'].values)]
 
-        for m in months:
-            month_dir = os.path.join(parent_dir, m)
+        for ym in months:
+            y, m = ym[0], ym[1]
+            year_dir = os.path.join(parent_dir, y)
+            if not os.path.exists(year_dir):
+                os.mkdir(year_dir)
+            month_dir = os.path.join(year_dir, m)
             if not os.path.exists(month_dir):
                 os.mkdir(month_dir)
 
-            month_df = self.price_df[self.price_df['month'] == m]
+            month_df = self.price_df[self.price_df['ym'] == m]
             monthly_ticker_list = list(set([c[1] for c in month_df.columns]))
 
             for t in monthly_ticker_list:
@@ -129,44 +133,14 @@ class YFinanceReader():
                 ticker_df.insert(0, 'ticker', t_trim)
                 ticker_df.index.name = 'date'
 
+                # * save to parquet
+                ticker_df.to_parquet(os.path.join(month_dir, t_trim + '.parquet'))
 
-        # for t in self.ticker_list:
-        #     t_trim = t.replace('.BK', '')
-        #     ticker_dir = f'{parent_dir}/{t_trim}'
-        #     if not os.path.exists(ticker_dir):
-        #         os.mkdir(ticker_dir)
+            if verbose:
+                logging.info(f'{ym} is completed')
 
-        #     ticker_cols = [c for c in self.price_df.columns if c[1] == t]
-        #     ticker_df = self.price_df[ticker_cols].dropna(axis=0)
-        #     ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
-        #     ticker_df.insert(0, 'ticker', t_trim)
-        #     ticker_df.index.name = 'date'
-
-        #     # * if start_writing_date is defined, filter only data of which date is start_writing_date or later
-        #     if start_writing_date:
-        #         ticker_df = ticker_df[ticker_df.index >= start_writing_date]
-
-        #     price_dir = f'{ticker_dir}/price'
-        #     if not os.path.exists(price_dir):
-        #         os.mkdir(price_dir)
-
-        #     # * create a tuple of year and month from the data index
-        #     ym_arr = pd.DataFrame({'year': ticker_df.index.year,
-        #                            'month': ticker_df.index.month}).drop_duplicates().to_numpy()
-        #     distinct_list = [''.join(
-        #         tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
-        #     distinct_arr = np.array(distinct_list).reshape(-1, 1)
-        #     months_arr = np.concatenate((ym_arr, distinct_arr), axis=1)
-
-        #     for year, month, partition_str in months_arr:
-        #         month_df = ticker_df[
-        #             (ticker_df.index.year == int(year)) &
-        #             (ticker_df.index.month == int(month))
-        #         ]
-        #         month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
-
-        # if verbose:
-        #     logging.info('saving completed')
+        if verbose:
+            logging.info('--- saving completed ---')
 
 # ? AlphaVantage API
 
