@@ -68,16 +68,17 @@ class YFinanceReader():
             start: str = None,
             end:str = None,
             period: str = None,
+            interval:str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
         if start and end and period:
             warnings.warn('Unused argument: start and end were parsed, period will be ignored')
             self.price_df = self.yfinance_meta.history(
-                start=start, end=end, auto_adjust=auto_adjust, actions=actions)
+                start=start, end=end, interval=interval, auto_adjust=auto_adjust, actions=actions)
         else:
             if period:
                 self.price_df = self.yfinance_meta.history(
-                    period=period, auto_adjust=auto_adjust, actions=actions)
+                    period=period, interval=interval, auto_adjust=auto_adjust, actions=actions)
             else:
                 raise ValueError('Invalid argument: either a pair of start and end or period must be parsed')
         self.is_loaded = True
@@ -122,7 +123,12 @@ class YFinanceReader():
                 if not os.path.exists(ticker_dir):
                     os.mkdir(ticker_dir)
                 
-                
+                ticker_cols = [c for c in self.price_df.columns if c[1] == t]
+                ticker_df = self.price_df[ticker_cols].dropna(axis=0)
+                ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
+                ticker_df.insert(0, 'ticker', t_trim)
+                ticker_df.index.name = 'date'
+
 
 
         # for t in self.ticker_list:
