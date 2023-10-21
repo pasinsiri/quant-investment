@@ -107,7 +107,7 @@ class YFinanceReader():
         # * save data, partition by month and year first, and then ticker list
         # ? get list of dates and convert to months
         self.price_df['ym'] = self.price_df.index.map(lambda d: tuple(['{:04d}'.format(d.year), '{:02d}'.format(d.month)]))
-        months = [m for m in set(self.price_df['ym'].values)]
+        months = sorted([m for m in set(self.price_df['ym'].values)])
 
         for ym in months:
             y, m = ym[0], ym[1]
