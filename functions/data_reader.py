@@ -126,6 +126,11 @@ class YFinanceReader():
                 
                 ticker_cols = [c for c in month_df.columns if c[1] == t]
                 ticker_df = month_df[ticker_cols].dropna(axis=0)
+
+                # * if ticker data is not existed in such month, skip the remaining process
+                if ticker_df.shape[0] == 0:
+                    continue
+
                 ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
                 ticker_df.insert(0, 'ticker', t_trim)
                 ticker_df.index.name = 'date'
