@@ -118,7 +118,7 @@ class YFinanceReader():
             if not os.path.exists(month_dir):
                 os.mkdir(month_dir)
 
-            month_df = self.price_df[self.price_df['ym'] == m]
+            month_df = self.price_df[self.price_df['ym'] == ym]
             monthly_ticker_list = list(set([c[1] for c in month_df.columns if c[1] != '']))
 
             for t in monthly_ticker_list:
