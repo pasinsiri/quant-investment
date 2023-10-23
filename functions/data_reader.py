@@ -66,22 +66,28 @@ class YFinanceReader():
     def load_data(
             self,
             start: str = None,
-            end:str = None,
+            end: str = None,
             period: str = None,
-            interval:str = '1d',
+            interval: str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
         if start and end:
             if period:
-                warnings.warn('Unused argument: start and end were parsed, period will be ignored')
+                warnings.warn(
+                    'Unused argument: start and end were parsed, period will be ignored')
             self.price_df = self.yfinance_meta.history(
-                start=start, end=end, interval=interval, auto_adjust=auto_adjust, actions=actions)
+                start=start,
+                end=end,
+                interval=interval,
+                auto_adjust=auto_adjust,
+                actions=actions)
         else:
             if period:
                 self.price_df = self.yfinance_meta.history(
                     period=period, interval=interval, auto_adjust=auto_adjust, actions=actions)
             else:
-                raise ValueError('Invalid argument: either a pair of start and end or period must be parsed')
+                raise ValueError(
+                    'Invalid argument: either a pair of start and end or period must be parsed')
         self.is_loaded = True
         logging.info(f'Loaded data has the shape of {self.price_df.shape}')
         logging.info(
