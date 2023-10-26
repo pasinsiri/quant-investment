@@ -30,4 +30,5 @@ class SETScraper():
             res[ticker] = data
             logging.info(f'{ticker} is completed')
             time.sleep(sleep)
-        self.driver.close()
+        driver.close()
+        return res
