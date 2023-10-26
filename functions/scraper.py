@@ -3,18 +3,22 @@ from selenium import webdriver
 
 class SETScraper():
     def __init__(self, driver_type:str) -> None:
-        if driver_type.lower() == 'firefox':
-            self.driver = webdriver.Firefox()
-        elif driver_type.lower() == 'chrome':
-            self.driver = webdriver.Chrome()
-        elif driver_type.lower() == 'edge':
-            self.driver = webdriver.Edge()
-        elif driver_type.lower() == 'safari':
-            self.driver = webdriver.Safari()
+        self.driver_type = driver_type
+
+    def _start_driver(self):
+        if self.driver_type.lower() == 'firefox':
+            return webdriver.Firefox()
+        elif self.driver_type.lower() == 'chrome':
+            return webdriver.Chrome()
+        elif self.driver_type.lower() == 'edge':
+            return webdriver.Edge()
+        elif self.driver_type.lower() == 'safari':
+            return webdriver.Safari()
         else:
             raise ValueError('driver_type is not specified')
 
     def get_company_information(self, ticker_list: list, sleep: int = 2):
+        driver = self._start_driver()
         res = {}
 
         # iterate over ticker list
