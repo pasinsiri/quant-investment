@@ -1,4 +1,5 @@
 import time
+import logging
 from selenium import webdriver
 
 class SETScraper():
@@ -24,9 +25,9 @@ class SETScraper():
         # iterate over ticker list
         for ticker in ticker_list:
             url = f'https://www.set.or.th/th/market/product/stock/quote/{ticker.upper()}/company-profile/information'
-            self.driver.get(url)
-            data = self.driver.page_source
+            driver.get(url)
+            data = driver.page_source
             res[ticker] = data
-            print(f'{ticker} is completed')
+            logging.info(f'{ticker} is completed')
             time.sleep(sleep)
         self.driver.close()
