@@ -1,6 +1,7 @@
 import time
 import logging
 from selenium import webdriver
+from bs4 import BeautifulSoup
 
 class SETScraper():
     def __init__(self, driver_type:str) -> None:
@@ -18,11 +19,14 @@ class SETScraper():
         else:
             raise ValueError('driver_type is not specified')
         
-    def get_ticker_list(self, path: str, attrs: dict):
+    def get_ticker_list(self, url: str, attrs: dict):
         driver = self._start_driver()
-    
-
+        driver.get(url)
+        soup = BeautifulSoup(driver.page_source)
+        tables = soup.find_all('div', attrs=attrs)
+        tickers = [c.text.strip('\n').strip() for c in tables]
         driver.close()
+        return tickers
 
     def get_company_information(self, ticker_list: list, sleep: int = 2):
         driver = self._start_driver()
