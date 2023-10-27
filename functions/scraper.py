@@ -17,6 +17,12 @@ class SETScraper():
             return webdriver.Safari()
         else:
             raise ValueError('driver_type is not specified')
+        
+    def get_ticker_list(self, path: str, attrs: dict):
+        driver = self._start_driver()
+    
+
+        driver.close()
 
     def get_company_information(self, ticker_list: list, sleep: int = 2):
         driver = self._start_driver()
