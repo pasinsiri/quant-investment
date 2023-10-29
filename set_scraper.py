@@ -8,3 +8,7 @@ URL_LIST = [
     'https://www.set.or.th/th/market/index/sset/overview',
     'https://www.set.or.th/th/market/index/mai/overview'
 ]
+
+scraper = SETScraper(driver_type='firefox')
+for url in URL_LIST:
+    pass
