@@ -10,7 +10,7 @@ INDEXES_URL = {
     'sset': 'https://www.set.or.th/th/market/index/sset/overview',
     'mai': 'https://www.set.or.th/th/market/index/mai/overview',
 }
-EXPORT_PATH = './test/index_list/set'
+EXPORT_PATH = './test/index_list/set/ticker_list.json'
 
 tickers = {}
 scraper = SETScraper(driver_type='firefox')
