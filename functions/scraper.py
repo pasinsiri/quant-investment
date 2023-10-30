@@ -19,13 +19,15 @@ class SETScraper():
         else:
             raise ValueError('driver_type is not specified')
         
-    def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict):
-        driver = self._start_driver()
+    def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict, driver = None):
+        if driver is None:
+            driver = self._start_driver()
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, features='lxml')
         tables = soup.find_all(tag_name, attrs=tag_attrs)
         tickers = [c.text.strip('\n').strip() for c in tables]
-        driver.close()
+        if driver is None:
+            driver.close()
         return tickers
 
     def get_company_information(self, ticker_list: list, sleep: int = 2):
