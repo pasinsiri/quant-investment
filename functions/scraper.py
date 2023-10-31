@@ -25,7 +25,7 @@ class SETScraper():
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, features='lxml')
         tables = soup.find_all(tag_name, attrs=tag_attrs)
-        tickers = [c.text.strip('\n').strip() for c in tables]
+        tickers = [c.text.strip('\n').strip().split('\n')[0] for c in tables]
         if driver is None:
             driver.close()
         return tickers
