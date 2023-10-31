@@ -51,6 +51,7 @@ class YFinanceReader():
     The arguments are ticker_list which is a list of tickers and market_suffix which represents market of interest,
     i.e. .BK for Thailand stock market
     """
+
     def __init__(self, ticker_list: list, market_suffix: str = '') -> None:
         self.ticker_list = [ticker + market_suffix for ticker in ticker_list]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
@@ -66,27 +67,32 @@ class YFinanceReader():
     def load_data(
             self,
             start: str = None,
-            end:str = None,
+            end: str = None,
             period: str = None,
-            interval:str = '1d',
+            interval: str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
         if start and end:
             if period:
-                warnings.warn('Unused argument: start and end were parsed, period will be ignored')
+                warnings.warn(
+                    'Unused argument: start and end were parsed, period will be ignored')
             self.price_df = self.yfinance_meta.history(
-                start=start, end=end, interval=interval, auto_adjust=auto_adjust, actions=actions)
+                start=start,
+                end=end,
+                interval=interval,
+                auto_adjust=auto_adjust,
+                actions=actions)
         else:
             if period:
                 self.price_df = self.yfinance_meta.history(
                     period=period, interval=interval, auto_adjust=auto_adjust, actions=actions)
             else:
-                raise ValueError('Invalid argument: either a pair of start and end or period must be parsed')
+                raise ValueError(
+                    'Invalid argument: either a pair of start and end or period must be parsed')
         self.is_loaded = True
         logging.info(f'Loaded data has the shape of {self.price_df.shape}')
         logging.info(
             f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
-        
         return
 
     def save(
@@ -96,17 +102,20 @@ class YFinanceReader():
             verbose: bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
-        
+
         # ? if start_writing_date is defined, filter the price dataframe
         if start_writing_date is not None:
             if start_writing_date.day != 1:
-                logging.warning('The date of start_writing_date is replaced by 1')
+                logging.warning(
+                    'The date of start_writing_date is replaced by 1')
                 start_writing_date = start_writing_date.replace(day=1)
-                self.price_df = self.price_df[self.price_df.index >= start_writing_date]
-        
+                self.price_df = self.price_df[self.price_df.index >=
+                                              start_writing_date]
+
         # * save data, partition by month and year first, and then ticker list
         # ? get list of dates and convert to months
-        self.price_df['ym'] = self.price_df.index.map(lambda d: tuple(['{:04d}'.format(d.year), '{:02d}'.format(d.month)]))
+        self.price_df['ym'] = self.price_df.index.map(lambda d: tuple(
+            ['{:04d}'.format(d.year), '{:02d}'.format(d.month)]))
         months = sorted([m for m in set(self.price_df['ym'].values)])
 
         for ym in months:
@@ -119,19 +128,29 @@ class YFinanceReader():
                 os.mkdir(month_dir)
 
             month_df = self.price_df[self.price_df['ym'] == ym]
-            monthly_ticker_list = list(set([c[1] for c in month_df.columns if c[1] != '']))
+            monthly_ticker_list = list(
+                set([c[1] for c in month_df.columns if c[1] != '']))
 
             for t in monthly_ticker_list:
                 t_trim = t.replace('.BK', '')
-                
+
                 ticker_cols = [c for c in month_df.columns if c[1] == t]
                 ticker_df = month_df[ticker_cols].dropna(axis=0)
+
+                # * if ticker data is not existed in such month, skip the remaining process
+                if ticker_df.shape[0] == 0:
+                    continue
+
                 ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
                 ticker_df.insert(0, 'ticker', t_trim)
                 ticker_df.index.name = 'date'
 
                 # * save to parquet
-                ticker_df.to_parquet(os.path.join(month_dir, t_trim + '.parquet'))
+                ticker_df.to_parquet(
+                    os.path.join(
+                        month_dir,
+                        t_trim +
+                        '.parquet'))
 
             if verbose:
                 logging.info(f'{ym} is completed')
