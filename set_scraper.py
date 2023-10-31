@@ -4,18 +4,24 @@ import logging
 import time
 from functions.scraper import SETScraper
 
+# INDEXES_URL = {
+#     'set50': 'https://www.set.or.th/th/market/index/set50/overview',
+#     'set100': 'https://www.set.or.th/th/market/index/set100/overview',
+#     'sset': 'https://www.set.or.th/th/market/index/sset/overview',
+#     'mai_agro': 'https://www.set.or.th/th/market/index/mai/agro',
+#     'mai_consump': 'https://www.set.or.th/th/market/index/mai/consump',
+#     'mai_fincial': 'https://www.set.or.th/th/market/index/mai/fincial',
+#     'mai_indus': 'https://www.set.or.th/th/market/index/mai/indus',
+#     'mai_propcon': 'https://www.set.or.th/th/market/index/mai/propcon',
+#     'mai_resourc': 'https://www.set.or.th/th/market/index/mai/resourc',
+#     'mai_service': 'https://www.set.or.th/th/market/index/mai/service',
+#     'mai_tech': 'https://www.set.or.th/th/market/index/mai/tech'
+# }
+
 INDEXES_URL = {
     'set50': 'https://www.set.or.th/th/market/index/set50/overview',
     'set100': 'https://www.set.or.th/th/market/index/set100/overview',
-    'sset': 'https://www.set.or.th/th/market/index/sset/overview',
-    'mai_agro': 'https://www.set.or.th/th/market/index/mai/agro',
-    'mai_consump': 'https://www.set.or.th/th/market/index/mai/consump',
-    'mai_fincial': 'https://www.set.or.th/th/market/index/mai/fincial',
-    'mai_indus': 'https://www.set.or.th/th/market/index/mai/indus',
-    'mai_propcon': 'https://www.set.or.th/th/market/index/mai/propcon',
-    'mai_resourc': 'https://www.set.or.th/th/market/index/mai/resourc',
-    'mai_service': 'https://www.set.or.th/th/market/index/mai/service',
-    'mai_tech': 'https://www.set.or.th/th/market/index/mai/tech',
+    'sset': 'https://www.set.or.th/th/market/index/sset/overview'
 }
 EXPORT_PATH = './test/index_list/set/ticker_list.json'
 
