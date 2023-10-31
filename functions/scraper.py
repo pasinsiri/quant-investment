@@ -30,7 +30,7 @@ class SETScraper():
             driver.close()
         return tickers
 
-    def get_company_information(self, ticker_list: list, sleep: int = 2):
+    def get_company_information(self, ticker_list: list, sleep: int = 1):
         driver = self._start_driver()
         res = {}
 
@@ -38,8 +38,10 @@ class SETScraper():
         for ticker in ticker_list:
             url = f'https://www.set.or.th/th/market/product/stock/quote/{ticker.upper()}/company-profile/information'
             driver.get(url)
-            data = driver.page_source
-            res[ticker] = data
+            raw = driver.page_source
+            soup = BeautifulSoup(raw)
+            ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
+            res[ticker] = ticker_info
             logging.info(f'{ticker} is completed')
             time.sleep(sleep)
         driver.close()
