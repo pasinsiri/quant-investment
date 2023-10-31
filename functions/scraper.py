@@ -39,6 +39,12 @@ class SETScraper():
             url = f'https://www.set.or.th/th/market/product/stock/quote/{ticker.upper()}/company-profile/information'
             driver.get(url)
             raw = driver.page_source
+
+            # ? if ticker's information is not found, i.e. the current url is different from the parsed url, return None
+            if url != driver.current_url:
+                res[ticker] = None
+                continue
+
             soup = BeautifulSoup(raw)
             ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
             res[ticker] = ticker_info
