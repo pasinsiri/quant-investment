@@ -45,7 +45,7 @@ class SETScraper():
                 res[ticker] = None
                 continue
 
-            soup = BeautifulSoup(raw)
+            soup = BeautifulSoup(raw, features='lxml')
             ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
             res[ticker] = ticker_info
             logging.info(f'{ticker} is completed')
