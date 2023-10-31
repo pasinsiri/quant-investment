@@ -40,7 +40,7 @@ class SETScraper():
             driver.get(url)
             raw = driver.page_source
             soup = BeautifulSoup(raw)
-            ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip(r'(\t|\n)')
+            ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
             res[ticker] = ticker_info
             logging.info(f'{ticker} is completed')
             time.sleep(sleep)
