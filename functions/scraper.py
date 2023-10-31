@@ -30,7 +30,7 @@ class SETScraper():
             driver.close()
         return tickers
 
-    def get_company_information(self, ticker_list: list, sleep: int = 2):
+    def get_company_information(self, ticker_list: list, sleep: int = 1):
         driver = self._start_driver()
         res = {}
 
