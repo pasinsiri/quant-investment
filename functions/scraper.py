@@ -1,5 +1,6 @@
 import time
 import logging
+import re
 import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -20,9 +21,13 @@ class SETScraper():
         else:
             raise ValueError('driver_type is not specified')
         
+    def _extract_ticker_siamchart(self, pattern: str, text: str):
+        matches = [re.findall(pattern, t.text)[-1] for t in text]
+        
     def scrape_siamchart(self):
         URL = 'http://siamchart.com/stock/'
         res = requests.get(URL)
+        soup = BeautifulSoup(res.text)
         
     def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict, driver = None):
         if driver is None:
