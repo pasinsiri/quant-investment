@@ -66,7 +66,7 @@ class SiamchartScraper():
 
         # * get request
         res = requests.get(self.url)
-        soup = BeautifulSoup(res.text)
+        soup = BeautifulSoup(res.text, features='lxml')
         links = soup.find_all('a', href=lambda href: href and 'stock-chart' in href)
         # * extract ticker and info
         ticker_list = [re.findall(TICKER_PATTERN, link.text)[0][:-1] for link in links]
