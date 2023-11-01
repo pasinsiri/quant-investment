@@ -78,3 +78,9 @@ class SETScraper():
             time.sleep(sleep)
         driver.close()
         return res
+    
+class SiamchartScraper():
+    def __init__(self) -> None:
+        pass
+
+    def 
