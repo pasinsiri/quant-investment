@@ -22,11 +22,6 @@ class SETScraper():
         else:
             raise ValueError('driver_type is not specified')
         
-    def _extract_ticker_siamchart(self, pattern: str, text: str):
-        matched = [re.findall(pattern, t.text)[-1] for t in text]
-        stripped = [t.strip(r'\[\]') for t in stripped]
-        return stripped
-        
     def scrape_siamchart(self):
         URL = 'http://siamchart.com/stock/'
         TICKER_PATTERN = r'[\w\d]*\('
