@@ -22,12 +22,22 @@ class SETScraper():
             raise ValueError('driver_type is not specified')
         
     def _extract_ticker_siamchart(self, pattern: str, text: str):
-        matches = [re.findall(pattern, t.text)[-1] for t in text]
+        matched = [re.findall(pattern, t.text)[-1] for t in text]
+        stripped = [t.strip(r'\[\]') for t in stripped]
+        return stripped
         
     def scrape_siamchart(self):
         URL = 'http://siamchart.com/stock/'
+        TICKER_PATTERN = r'[\w\d]*\('
+        INFO_PATTERN = r'\[.*\]'
+
+        # * get request
         res = requests.get(URL)
         soup = BeautifulSoup(res.text)
+        links = soup.find_all('a', href=lambda href: href and 'stock-chart' in href)
+        # * extract ticker and info
+        ticker_list = [re.findall(TICKER_PATTERN, link.text)[0][:-1] for link in links]
+        info_list_raw = [re.findall(INFO_PATTERN, link.text) for link in links]
         
     def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict, driver = None):
         if driver is None:
