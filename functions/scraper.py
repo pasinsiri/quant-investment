@@ -1,3 +1,4 @@
+import pandas as pd
 import time
 import logging
 import re
@@ -38,6 +39,16 @@ class SETScraper():
         # * extract ticker and info
         ticker_list = [re.findall(TICKER_PATTERN, link.text)[0][:-1] for link in links]
         info_list_raw = [re.findall(INFO_PATTERN, link.text) for link in links]
+
+        info_list = []
+        for ticker, info in zip(ticker_list, info_list_raw):
+            if len(info) == 0:
+                info_list_raw.append([ticker])
+                continue
+            info = info[0].strip(r'\[\]').split(',')
+            info_list.append([ticker, info])
+        info_df = pd.DataFrame(info_list, columns=['ticker', 'tag'])
+        return info_df
         
     def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict, driver = None):
         if driver is None:
