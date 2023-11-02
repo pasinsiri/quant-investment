@@ -1,24 +1,35 @@
-import pandas_datareader.data as web 
-import pandas as pd 
+import pandas_datareader.data as web
+import pandas as pd
 import numpy as np
 import datetime as dt
-import time 
+import time
 import requests
 import warnings
+import logging
 import os
 import yfinance as yf
-import csv 
+import csv
 
 # TODO: Stock Reader
 # ? Yahoo Finance
-def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str = 'yahoo', sleep:int = 2, verbose:bool = False):
+
+
+def pull_stock_data(
+        sectors: dict,
+        start: str,
+        end: str,
+        export_dir: str,
+        source: str = 'yahoo',
+        sleep: int = 2,
+        verbose: bool = False):
     for sector in sectors.keys():
         tickers = sectors[sector]
         parent_dir = f'{export_dir}/{sector}'
         if not os.path.exists(parent_dir):
             os.mkdir(parent_dir)
         for t in tickers:
-            price_raw = web.DataReader(t + '.BK', start = start, end = end, data_source = source)
+            price_raw = web.DataReader(
+                t + '.BK', start=start, end=end, data_source=source)
             price_raw.insert(0, 'ticker', t)
             parent_subdir = f'{parent_dir}/{t}'
             if not os.path.exists(parent_subdir):
@@ -29,79 +40,137 @@ def pull_stock_data(sectors:dict, start:str, end:str, export_dir:str, source:str
                     export_path = f'{parent_subdir}/{t}_{y}.parquet'
                     year_df.to_parquet(export_path)
                 time.sleep(sleep)
-            if verbose == True:
-                print(f'{t} is completed')
+            if verbose:
+                logging.info(f'{t} is completed')
     return
 
-# ? Yahoo Finance with yfinance library
+
 class YFinanceReader():
-    def __init__(self, stock_sectors:dict, market_suffix:str) -> None:
-        self.stock_sectors = stock_sectors
-        self.ticker_list = [v + market_suffix for s in stock_sectors.values() for v in s]
+    """
+    Load data from YahooFinance using the yfinance library.
+    The arguments are ticker_list which is a list of tickers and market_suffix which represents market of interest,
+    i.e. .BK for Thailand stock market
+    """
+
+    def __init__(self, ticker_list: list, market_suffix: str = '') -> None:
+        self.ticker_list = [ticker + market_suffix for ticker in ticker_list]
         self.yfinance_meta = yf.Tickers(self.ticker_list)
         self.is_loaded = False
 
     def _create_month(self, index) -> list:
-        ym_arr = pd.DataFrame({'year': index.year, 'month': index.month}).drop_duplicates().to_numpy()
-        distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
+        ym_arr = pd.DataFrame(
+            {'year': index.year, 'month': index.month}).drop_duplicates().to_numpy()
+        distinct_list = [''.join(
+            tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
         return distinct_list
 
-    def load_data(self, period:str = 'max'):
-        self.price_df = self.yfinance_meta.history(period=period)
-        self.is_loaded = True 
-        print(f'Loaded data has the shape of {self.price_df.shape}')
-        return 
-    
-    def save(self, parent_dir:str, start_writing_date:dt.date = None, verbose:bool = False):
+    def load_data(
+            self,
+            start: str = None,
+            end: str = None,
+            period: str = None,
+            interval: str = '1d',
+            auto_adjust: bool = False,
+            actions: bool = False):
+        if start and end:
+            if period:
+                warnings.warn(
+                    'Unused argument: start and end were parsed, period will be ignored')
+            self.price_df = self.yfinance_meta.history(
+                start=start,
+                end=end,
+                interval=interval,
+                auto_adjust=auto_adjust,
+                actions=actions)
+        else:
+            if period:
+                self.price_df = self.yfinance_meta.history(
+                    period=period, interval=interval, auto_adjust=auto_adjust, actions=actions)
+            else:
+                raise ValueError(
+                    'Invalid argument: either a pair of start and end or period must be parsed')
+        self.is_loaded = True
+        logging.info(f'Loaded data has the shape of {self.price_df.shape}')
+        logging.info(
+            f'Data ranges from {self.price_df.index.min()} to {self.price_df.index.max()}')
+        return
+
+    def save(
+            self,
+            parent_dir: str,
+            start_writing_date: dt.date = None,
+            verbose: bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
 
-        for t in self.ticker_list: 
-            t_trim = t.replace('.BK', '')
-            ticker_dir = f'{parent_dir}/{t_trim}'
-            if not os.path.exists(ticker_dir):
-                os.mkdir(ticker_dir)
+        # ? if start_writing_date is defined, filter the price dataframe
+        if start_writing_date is not None:
+            if start_writing_date.day != 1:
+                logging.warning(
+                    'The date of start_writing_date is replaced by 1')
+                start_writing_date = start_writing_date.replace(day=1)
+                self.price_df = self.price_df[self.price_df.index >=
+                                              start_writing_date]
 
-            ticker_cols = [c for c in self.price_df.columns if c[1] == t]
-            ticker_df = self.price_df[ticker_cols].dropna(axis=0)
-            ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
-            ticker_df.insert(0, 'ticker', t_trim)
-            ticker_df.index.name = 'date'
+        # * save data, partition by month and year first, and then ticker list
+        # ? get list of dates and convert to months
+        self.price_df['ym'] = self.price_df.index.map(lambda d: tuple(
+            ['{:04d}'.format(d.year), '{:02d}'.format(d.month)]))
+        months = sorted([m for m in set(self.price_df['ym'].values)])
 
-            # * if start_writing_date is defined, filter only data of which date is start_writing_date or later
-            if start_writing_date:
-                ticker_df = ticker_df[ticker_df.index >= start_writing_date]
+        for ym in months:
+            y, m = ym[0], ym[1]
+            year_dir = os.path.join(parent_dir, y)
+            if not os.path.exists(year_dir):
+                os.mkdir(year_dir)
+            month_dir = os.path.join(year_dir, m)
+            if not os.path.exists(month_dir):
+                os.mkdir(month_dir)
 
-            price_dir = f'{ticker_dir}/price'
-            if not os.path.exists(price_dir):
-                os.mkdir(price_dir)
+            month_df = self.price_df[self.price_df['ym'] == ym]
+            monthly_ticker_list = list(
+                set([c[1] for c in month_df.columns if c[1] != '']))
 
-            # * create a tuple of year and month from the data index
-            ym_arr = pd.DataFrame({'year': ticker_df.index.year, 'month': ticker_df.index.month}).drop_duplicates().to_numpy()
-            distinct_list = [''.join(tuple(['{:04d}'.format(row[0]), '{:02d}'.format(row[1])])) for row in ym_arr]
-            distinct_arr = np.array(distinct_list).reshape(-1, 1)
-            months_arr = np.concatenate((ym_arr, distinct_arr), axis=1)
+            for t in monthly_ticker_list:
+                t_trim = t.replace('.BK', '')
 
-            for year, month, partition_str in months_arr:
-                month_df = ticker_df[
-                    (ticker_df.index.year == int(year)) &
-                    (ticker_df.index.month == int(month))
-                ]
-                month_df.to_parquet(f'{price_dir}/{partition_str}.parquet')
+                ticker_cols = [c for c in month_df.columns if c[1] == t]
+                ticker_df = month_df[ticker_cols].dropna(axis=0)
+
+                # * if ticker data is not existed in such month, skip the remaining process
+                if ticker_df.shape[0] == 0:
+                    continue
+
+                ticker_df.columns = [c[0].lower() for c in ticker_df.columns]
+                ticker_df.insert(0, 'ticker', t_trim)
+                ticker_df.index.name = 'date'
+
+                # * save to parquet
+                ticker_df.to_parquet(
+                    os.path.join(
+                        month_dir,
+                        t_trim +
+                        '.parquet'))
+
+            if verbose:
+                logging.info(f'{ym} is completed')
 
         if verbose:
-            print('saving completed')
+            logging.info('--- saving completed ---')
 
 # ? AlphaVantage API
+
+
 class AlphaVantageReader():
     """load company information (overview / cash flow / estimated earnings, etc.) from AlphaVantage using its API
     """
+
     def __init__(self, key) -> None:
         self.key = key
         self.url_template = f'https://www.alphavantage.co/query?&apikey={self.key}&'
 
     # ? helper functions
-    def _load_and_decode(self, url:str) -> pd.DataFrame:
+    def _load_and_decode(self, url: str) -> pd.DataFrame:
         """(helper) load CSV tables from AlphaVantage, decode and convert to Pandas' DataFrame
 
         Args:
@@ -117,7 +186,7 @@ class AlphaVantageReader():
             df = pd.DataFrame(cr[1:], columns=cr[0])
         return df
 
-    def _try_float(self, v:str):
+    def _try_float(self, v: str):
         """try convert obj or str to float
 
         Args:
@@ -127,11 +196,14 @@ class AlphaVantageReader():
             float: a converted value in float format
         """
         if v is None or v == 'None':
-            return np.nan 
+            return np.nan
         else:
             return float(v)
 
-    def _convert_float(self, raw: pd.DataFrame, excepted_keywords:list = ['date']):
+    def _convert_float(
+            self,
+            raw: pd.DataFrame,
+            excepted_keywords: list = ['date']):
         """convert specific columns in a dataframe to float
 
         Args:
@@ -145,13 +217,13 @@ class AlphaVantageReader():
         for c in df.columns:
             for k in excepted_keywords:
                 if k in c.lower():
-                    pass 
+                    pass
                 else:
                     df[c] = df[c].apply(self._try_float)
         return df
 
     # * Economic Data
-    def get_fed_funds_rate(self, mode:str = 'daily'):
+    def get_fed_funds_rate(self, mode: str = 'daily'):
         """get FED's funds rate
 
         Args:
@@ -166,8 +238,12 @@ class AlphaVantageReader():
         df = pd.DataFrame(data['data']).set_index('date').sort_index()
         df['value'] = df['value'].astype(float)
         return self._convert_float(df)
-    
-    def get_us_bond_yield(self, maturity_list:list, interval:str = 'daily', time_sleep:int = 20):
+
+    def get_us_bond_yield(
+            self,
+            maturity_list: list,
+            interval: str = 'daily',
+            time_sleep: int = 20):
         params = {
             'apikey': self.key,
             'function': 'TREASURY_YIELD',
@@ -179,24 +255,28 @@ class AlphaVantageReader():
         bond_yield_list = []
         for maturity in maturity_list:
             if maturity not in maturity_list:
-                raise ValueError(f'Maturity is invalid: should be one of these: {", ".join(allow_maturity_list)}')
+                raise ValueError(
+                    f'Maturity is invalid: should be one of these: {", ".join(allow_maturity_list)}')
             try:
                 params['maturity'] = maturity
                 res = requests.get(base_url, params=params)
                 bond_yield_df = pd.DataFrame(res.json()['data'])
-                bond_yield_df['value'] = bond_yield_df['value'].apply(lambda x: None if x == '.' else float(x))
-                bond_yield_df = bond_yield_df.rename(columns={'value': f'us_{maturity}'}) \
-                        .set_index('date').sort_index()
+                bond_yield_df['value'] = bond_yield_df['value'].apply(
+                    lambda x: None if x == '.' else float(x))
+                bond_yield_df = bond_yield_df.rename(
+                    columns={'value': f'us_{maturity}'}) .set_index('date').sort_index()
                 bond_yield_list.append(bond_yield_df)
             except Exception as e:
-                print(f'Maturity {maturity} is failed, the error message is: {e}')
+                logging.error(
+                    f'Maturity {maturity} is failed, the error message is: {e}')
             time.sleep(time_sleep)
         bond_yield_df = pd.concat(bond_yield_list, axis=1).sort_index()
         bond_yield_df.index = pd.to_datetime(bond_yield_df.index)
         return bond_yield_df
 
     # * Stock Fundamental Data
-    def get_company_data(self, function:str, ticker:str, mode:str = 'quarterly') -> pd.DataFrame:
+    def get_company_data(self, function: str, ticker: str,
+                         mode: str = 'quarterly') -> pd.DataFrame:
         """get a company report with a specific period
 
         Args:
@@ -209,13 +289,14 @@ class AlphaVantageReader():
         """
         child_url = f'function={function.upper()}&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
-        data = r.json() 
+        data = r.json()
         raw_df = data[mode + 'Reports']
-        df = pd.concat([pd.Series(x) for x in raw_df], axis = 1).T.set_index('fiscalDateEnding')
+        df = pd.concat([pd.Series(x) for x in raw_df],
+                       axis=1).T.set_index('fiscalDateEnding')
         df.insert(0, 'ticker', [ticker] * df.shape[0])
-        return df 
+        return df
 
-    def get_ticker_overview(self, ticker:str) -> pd.Series:
+    def get_ticker_overview(self, ticker: str) -> pd.Series:
         """get overview information about a specific company
 
         Args:
@@ -226,10 +307,10 @@ class AlphaVantageReader():
         """
         child_url = f'function=OVERVIEW&symbol={ticker}'
         r = requests.get(self.url_template + child_url)
-        data = r.json() 
+        data = r.json()
         return pd.Series(data)
 
-    def get_listed_companies(self, is_active:bool = False) -> pd.DataFrame:
+    def get_listed_companies(self, is_active: bool = False) -> pd.DataFrame:
         """get all listed tickers
 
         Args:
@@ -241,11 +322,14 @@ class AlphaVantageReader():
         child_url = 'function=LISTING_STATUS'
         df = self._load_and_decode(self.url_template + child_url)
         if is_active:
-            return df[df['status'] == 'active'].reset_index(drop = True) 
+            return df[df['status'] == 'active'].reset_index(drop=True)
         else:
-            return df 
+            return df
 
-    def get_earnings_calendar(self, ticker:str = None, horizon:str = '3month') -> pd.DataFrame:
+    def get_earnings_calendar(
+            self,
+            ticker: str = None,
+            horizon: str = '3month') -> pd.DataFrame:
         """get earnings calendar of every company
 
         Args:
@@ -264,9 +348,9 @@ class AlphaVantageReader():
             if selected.shape[0] == 0:
                 raise ValueError('Ticker does not exist')
             else:
-                return selected 
+                return selected
 
-    def get_earnings(self, ticker:str, mode:str = 'quarterly'):
+    def get_earnings(self, ticker: str, mode: str = 'quarterly'):
         """get historical earnings with surprises
 
         Args:
@@ -285,14 +369,23 @@ class AlphaVantageReader():
         if mode in ['quarterly', 'annual']:
             raw_array = data[f'{mode}Earnings']
         else:
-            raise ValueError('mode not found, can be either quarterly or annual')
+            raise ValueError(
+                'mode not found, can be either quarterly or annual')
 
-        df = pd.concat([pd.Series(q) for q in raw_array], axis = 1).T.set_index('fiscalDateEnding')
+        df = pd.concat([pd.Series(q) for q in raw_array],
+                       axis=1).T.set_index('fiscalDateEnding')
         return self._convert_float(df)
 
-
     # * Technical data
-    def get_moving_average(self, ma_mode:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
+    def get_moving_average(
+            self,
+            ma_mode: str,
+            ticker: str,
+            time_period: int,
+            interval: str = 'daily',
+            series_type: str = 'close',
+            datatype: str = 'json',
+            add_ticker_to_column_names=False) -> pd.DataFrame:
         """get a Moving Average indicator of a given stock ticker
 
         Args:
@@ -313,11 +406,19 @@ class AlphaVantageReader():
 
         # ? the request (if JSON) returns a list of two elements, the first one is metadata, and the other is the time series data
         res = pd.DataFrame(list(raw.values())[-1]).T
-        if add_ticker_to_column_names:  
+        if add_ticker_to_column_names:
             res.columns = ['_'.join([ticker, c]) for c in res.columns]
-        return res 
+        return res
 
-    def get_multiple_moving_average(self, ma_mode_list:str, ticker:str, time_period:int, interval:str = 'daily', series_type:str = 'close', datatype:str = 'json', add_ticker_to_column_names = False) -> pd.DataFrame:
+    def get_multiple_moving_average(
+            self,
+            ma_mode_list: str,
+            ticker: str,
+            time_period: int,
+            interval: str = 'daily',
+            series_type: str = 'close',
+            datatype: str = 'json',
+            add_ticker_to_column_names=False) -> pd.DataFrame:
         """get Moving Average indicators using get_moving_average
 
         Args:
@@ -334,13 +435,30 @@ class AlphaVantageReader():
         """
         ma_df_list = []
         for ma_mode in ma_mode_list:
-            ma_df = self.get_moving_average(ma_mode, ticker, time_period, interval, series_type, datatype, add_ticker_to_column_names)
-            ma_df_list.append(ma_df) 
-        
-        all_ma_df = pd.concat(ma_df_list, axis = 1) 
+            ma_df = self.get_moving_average(
+                ma_mode,
+                ticker,
+                time_period,
+                interval,
+                series_type,
+                datatype,
+                add_ticker_to_column_names)
+            ma_df_list.append(ma_df)
+
+        all_ma_df = pd.concat(ma_df_list, axis=1)
         return all_ma_df
 
-    def get_sto_rsi(self, ticker:str, interval:str, time_period:int, series_type: str = 'close', fastkperiod: int = 5, fastdperiod: int = 3, fastdmatype:str = 'SMA', datatype:str = 'json', add_ticker_to_column_names = False):
+    def get_sto_rsi(
+            self,
+            ticker: str,
+            interval: str,
+            time_period: int,
+            series_type: str = 'close',
+            fastkperiod: int = 5,
+            fastdperiod: int = 3,
+            fastdmatype: str = 'SMA',
+            datatype: str = 'json',
+            add_ticker_to_column_names=False):
         ma_type_mapper = {
             'SMA': '0',
             'EMA': '1',
@@ -354,18 +472,20 @@ class AlphaVantageReader():
         }
         if fastdmatype not in ma_type_mapper.keys():
             raise ValueError('unknown Moving Average type')
-        fastdmanum = ma_type_mapper[fastdmatype] 
+        fastdmanum = ma_type_mapper[fastdmatype]
         child_url = f'function=STOCHRSI&symbol={ticker}&interval={interval}&time_period={str(time_period)}&series_type={series_type}&fastkperiod={str(fastkperiod)}&fastdperiod={str(fastdperiod)}&fastdmatype={fastdmanum}&datatype={datatype}'
         r = requests.get(self.url_template + child_url)
         raw = r.json()
         # ? the request (if JSON) returns a list of two elements, the first one is metadata, and the other is the time series data
         res = pd.DataFrame(list(raw.values())[-1]).T
-        if add_ticker_to_column_names:  
+        if add_ticker_to_column_names:
             res.columns = ['_'.join([ticker, c]) for c in res.columns]
-        return res 
+        return res
 
 # TODO: Cryptocurrency Reader
 # ? Klines API (Binance, KuCoin)
+
+
 class CryptocurrencyReader():
     def __init__(self, source: str) -> None:
         self.source = source.lower()
@@ -373,7 +493,8 @@ class CryptocurrencyReader():
         if self.source in self.base_url_mapper:
             self.base_url = self.base_url_mapper[self.source]
         else:
-            raise ValueError('source does not exist, only support Binance and KuCoin')
+            raise ValueError(
+                'source does not exist, only support Binance and KuCoin')
 
     def _list_base_url_mapper(self):
         return {
@@ -381,7 +502,13 @@ class CryptocurrencyReader():
             'kucoin': 'https://api.kucoin.com/api/v1/market/candles'
         }
 
-    def get_price_data(self, ticker: str, interval: str, start: dt.date, end: dt.date, clean: bool = True) -> pd.DataFrame:
+    def get_price_data(
+            self,
+            ticker: str,
+            interval: str,
+            start: dt.date,
+            end: dt.date,
+            clean: bool = True) -> pd.DataFrame:
         """pull cryptocurrency price data from Klines API (Binance or KuCoin)
 
         Args:
@@ -395,39 +522,72 @@ class CryptocurrencyReader():
             pandas.DataFrame: a Pandas' time series dataframe contains prices (open, high, low, close) of a cryptocurrency of interest
         """
 
-        symbol_url = 'symbol={0}'.format(ticker) 
+        symbol_url = 'symbol={0}'.format(ticker)
         param_list = {
             'binance': [1000, 'interval', 'startTime', 'endTime'],
             'kucoin': [1, 'type', 'startAt', 'endAt']
         }
-        params = param_list[self.source] 
-        start_ts = int(time.mktime(start.timetuple()) * params[0]) 
-        end_ts = int(time.mktime(end.timetuple()) * params[0]) 
-        interval_url = f'{params[1]}={interval}' 
-        start_url = f'{params[2]}={start_ts}' 
+        params = param_list[self.source]
+        start_ts = int(time.mktime(start.timetuple()) * params[0])
+        end_ts = int(time.mktime(end.timetuple()) * params[0])
+        interval_url = f'{params[1]}={interval}'
+        start_url = f'{params[2]}={start_ts}'
         end_url = f'{params[3]}={end_ts}'
-        
-        full_url = '&'.join([self.base_url + '?' +  symbol_url, interval_url, start_url, end_url])
+
+        full_url = '&'.join(
+            [self.base_url + '?' + symbol_url, interval_url, start_url, end_url])
         raw = requests.get(full_url).json()
         if clean:
             if self.source == 'binance':
-                cols = ['raw_open_time', 'open', 'high', 'low', 'close', 'raw_close_time', 'volume', 'cnt_trades', 'taker_buy_base_volume', 'taker_buy_quote_volume', 'ignore1', 'ignore2']
-                df = pd.DataFrame(raw, columns = cols)
-                df['open_time'] = df['raw_open_time'].apply(lambda x: dt.date.fromtimestamp(float(x) / 1000))
-                df.drop(['raw_open_time', 'raw_close_time', 'ignore1', 'ignore2'], axis = 1, inplace = True)
+                cols = [
+                    'raw_open_time',
+                    'open',
+                    'high',
+                    'low',
+                    'close',
+                    'raw_close_time',
+                    'volume',
+                    'cnt_trades',
+                    'taker_buy_base_volume',
+                    'taker_buy_quote_volume',
+                    'ignore1',
+                    'ignore2']
+                df = pd.DataFrame(raw, columns=cols)
+                df['open_time'] = df['raw_open_time'].apply(
+                    lambda x: dt.date.fromtimestamp(float(x) / 1000))
+                df.drop(['raw_open_time', 'raw_close_time',
+                        'ignore1', 'ignore2'], axis=1, inplace=True)
                 df = df.set_index('open_time').sort_index()
             elif self.source == 'kucoin':
-                cols = ['raw_open_time', 'open', 'close', 'high', 'low', 'volume', 'turnover']
-                df = pd.DataFrame(raw['data'], columns = cols)
-                df['open_time'] = df['raw_open_time'].apply(lambda x: dt.date.fromtimestamp(float(x)))
+                cols = [
+                    'raw_open_time',
+                    'open',
+                    'close',
+                    'high',
+                    'low',
+                    'volume',
+                    'turnover']
+                df = pd.DataFrame(raw['data'], columns=cols)
+                df['open_time'] = df['raw_open_time'].apply(
+                    lambda x: dt.date.fromtimestamp(float(x)))
                 df = df.set_index('open_time').sort_index()
             else:
-                raise ValueError('source does not exist, only support Binance and KuCoin')
+                raise ValueError(
+                    'source does not exist, only support Binance and KuCoin')
         else:
             df = raw
         return df
 
-    def get_multiple_price_data(self, ticker_list: list, interval: str, start: dt.date, end: dt.date, ref_ticker:str = '', cols: list = ['close'], col_suffix: bool = False, clean: bool = True) -> pd.DataFrame:
+    def get_multiple_price_data(
+            self,
+            ticker_list: list,
+            interval: str,
+            start: dt.date,
+            end: dt.date,
+            ref_ticker: str = '',
+            cols: list = ['close'],
+            col_suffix: bool = False,
+            clean: bool = True) -> pd.DataFrame:
         """pull cryptocurrency price data from Klines API (Binance or KuCoin)
 
         Args:
@@ -446,7 +606,8 @@ class CryptocurrencyReader():
 
         # ? if pass multiple price types, force col_suffix to True
         if len(cols) > 1:
-            warnings.warn('if pass multiple price types, force col_suffix to True')
+            warnings.warn(
+                'if pass multiple price types, force col_suffix to True')
             col_suffix = True
 
         # ? prepare ticker list
@@ -454,12 +615,17 @@ class CryptocurrencyReader():
             ticker_list = [ticker + ref_ticker for ticker in ticker_list]
 
         all_df = pd.DataFrame()
-        for t in ticker_list: 
-            tmp_df = self.get_price_data(ticker = t, interval = interval, start = start, end = end, clean = clean)
+        for t in ticker_list:
+            tmp_df = self.get_price_data(
+                ticker=t,
+                interval=interval,
+                start=start,
+                end=end,
+                clean=clean)
             tmp_df = tmp_df[cols].astype(float)
             if col_suffix:
                 tmp_df.columns = ['_'.join([t, c]) for c in tmp_df.columns]
             else:
                 tmp_df.columns = [t]
-            all_df = pd.concat([all_df, tmp_df], axis = 1)
+            all_df = pd.concat([all_df, tmp_df], axis=1)
         return all_df

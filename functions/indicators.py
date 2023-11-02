@@ -1,21 +1,22 @@
 import pandas as pd
 import numpy as np
 
+
 class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
-    def _get_min_max(self, n:int = 14):
+    def _get_min_max(self, n: int = 14):
         """
         Get the minimum and maximum values for a given number of periods (n)
         """
         min_periods = n
         close = self.ohlcv_df['close']
-        roll_low = close.rolling(min_periods = min_periods, window = n).min()
-        roll_high = close.rolling(min_periods = min_periods, window = n).max()
+        roll_low = close.rolling(min_periods=min_periods, window=n).min()
+        roll_high = close.rolling(min_periods=min_periods, window=n).max()
         return roll_low, roll_high
-    
-    def RSI(self, n:int = 14):
+
+    def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
 
         Args:
@@ -33,7 +34,7 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi.fillna(0)
 
-    def stochasticRSI(self, n:int = 14, d:int = 3):
+    def stochasticRSI(self, n: int = 14, d: int = 3):
         """calculate stochastic RSI
 
         Args:
@@ -44,11 +45,12 @@ class TechnicalIndicators():
             pd.Series: a pandas series of stochastic RSI
         """
         rsi = self.RSI(n)
-        stoch_rsi_k = (rsi - rsi.rolling(n).min()) / (rsi.rolling(n).max() - rsi.rolling(n).min())
+        stoch_rsi_k = (rsi - rsi.rolling(n).min()) / \
+            (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
         return stoch_rsi_k, stoch_rsi_d
-    
-    def MACD(self, n_long:int = 26, n_short:int = 12):
+
+    def MACD(self, n_long: int = 26, n_short: int = 12):
         """calculate MACD
 
         Args:
@@ -59,13 +61,15 @@ class TechnicalIndicators():
             pd.Series: a pandas series of MACD
         """
         assert n_long > n_short, "Number of long period should be greater than number of short period."
-        ema_long = self.ohlcv_df['close'].ewm(span=n_long, min_periods=n_long).mean()
-        ema_short = self.ohlcv_df['close'].ewm(span=n_short, min_periods=n_short).mean()
+        ema_long = self.ohlcv_df['close'].ewm(
+            span=n_long, min_periods=n_long).mean()
+        ema_short = self.ohlcv_df['close'].ewm(
+            span=n_short, min_periods=n_short).mean()
         macd = (ema_short - ema_long).fillna(0)
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
         return macd, signal
-    
-    def bollinger_bands(self, n:int = 20, k:float = 2.0):
+
+    def bollinger_bands(self, n: int = 20, k: float = 2.0):
         """calculate the Bollinger Bands
 
         Args:
@@ -80,8 +84,8 @@ class TechnicalIndicators():
         upper_band = rolling_mean + (k * rolling_std)
         lower_band = rolling_mean - (k * rolling_std)
         return upper_band, lower_band
-    
-    def volume_change_pct(self, n:int = 10):
+
+    def volume_change_pct(self, n: int = 10):
         """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
 
         Args:
@@ -91,14 +95,17 @@ class TechnicalIndicators():
             pd.Series: a series of volume change percentage
         """
         volume = self.ohlcv_df[['volume']]
-        volume['average_previous_volume'] = volume.rolling(n).mean().shift(1).fillna(0)
-        pct_change = (volume['volume'] - volume['average_previous_volume']) / volume['average_previous_volume']
+        volume['average_previous_volume'] = volume.rolling(
+            n).mean().shift(1).fillna(0)
+        pct_change = (volume['volume'] - volume['average_previous_volume']
+                      ) / volume['average_previous_volume']
 
         # TODO: if pct change is inf, use max value found within n period
-        pct_change = pct_change.apply(lambda x: float('nan') if x == float('inf') else x)
+        pct_change = pct_change.apply(
+            lambda x: float('nan') if x == float('inf') else x)
         pct_change = pct_change.fillna(pct_change.rolling(n).max()).fillna(0)
         return pct_change
-    
+
     def overnight_return(self):
         """calculate overnight return which is the return from current day's open price compared to last day's close price
 
@@ -108,7 +115,7 @@ class TechnicalIndicators():
         prev_close = self.ohlcv_df['close'].shift(1)
         overnight_return = (self.ohlcv_df['open'] - prev_close) / prev_close
         return overnight_return
-    
+
     def candlestick_volume_ratio(self, mode):
         """calculate candlestick volume ratio which is the candlestick length (high - low or open - close, depend on choosing) divided by the respective volume. if such ratio significantly changes from the previous day (we may also need to consider the absolute volume), some trend reversion may occur
 
@@ -122,10 +129,12 @@ class TechnicalIndicators():
             i, j = 'high', 'low'
         elif mode == 'body':
             i, j = 'open', 'close'
-        ratio = self.ohlcv_df.apply(lambda x: 0 if x['volume'] == 0 else abs(x[i] -x[j]) / x['volume'], axis = 1)
+        ratio = self.ohlcv_df.apply(
+            lambda x: 0 if x['volume'] == 0 else abs(
+                x[i] - x[j]) / x['volume'], axis=1)
         return ratio
-    
-    def bollinger_ratio(self, n:int = 20, k:float = 2.0):
+
+    def bollinger_ratio(self, n: int = 20, k: float = 2.0):
         """calculate the Bollinger ratio which follows this equation:
             bollinger_ratio = (close price - bollinger's lower band) / (bollinger's upper band - bollinger's lower band)
 
@@ -137,13 +146,13 @@ class TechnicalIndicators():
         Returns:
             pd.Series: a pandas series of Bollinger ratio value
         """
-        upper_band, lower_band = self.bollinger_bands(n = n, k = k)
+        upper_band, lower_band = self.bollinger_bands(n=n, k=k)
         gap = self.ohlcv_df['close'] - lower_band
         width = upper_band - lower_band
         ratio = gap / width
         return ratio
-    
-    def AROON(self, n:int = 25):
+
+    def AROON(self, n: int = 25):
         """calculate AROON indicator
 
         Args:
@@ -152,13 +161,21 @@ class TechnicalIndicators():
         Returns:
             pd.Series: a series of AROON values
         """
-        high = self.ohlcv_df['high'].rolling(n+1).apply(np.argmax, raw = True).fillna(n)
-        low = self.ohlcv_df['low'].rolling(n+1).apply(np.argmin, raw = True).fillna(n)
+        high = self.ohlcv_df['high'].rolling(
+            n +
+            1).apply(
+            np.argmax,
+            raw=True).fillna(n)
+        low = self.ohlcv_df['low'].rolling(
+            n +
+            1).apply(
+            np.argmin,
+            raw=True).fillna(n)
         aroon_up = ((n - high) / n) * 100
         aroon_down = ((n - low) / n) * 100
         return aroon_up, aroon_down
-    
-    def stochastic_oscillator(self, n:int = 14, d:int = 3):
+
+    def stochastic_oscillator(self, n: int = 14, d: int = 3):
         """calculate stochastic oscillator value
 
         Args:
@@ -170,11 +187,11 @@ class TechnicalIndicators():
         """
         close = self.ohlcv_df['close']
         roll_low, roll_high = self._get_min_max(n)
-        
+
         # TODO: calculate %K
         k_percent = 100 * ((close - roll_low) / (roll_high - roll_low))
-        
+
         # TODO: calculate %D
         d_percent = k_percent.rolling(window=d).mean()
-        
+
         return k_percent, d_percent
