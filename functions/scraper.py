@@ -33,25 +33,32 @@ class SETScraper():
             driver.close()
         return tickers
 
-    def get_company_information(self, ticker_list: list, sleep: int = 1):
+    def get_company_information(self, ticker_list: list, sleep: int = 1, ignore_fail: bool = False):
         driver = self._start_driver()
         res = {}
 
         # iterate over ticker list
         for ticker in ticker_list:
-            url = f'https://www.set.or.th/th/market/product/stock/quote/{ticker.upper()}/company-profile/information'
-            driver.get(url)
-            raw = driver.page_source
+            try:
+                url = f'https://www.set.or.th/th/market/product/stock/quote/{ticker.upper()}/company-profile/information'
+                driver.get(url)
+                raw = driver.page_source
 
-            # ? if ticker's information is not found, i.e. the current url is different from the parsed url, return None
-            if url != driver.current_url:
-                res[ticker] = None
-                continue
+                # ? if ticker's information is not found, i.e. the current url is different from the parsed url, return None
+                if url != driver.current_url:
+                    res[ticker] = None
+                    continue
 
-            soup = BeautifulSoup(raw, features='lxml')
-            ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
-            res[ticker] = ticker_info
-            logging.info(f'{ticker} is completed')
+                soup = BeautifulSoup(raw, features='lxml')
+                ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
+                res[ticker] = ticker_info
+                logging.info(f'{ticker} is completed')
+            except Exception as e:
+                if ignore_fail:
+                    logging.info(f'Unable to scrape {ticker}')
+                if not ignore_fail:
+                    raise e
+
             time.sleep(sleep)
         driver.close()
         return res
