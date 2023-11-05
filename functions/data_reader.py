@@ -634,3 +634,6 @@ class CryptocurrencyReader():
 class BLSReader():
     def __init__(self) -> None:
         pass
+
+    def post_multiple_series(self):
+        pass
