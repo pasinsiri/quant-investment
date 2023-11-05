@@ -258,6 +258,7 @@ class AlphaVantageReader():
                 raise ValueError(
                     f'Maturity is invalid: should be one of these: {", ".join(allow_maturity_list)}')
             try:
+                params['maturity'] = maturity
                 res = requests.get(base_url, params=params)
                 bond_yield_df = pd.DataFrame(res.json()['data'])
                 bond_yield_df['value'] = bond_yield_df['value'].apply(
