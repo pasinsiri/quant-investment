@@ -629,3 +629,8 @@ class CryptocurrencyReader():
                 tmp_df.columns = [t]
             all_df = pd.concat([all_df, tmp_df], axis=1)
         return all_df
+
+# ? BLS API
+class BLSReader():
+    def __init__(self) -> None:
+        pass
