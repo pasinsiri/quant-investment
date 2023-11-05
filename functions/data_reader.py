@@ -24,14 +24,14 @@ def pull_stock_data(
         verbose: bool = False):
     for sector in sectors.keys():
         tickers = sectors[sector]
-        parent_dir = f'{export_dir}/{sector}'
+        parent_dir = os.path.join(export_dir, sector)
         if not os.path.exists(parent_dir):
             os.mkdir(parent_dir)
         for t in tickers:
             price_raw = web.DataReader(
                 t + '.BK', start=start, end=end, data_source=source)
             price_raw.insert(0, 'ticker', t)
-            parent_subdir = f'{parent_dir}/{t}'
+            parent_subdir = os.path.join(parent_dir, t)
             if not os.path.exists(parent_subdir):
                 os.mkdir(parent_subdir)
             for y in range(2015, 2022 + 1):
