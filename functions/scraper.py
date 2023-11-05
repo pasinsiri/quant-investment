@@ -6,9 +6,8 @@ import requests
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-
 class SETScraper():
-    def __init__(self, driver_type: str) -> None:
+    def __init__(self, driver_type:str) -> None:
         self.driver_type = driver_type
 
     def _start_driver(self):
@@ -22,13 +21,8 @@ class SETScraper():
             return webdriver.Safari()
         else:
             raise ValueError('driver_type is not specified')
-
-    def get_ticker_list(
-            self,
-            url: str,
-            tag_name: str,
-            tag_attrs: dict,
-            driver=None):
+        
+    def get_ticker_list(self, url: str, tag_name: str, tag_attrs: dict, driver = None):
         if driver is None:
             driver = self._start_driver()
         driver.get(url)
@@ -55,10 +49,16 @@ class SETScraper():
                     res[ticker] = None
                     continue
 
-            soup = BeautifulSoup(raw)
-            ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
-            res[ticker] = ticker_info
-            logging.info(f'{ticker} is completed')
+                soup = BeautifulSoup(raw, features='lxml')
+                ticker_info = soup.find_all('span', attrs={'class': 'mb-3'})[0].text.strip('\n').strip()
+                res[ticker] = ticker_info
+                logging.info(f'{ticker} is completed')
+            except Exception as e:
+                if ignore_fail:
+                    logging.info(f'Unable to scrape {ticker}')
+                if not ignore_fail:
+                    raise e
+
             time.sleep(sleep)
         driver.close()
         return res
