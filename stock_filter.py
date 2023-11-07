@@ -19,4 +19,3 @@ while True:
 
 res = {key: pd.read_parquet(path) for key, path in paths.items()}
 raw_df = pd.concat(res.values(), axis=0)
-raw_df.head()
