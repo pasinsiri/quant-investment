@@ -7,7 +7,7 @@ How to run:
     python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2023-08-01 --end 2023-09-20 --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
+    python stock_reader.py --start 2021-01-01 --end 2023-11-20 --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
