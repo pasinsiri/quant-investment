@@ -229,15 +229,17 @@ class IndicatorExecutor():
             res_df.insert(0, 'ticker', ticker_name)
         return res_df
 
-    def generate_multiple_indicators(self, obj, function_args_dict):
+    def generate_multiple_indicators(self, obj, function_args_dict, verbose: bool = False):
         all_result = {}
         for function_name, args in function_args_dict.items():
             if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
                 function_to_call = getattr(obj, function_name)
                 result = function_to_call(*args)
                 all_result[function_name] = result
-                print(f"Function '{function_name}' executed with args {args}")
+                if verbose:
+                    print(f"Function '{function_name}' executed with args {args}")
             else:
-                print(f"Function '{function_name}' does not exist or is not callable.")
+                if verbose:
+                    print(f"Function '{function_name}' does not exist or is not callable.")
 
         return all_result
