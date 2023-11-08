@@ -50,7 +50,7 @@ class TechnicalIndicators():
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
         return stoch_rsi_k, stoch_rsi_d
 
-    def MACD(self, n_long: int = 26, n_short: int = 12):
+    def MACD(self, n_long: int = 26, n_short: int = 12, concat_result: bool = False):
         """calculate MACD
 
         Args:
@@ -67,7 +67,13 @@ class TechnicalIndicators():
             span=n_short, min_periods=n_short).mean()
         macd = (ema_short - ema_long).fillna(0)
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
-        return macd, signal
+        if concat_result:
+            macd = macd.rename(columns={'close': 'macd'})
+            signal = signal.rename(columns={'close': 'macd_signal'})
+            res = pd.concat([macd, signal], axis=1)
+            return res
+        else:
+            return macd, signal
 
     def bollinger_bands(self, n: int = 20, k: float = 2.0):
         """calculate the Bollinger Bands
