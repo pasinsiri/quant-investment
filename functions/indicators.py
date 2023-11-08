@@ -211,8 +211,23 @@ class IndicatorExecutor():
     def __init__(self) -> None:
         pass
 
-    def combine_indicators(self, indicator_dict: dict):
-        df = pd.concat(indicator_dict)
+    def combine_indicators(self, indicator_dict: dict, ticker_name: str = None):
+        res_list = []
+        for k, v in indicator_dict.items():
+            if isinstance(v, pd.Series):
+                v = v.to_frame()
+                v.columns = [k]
+            elif not isinstance(v, pd.DataFrame):
+                print(type(v))
+                raise TypeError('only supports pandas Series and DataFrame')
+            res_list.append(v)
+
+        res_df = pd.concat(res_list, axis=1)
+
+        # * insert ticker name
+        if ticker_name:
+            res_df.insert(0, 'ticker', ticker_name)
+        return res_df
 
     def generate_multiple_indicators(self, obj, function_args_dict):
         all_result = {}
