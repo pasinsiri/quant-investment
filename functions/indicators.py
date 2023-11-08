@@ -200,3 +200,12 @@ class TechnicalIndicators():
 class IndicatorExecutor():
     def __init__(self) -> None:
         pass
+
+    def generate_multiple_indicators(self, obj, function_args_dict):
+        for function_name, args in function_args_dict.items():
+            if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
+                function_to_call = getattr(obj, function_name)
+                result = function_to_call(*args)
+                print(f"Function '{function_name}' executed with args {args} and result: {result}")
+            else:
+                print(f"Function '{function_name}' does not exist or is not callable.")
