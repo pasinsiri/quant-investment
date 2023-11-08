@@ -68,14 +68,13 @@ class TechnicalIndicators():
         macd = (ema_short - ema_long).fillna(0)
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
         if concat_result:
-            macd = macd.rename(columns={'close': 'macd'})
-            signal = signal.rename(columns={'close': 'macd_signal'})
             res = pd.concat([macd, signal], axis=1)
+            res.columns = ['macd', 'macd_signal']
             return res
         else:
             return macd, signal
 
-    def bollinger_bands(self, n: int = 20, k: float = 2.0):
+    def bollinger_bands(self, n: int = 20, k: float = 2.0, concat_result: bool = False):
         """calculate the Bollinger Bands
 
         Args:
@@ -89,7 +88,12 @@ class TechnicalIndicators():
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
         upper_band = rolling_mean + (k * rolling_std)
         lower_band = rolling_mean - (k * rolling_std)
-        return upper_band, lower_band
+        if concat_result:
+            res = pd.concat([upper_band, lower_band], axis=1)
+            res.columns = ['upper_bollinger_band', 'lower_bollinger_band']
+            return res
+        else:
+            return upper_band, lower_band
 
     def volume_change_pct(self, n: int = 10):
         """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
