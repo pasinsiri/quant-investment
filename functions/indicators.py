@@ -202,10 +202,14 @@ class IndicatorExecutor():
         pass
 
     def generate_multiple_indicators(self, obj, function_args_dict):
+        all_result = {}
         for function_name, args in function_args_dict.items():
             if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
                 function_to_call = getattr(obj, function_name)
                 result = function_to_call(*args)
-                print(f"Function '{function_name}' executed with args {args} and result: {result}")
+                all_result[function_name] = result
+                print(f"Function '{function_name}' executed with args {args}")
             else:
                 print(f"Function '{function_name}' does not exist or is not callable.")
+
+        return all_result
