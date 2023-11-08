@@ -195,6 +195,8 @@ class TechnicalIndicators():
         d_percent = k_percent.rolling(window=d).mean()
 
         return k_percent, d_percent
-    
-    def gen_indicators(self, indicator_dict: dict):
+
+
+class IndicatorExecutor():
+    def __init__(self) -> None:
         pass
