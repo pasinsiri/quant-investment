@@ -201,6 +201,9 @@ class IndicatorExecutor():
     def __init__(self) -> None:
         pass
 
+    def combine_indicators(self, indicator_dict: dict):
+        df = pd.concat(indicator_dict)
+
     def generate_multiple_indicators(self, obj, function_args_dict):
         all_result = {}
         for function_name, args in function_args_dict.items():
