@@ -229,7 +229,7 @@ class IndicatorExecutor():
             res_df.insert(0, 'ticker', ticker_name)
         return res_df
 
-    def generate_multiple_indicators(self, obj, function_args_dict, verbose: bool = False):
+    def generate_multiple_indicators(self, obj, function_args_dict, ticker_name: str = None, concat_result: bool = True, verbose: bool = False):
         all_result = {}
         for function_name, args in function_args_dict.items():
             if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
@@ -242,4 +242,7 @@ class IndicatorExecutor():
                 if verbose:
                     print(f"Function '{function_name}' does not exist or is not callable.")
 
-        return all_result
+        if concat_result:
+            return self.combine_indicators(all_result, ticker_name)
+        else:
+            return all_result
