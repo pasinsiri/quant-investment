@@ -33,7 +33,7 @@ raw_df = pd.concat(res.values(), axis=0)
 ticker_list = raw_df['ticker'].unique()
 executor = IndicatorExecutor()
 indicator_table_list = [
-    executor.generate_multiple_indicators(
+    executor.execute_object(
         TechnicalIndicators(raw_df[raw_df['ticker'] == ticker]), INDICATOR_PARAMS, ticker, True, False
     )
     for ticker in ticker_list
