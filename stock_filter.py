@@ -24,7 +24,7 @@ while True:
     paths[f'{y}{m}'] = ym_path
 
     start_date += relativedelta(months=1)
-    if start_date > target_date:
+    if start_date.year > target_date.year and start_date.month > target_date.month:
         break
 
 res = {key: pd.read_parquet(path) for key, path in paths.items()}
@@ -39,5 +39,9 @@ indicator_table_list = [
     for ticker in ticker_list
 ]
 
-indicator_df = pd.concat(indicator_table_list, axis=1)
-print(indicator_df.head())
+indicator_df = pd.concat(indicator_table_list, axis=0)
+print(indicator_df.tail(20))
+# print(indicator_df['ticker'].unique())
+latest_date = indicator_df.index.max()
+latest_df = indicator_df[indicator_df.index == latest_date]
+# print(latest_df.head())
