@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import datetime as dt
 from dateutil.relativedelta import relativedelta
 
 target_date = dt.date.today()
@@ -19,3 +20,5 @@ while True:
 
 res = {key: pd.read_parquet(path) for key, path in paths.items()}
 raw_df = pd.concat(res.values(), axis=0)
+
+print(raw_df.head(10))
