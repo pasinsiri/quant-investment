@@ -12,8 +12,8 @@ base_path = './data/prices/set/'
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
     'RSI': {'n': 14},
-    'bollinger_bands': (24, 1.87, True),
-    'candlestick_volume_ratio': ('body')
+    'bollinger_bands': {'n': 20, 'k': 2, 'concat_result': True},
+    'candlestick_volume_ratio': {'mode': 'body'}
 }
 
 paths = {}
@@ -30,4 +30,14 @@ while True:
 res = {key: pd.read_parquet(path) for key, path in paths.items()}
 raw_df = pd.concat(res.values(), axis=0)
 
-print(raw_df.head(10))
+ticker_list = raw_df['ticker'].unique()
+executor = IndicatorExecutor()
+indicator_table_list = [
+    executor.generate_multiple_indicators(
+        TechnicalIndicators(raw_df[raw_df['ticker'] == ticker]), INDICATOR_PARAMS, ticker, True, True
+    )
+    for ticker in ticker_list
+]
+
+indicator_df = pd.concat(indicator_table_list, axis=1)
+print(indicator_df.head())
