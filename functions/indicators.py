@@ -229,7 +229,7 @@ class IndicatorExecutor():
             res_df.insert(0, 'ticker', ticker_name)
         return res_df
 
-    def generate_multiple_indicators(self, obj, function_args_dict, ticker_name: str = None, concat_result: bool = True, verbose: bool = False):
+    def execute_object(self, obj, function_args_dict, ticker_name: str = None, concat_result: bool = True, verbose: bool = False):
         all_result = {}
         for function_name, kw_arguments in function_args_dict.items():
             if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
