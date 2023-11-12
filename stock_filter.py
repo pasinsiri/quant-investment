@@ -3,10 +3,18 @@ import pandas as pd
 import datetime as dt
 import os
 from dateutil.relativedelta import relativedelta
+from functions.indicators import TechnicalIndicators, IndicatorExecutor
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
 base_path = './data/prices/set/'
+
+# TODO: set parameters for technical indicators
+INDICATOR_PARAMS = {
+    'RSI': {'n': 14},
+    'bollinger_bands': (24, 1.87, True),
+    'candlestick_volume_ratio': ('body')
+}
 
 paths = {}
 res = {}
