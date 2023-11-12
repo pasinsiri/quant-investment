@@ -32,13 +32,9 @@ raw_df = pd.concat(res.values(), axis=0)
 
 ticker_list = raw_df['ticker'].unique()
 executor = IndicatorExecutor()
-indicator_table_list = [
-    executor.execute_object(
-        TechnicalIndicators(raw_df[raw_df['ticker'] == ticker]), INDICATOR_PARAMS, ticker, True, False
-    )
-    for ticker in ticker_list
-]
-
-indicator_df = pd.concat(indicator_table_list, axis=0)
+indicator_df = executor.generate_indicator_grid(
+    data=raw_df, indicator_params=INDICATOR_PARAMS, ticker_list=None, ticker_col_name='ticker'
+)
 latest_date = indicator_df.index.max()
 latest_df = indicator_df[indicator_df.index == latest_date]
+print(latest_df.tail(30))
