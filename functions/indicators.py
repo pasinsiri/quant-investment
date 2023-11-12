@@ -247,6 +247,16 @@ class IndicatorExecutor():
         else:
             return all_result
 
+    def generate_indicator_grid(self, data, indicator_params, ticker_list: list = None, ticker_col_name: str = 'ticker'):
+        if not ticker_list:
+            ticker_list = data['ticker'].unique()
 
-    def generate_indicator_grid(self):
-        pass
+        indicator_table_list = [
+            self.generate_multiple_indicators(
+                TechnicalIndicators(data[data[ticker_col_name] == ticker]), indicator_params, ticker, True, False
+            )
+            for ticker in ticker_list
+        ]
+
+        indicator_df = pd.concat(indicator_table_list, axis=0)
+        return indicator_df
