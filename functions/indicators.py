@@ -130,7 +130,7 @@ class TechnicalIndicators():
         """calculate candlestick volume ratio which is the candlestick length (high - low or open - close, depend on choosing) divided by the respective volume. if such ratio significantly changes from the previous day (we may also need to consider the absolute volume), some trend reversion may occur
 
         Args:
-            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick legnth is open - close.
+            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick length is open - close.
 
         Returns:
             pd.Series: a series of candlestick volume ratio
