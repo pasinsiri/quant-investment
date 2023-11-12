@@ -252,7 +252,7 @@ class IndicatorExecutor():
             ticker_list = data['ticker'].unique()
 
         indicator_table_list = [
-            self.generate_multiple_indicators(
+            self.execute_object(
                 TechnicalIndicators(data[data[ticker_col_name] == ticker]), indicator_params, ticker, True, False
             )
             for ticker in ticker_list
