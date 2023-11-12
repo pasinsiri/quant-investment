@@ -246,3 +246,7 @@ class IndicatorExecutor():
             return self.combine_indicators(all_result, ticker_name)
         else:
             return all_result
+
+
+    def generate_indicator_grid(self):
+        pass
