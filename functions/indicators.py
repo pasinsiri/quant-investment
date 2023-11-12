@@ -231,13 +231,13 @@ class IndicatorExecutor():
 
     def generate_multiple_indicators(self, obj, function_args_dict, ticker_name: str = None, concat_result: bool = True, verbose: bool = False):
         all_result = {}
-        for function_name, args in function_args_dict.items():
+        for function_name, kw_arguments in function_args_dict.items():
             if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
                 function_to_call = getattr(obj, function_name)
-                result = function_to_call(*args)
+                result = function_to_call(**kw_arguments)
                 all_result[function_name] = result
                 if verbose:
-                    print(f"Function '{function_name}' executed with args {args}")
+                    print(f"Function '{function_name}' executed with {kw_arguments}")
             else:
                 if verbose:
                     print(f"Function '{function_name}' does not exist or is not callable.")
