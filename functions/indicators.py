@@ -18,7 +18,7 @@ class TechnicalIndicators():
     def moving_average(self, col_name: str = 'close', n: int = 7):
         return self.ohlcv_df[col_name].rolling(n).mean()
     
-    def ma_pct_deviate(self, col_name: str = 'close', n: int = 7):
+    def ma_pct_deviation(self, col_name: str = 'close', n: int = 7):
         ma_series = self.moving_average(col_name, n)
         return (self.ohlcv_df[col_name] - ma_series) / ma_series
 
