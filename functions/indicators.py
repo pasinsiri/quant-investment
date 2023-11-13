@@ -16,7 +16,12 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def moving_average(self, col_name: str = 'close', n: int = 7):
-        return self.ohlcv_df[col_name].rolling(n).mean()
+        if isinstance(n, int):
+            return self.ohlcv_df[col_name].rolling(n).mean()
+        elif isinstance(n, list):
+            ma_res_list = [self.ohlcv_df[col_name].rolling(i).mean() for i in n]
+            ma_res_df = pd.concat(ma_res_list, axis=0)
+            ma_res_df.columns = [f'ma_{i}' for i in n]
     
     def ma_pct_deviation(self, col_name: str = 'close', n: int = 7):
         ma_series = self.moving_average(col_name, n)
