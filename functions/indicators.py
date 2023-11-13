@@ -6,14 +6,13 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
-    def _get_min_max(self, n: int = 14):
+    def _get_min_max(self, col_name: str = 'close', n: int = 14):
         """
         Get the minimum and maximum values for a given number of periods (n)
         """
-        min_periods = n
-        close = self.ohlcv_df['close']
-        roll_low = close.rolling(min_periods=min_periods, window=n).min()
-        roll_high = close.rolling(min_periods=min_periods, window=n).max()
+        close = self.ohlcv_df[col_name]
+        roll_low = close.rolling(n).min()
+        roll_high = close.rolling(n).max()
         return roll_low, roll_high
     
     def moving_average(self, n: int = 7):
