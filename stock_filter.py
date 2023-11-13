@@ -12,7 +12,7 @@ base_path = './data/prices/set/'
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
     'RSI': {'n': 14},
-    'bollinger_bands': {'n': 20, 'k': 2, 'concat_result': True},
+    'bollinger_ratio': {'n': 20, 'k': 2},
     'candlestick_volume_ratio': {'mode': 'body'}
 }
 
