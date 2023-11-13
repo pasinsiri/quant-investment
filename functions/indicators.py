@@ -22,10 +22,20 @@ class TechnicalIndicators():
             ma_res_list = [self.ohlcv_df[col_name].rolling(i).mean() for i in n]
             ma_res_df = pd.concat(ma_res_list, axis=0)
             ma_res_df.columns = [f'ma_{i}' for i in n]
+            return ma_res_df
     
     def ma_pct_deviation(self, col_name: str = 'close', n: int = 7):
-        ma_series = self.moving_average(col_name, n)
-        return (self.ohlcv_df[col_name] - ma_series) / ma_series
+        if isinstance(n, int):
+            ma_series = self.moving_average(col_name, n)
+            return (self.ohlcv_df[col_name] - ma_series) / ma_series
+        elif isinstance(n, list):
+            # * assert all elements are integers
+            assert all(isinstance(elem, int) for elem in n), 'All elements in the input list must be integers.'
+
+            res_list = [self.ma_pct_deviation(col_name, i) for i in n]
+            res_df = pd.concat(res_list, axis=0)
+            res_df.columns = [f'ma_{i}_pct_deviation' for i in n]
+            return res_df
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
