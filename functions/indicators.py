@@ -15,6 +15,9 @@ class TechnicalIndicators():
         roll_low = close.rolling(min_periods=min_periods, window=n).min()
         roll_high = close.rolling(min_periods=min_periods, window=n).max()
         return roll_low, roll_high
+    
+    def moving_average(self, n: int = 7):
+        pass
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
