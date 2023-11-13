@@ -40,4 +40,9 @@ latest_date = indicator_df.index.max()
 latest_df = indicator_df[indicator_df.index == latest_date]
 print(latest_df.tail(20))
 
-# TODO: Rule 1, 
+# TODO: Rule 1
+"""
+1) the close price must be above the 200-day moving average (this indicates a long-term uptrend)
+2) the close price must be below the 50-day moving average (this indicates a short-term downtrend)
+3) the bollinger_ratio must between -0.05 and 0.1 or 0.45 and 0.6
+"""
