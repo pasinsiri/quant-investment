@@ -38,4 +38,6 @@ indicator_df = executor.generate_indicator_grid(
 )
 latest_date = indicator_df.index.max()
 latest_df = indicator_df[indicator_df.index == latest_date]
-print(latest_df.tail(30))
+# print(latest_df.tail(30))
+
+# TODO: Rule 1, 
