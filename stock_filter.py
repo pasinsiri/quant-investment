@@ -12,7 +12,7 @@ base_path = './data/prices/set/'
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
     'RSI': {'n': 14},
-    'ma_pct_deviation': {'col_name': 'close', 'n': 20},
+    'moving_average_deviation': {'col_name': 'close', 'n': [20, 50, 200]},
     'bollinger_ratio': {'n': 20, 'k': 2},
     'candlestick_volume_ratio': {'mode': 'body'}
 }
@@ -38,6 +38,6 @@ indicator_df = executor.generate_indicator_grid(
 )
 latest_date = indicator_df.index.max()
 latest_df = indicator_df[indicator_df.index == latest_date]
-# print(latest_df.tail(30))
+print(latest_df.tail(20))
 
 # TODO: Rule 1, 
