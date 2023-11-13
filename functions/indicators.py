@@ -19,7 +19,8 @@ class TechnicalIndicators():
         return self.ohlcv_df[col_name].rolling(n).mean()
     
     def ma_pct_deviate(self, col_name: str = 'close', n: int = 7):
-        pass
+        ma_series = self.moving_average(col_name, n)
+        return (self.ohlcv_df[col_name] - ma_series) / ma_series
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
