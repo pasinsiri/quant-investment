@@ -1,9 +1,8 @@
-import numpy as np
 import pandas as pd
 import datetime as dt
 import os
 from dateutil.relativedelta import relativedelta
-from functions.indicators import TechnicalIndicators, IndicatorExecutor
+from functions.indicators import IndicatorExecutor
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
@@ -38,7 +37,6 @@ indicator_df = executor.generate_indicator_grid(
 )
 latest_date = indicator_df.index.max()
 latest_df = indicator_df[indicator_df.index == latest_date]
-# print(latest_df.tail(20))
 
 # TODO: Rule 1
 """
