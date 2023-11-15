@@ -44,15 +44,11 @@ latest_df = indicator_df[indicator_df.index == latest_date]
 2) the close price must be below the 50-day moving average (this indicates a short-term downtrend)
 3) the bollinger_ratio must between -0.05 and 0.1 or 0.45 and 0.6 (this indicates a buy signal)
 """
-# latest_df['is_long_term_uptrend'] = latest_df['ma_200_pct_deviation'] > 0.0
-# latest_df['is_short_term_downtrend'] = latest_df['ma_50_pct_deviation'] < 0.0
-# latest_df['is_buy_signal'] = (latest_df['bollinger_ratio'].between(-0.05, 0.1)) | \
-#                                 latest_df['bollinger_ratio'].between(-0.45, 0.6)
 
 filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
                         (latest_df['ma_50_pct_deviation'] < 0.0) &
-                        ((latest_df['bollinger_ratio'].between(-0.05, 0.1)) | \
-                            latest_df['bollinger_ratio'].between(-0.45, 0.6))]
+                        ((latest_df['bollinger_ratio'].between(-0.05, 0.2)) | \
+                            latest_df['bollinger_ratio'].between(0.45, 0.6))]
 
 print(f'Found {len(filtered_df)} tickers')
 print(filtered_df.head(30))
