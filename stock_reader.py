@@ -100,6 +100,15 @@ if TICKER_UNIVERSE.lower() == 'set':
     # * flatten sectors' values
     ticker_list = [t for v in sectors.values() for t in v]
 
+elif TICKER_UNIVERSE.lower() == 'mai':
+    with open('./keys/mai_ticker_list/2023-10-16.json', 'r') as f:
+        sectors = json.load(f)
+    # * flatten sectors' values
+    ticker_list = [t for v in sectors.values() for t in v]
+
+else:
+    raise ValueError('Ticker universe is not defined, must be either set or mai')
+
 logging.info(f'Getting data of {len(sectors)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
