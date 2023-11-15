@@ -29,6 +29,10 @@ parser.add_argument(
 parser.add_argument('--ann_factor', help='Annualization factor')
 parser.add_argument('--market_suffix', help='Market suffix')
 parser.add_argument(
+    '--ticker_universe',
+    help='Ticker universe, can be either set or mai'
+)
+parser.add_argument(
     '--export_path',
     help='Path to save file (data will be partitioned by ticker and then year and month in the given path)')
 parser.add_argument(
@@ -54,6 +58,7 @@ END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
 PERIOD = args.period or '1y'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
+TICKER_UNIVERSE = args.ticker_universe
 EXPORT_PATH = args.export_path
 START_WRITING = dt.datetime.strptime(
     args.start_writing,
@@ -79,6 +84,7 @@ logging.info(f'end_date is set to {END}.')
 logging.info(f'Period is set to {PERIOD}.')
 logging.info(f'Using annualization factor of {ANNUALIZATION_FACTOR}')
 logging.info(f'The market suffix is {MARKET_SUFFIX}')
+logging.info(f'The ticker universe is {TICKER_UNIVERSE}')
 logging.info(f'The result will be exported to {EXPORT_PATH}')
 logging.info(f'Retrieving data and saving since {START_WRITING}.')
 logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
