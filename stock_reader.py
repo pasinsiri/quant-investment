@@ -1,7 +1,7 @@
 """
 File: stock_reader.py
 Author: pasins
-Latest Update: 2023-09-04
+Latest Update: 2023-11-15
 How to run:
     From your command line:
     python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
