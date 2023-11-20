@@ -6,8 +6,9 @@ from functions.indicators import IndicatorExecutor
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
-base_path = './data/prices/set/'
-save = True
+market = 'set'
+base_path = os.path.join('data/prices', market)
+export_path = os.path.join('res/thai_stock_filtered', market)
 
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
