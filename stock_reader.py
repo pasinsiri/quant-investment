@@ -9,7 +9,7 @@ How to run:
         --export_path ./data/prices/set \
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2023-10-01 --end 2023-11-20 --ann_factor 252 --market_suffix .BK \
+    python stock_reader.py --start 2023-10-01 --end 2023-11-27 --ann_factor 252 --market_suffix .BK \
         --ticker_universe mai \
         --export_path ./data/prices/set \
         --auto_adjust --actions
