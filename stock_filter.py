@@ -8,6 +8,7 @@ target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
 market = 'set'
 base_path = os.path.join('data/prices', market)
+save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
 
 # TODO: set parameters for technical indicators
