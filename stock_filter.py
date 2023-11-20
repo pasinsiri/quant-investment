@@ -10,6 +10,7 @@ market = 'set'
 base_path = os.path.join('data/prices', market)
 save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
+curr_date = dt.date.today()
 
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
@@ -55,3 +56,6 @@ filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
 
 print(f'Found {len(filtered_df)} tickers')
 print(filtered_df.head(30))
+
+if save:
+    filtered_df.to_csv(os.path.join(export_path, dt.datetime.strftime(curr_date, '%Y-%m-%d') + '.csv'))
