@@ -6,7 +6,7 @@ from functions.indicators import IndicatorExecutor
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
-market = 'mai'
+market = 'set'
 base_path = os.path.join('data/prices', market)
 save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
