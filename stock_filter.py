@@ -6,7 +6,7 @@ from functions.indicators import IndicatorExecutor
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
-market = 'set'
+market = 'mai'
 base_path = os.path.join('data/prices', market)
 save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
@@ -54,7 +54,7 @@ filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
                         ((latest_df['bollinger_ratio'].between(-0.05, 0.2)) | \
                             latest_df['bollinger_ratio'].between(0.45, 0.6))]
 
-print(f'Found {len(filtered_df)} tickers')
+print(f'{market}: found {len(filtered_df)} tickers')
 print(filtered_df.head(30))
 
 if save:
