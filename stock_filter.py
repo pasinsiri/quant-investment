@@ -7,6 +7,7 @@ from functions.indicators import IndicatorExecutor
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
 base_path = './data/prices/set/'
+save = True
 
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
