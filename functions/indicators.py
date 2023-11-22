@@ -16,7 +16,7 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def pass_columns(self, col_list: list):
-        pass
+        return self.ohlcv_df[col_list]
     
     def moving_average(self, col_name: str = 'close', n: int = 7):
         if isinstance(n, int):
