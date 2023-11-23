@@ -1,13 +1,17 @@
 """
 File: stock_reader.py
 Author: pasins
-Latest Update: 2023-09-04
+Latest Update: 2023-11-15
 How to run:
     From your command line:
-    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
+    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK \
+        --ticker_universe set \
+        --export_path ./data/prices/set \
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2021-01-01 --end 2023-11-20 --ann_factor 252 --market_suffix .BK --export_path ./data/prices/set \
+    python stock_reader.py --start 2023-10-01 --end 2023-11-27 --ann_factor 252 --market_suffix .BK \
+        --ticker_universe mai \
+        --export_path ./data/prices/mai \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
@@ -28,6 +32,10 @@ parser.add_argument(
     default=None)
 parser.add_argument('--ann_factor', help='Annualization factor')
 parser.add_argument('--market_suffix', help='Market suffix')
+parser.add_argument(
+    '--ticker_universe',
+    help='Ticker universe, can be either set or mai'
+)
 parser.add_argument(
     '--export_path',
     help='Path to save file (data will be partitioned by ticker and then year and month in the given path)')
@@ -54,6 +62,7 @@ END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
 PERIOD = args.period or '1y'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
+TICKER_UNIVERSE = args.ticker_universe
 EXPORT_PATH = args.export_path
 START_WRITING = dt.datetime.strptime(
     args.start_writing,
@@ -79,17 +88,30 @@ logging.info(f'end_date is set to {END}.')
 logging.info(f'Period is set to {PERIOD}.')
 logging.info(f'Using annualization factor of {ANNUALIZATION_FACTOR}')
 logging.info(f'The market suffix is {MARKET_SUFFIX}')
+logging.info(f'The ticker universe is {TICKER_UNIVERSE}')
 logging.info(f'The result will be exported to {EXPORT_PATH}')
 logging.info(f'Retrieving data and saving since {START_WRITING}.')
 logging.info(f'auto_adjust is set to {AUTO_ADJUST}.')
 logging.info(f'actions is set to {ACTIONS}.')
 
-# TODO: load stock and sector data (currently using SET tickers)
-with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
-    sectors = json.load(f)
+# TODO: load stock and sector data
+if TICKER_UNIVERSE.lower() == 'set':
+    with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
+        sectors = json.load(f)
+    
+    # * remove set100 (the value is redundant with set_100_exclude_50)
+    unused = sectors.pop('set100')
+    # * flatten sectors' values
+    ticker_list = [t for v in sectors.values() for t in v]
 
-# * flatten sectors' values
-ticker_list = [t for v in sectors.values() for t in v]
+elif TICKER_UNIVERSE.lower() == 'mai':
+    with open('./keys/mai_ticker_list/2023-10-16.json', 'r') as f:
+        sectors = json.load(f)
+    # * flatten sectors' values
+    ticker_list = [t for v in sectors.values() for t in v]
+
+else:
+    raise ValueError('Ticker universe is not defined, must be either set or mai')
 
 logging.info(f'Getting data of {len(sectors)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)

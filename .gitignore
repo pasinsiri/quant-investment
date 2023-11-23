@@ -186,6 +186,9 @@ creds.json
 creds_meta.json
 *creds*
 
+# results
+res
+
 # FINNOMENA data
 */finno/*
 finno*.ipynb

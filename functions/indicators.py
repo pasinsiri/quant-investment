@@ -6,15 +6,43 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
-    def _get_min_max(self, n: int = 14):
+    def _get_min_max(self, col_name: str = 'close', n: int = 14):
         """
         Get the minimum and maximum values for a given number of periods (n)
         """
-        min_periods = n
-        close = self.ohlcv_df['close']
-        roll_low = close.rolling(min_periods=min_periods, window=n).min()
-        roll_high = close.rolling(min_periods=min_periods, window=n).max()
+        close = self.ohlcv_df[col_name]
+        roll_low = close.rolling(n).min()
+        roll_high = close.rolling(n).max()
         return roll_low, roll_high
+    
+    def pass_columns(self, col_list: list):
+        return self.ohlcv_df[col_list]
+    
+    def moving_average(self, col_name: str = 'close', n: int = 7):
+        if isinstance(n, int):
+            return self.ohlcv_df[col_name].rolling(n).mean()
+        elif isinstance(n, list):
+            ma_res_list = [self.ohlcv_df[col_name].rolling(i).mean() for i in n]
+            ma_res_df = pd.concat(ma_res_list, axis=0)
+            ma_res_df.columns = [f'ma_{i}' for i in n]
+            return ma_res_df
+    
+    def moving_average_deviation(self, col_name: str = 'close', n: int = 7):
+        if isinstance(n, int):
+            ma_series = self.moving_average(col_name, n)
+            return (self.ohlcv_df[col_name].iloc[n:] - ma_series) / ma_series
+        elif isinstance(n, list):
+            # * assert all elements are integers
+            assert all(isinstance(elem, int) for elem in n), 'All elements in the input list must be integers.'
+
+            ma_dev_df = pd.DataFrame()
+            for i in n:
+                ma_series = self.moving_average(col_name, i)
+                ma_dev_df[f'ma_{i}_pct_deviation'] = (self.ohlcv_df[col_name].iloc[i:] - ma_series) / ma_series
+            return ma_dev_df
+
+    def rolling_sd(self, n: int = 14):
+        pass           
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
@@ -50,7 +78,7 @@ class TechnicalIndicators():
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
         return stoch_rsi_k, stoch_rsi_d
 
-    def MACD(self, n_long: int = 26, n_short: int = 12):
+    def MACD(self, n_long: int = 26, n_short: int = 12, concat_result: bool = False):
         """calculate MACD
 
         Args:
@@ -67,9 +95,14 @@ class TechnicalIndicators():
             span=n_short, min_periods=n_short).mean()
         macd = (ema_short - ema_long).fillna(0)
         signal = macd.ewm(span=9, min_periods=9).mean().fillna(0)
-        return macd, signal
+        if concat_result:
+            res = pd.concat([macd, signal], axis=1)
+            res.columns = ['macd', 'macd_signal']
+            return res
+        else:
+            return macd, signal
 
-    def bollinger_bands(self, n: int = 20, k: float = 2.0):
+    def bollinger_bands(self, n: int = 20, k: float = 2.0, concat_result: bool = False):
         """calculate the Bollinger Bands
 
         Args:
@@ -83,7 +116,12 @@ class TechnicalIndicators():
         rolling_std = self.ohlcv_df['close'].rolling(window=n).std()
         upper_band = rolling_mean + (k * rolling_std)
         lower_band = rolling_mean - (k * rolling_std)
-        return upper_band, lower_band
+        if concat_result:
+            res = pd.concat([upper_band, lower_band], axis=1)
+            res.columns = ['upper_bollinger_band', 'lower_bollinger_band']
+            return res
+        else:
+            return upper_band, lower_band
 
     def volume_change_pct(self, n: int = 10):
         """calculate the volume change percentage of a series by dividing the current volume with the average volume of latest n periods. this indicator can signify a spike in current volume compared to previous ones
@@ -120,7 +158,7 @@ class TechnicalIndicators():
         """calculate candlestick volume ratio which is the candlestick length (high - low or open - close, depend on choosing) divided by the respective volume. if such ratio significantly changes from the previous day (we may also need to consider the absolute volume), some trend reversion may occur
 
         Args:
-            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick legnth is open - close.
+            mode (str): mode of candlestick length. if set to whisker, candlestick length is high - low. if set to body, candlestick length is open - close.
 
         Returns:
             pd.Series: a series of candlestick volume ratio
@@ -195,3 +233,58 @@ class TechnicalIndicators():
         d_percent = k_percent.rolling(window=d).mean()
 
         return k_percent, d_percent
+
+
+class IndicatorExecutor():
+    def __init__(self) -> None:
+        pass
+
+    def combine_indicators(self, indicator_dict: dict, ticker_name: str = None):
+        res_list = []
+        for k, v in indicator_dict.items():
+            if isinstance(v, pd.Series):
+                v = v.to_frame()
+                v.columns = [k]
+            elif not isinstance(v, pd.DataFrame):
+                print(type(v))
+                raise TypeError('only supports pandas Series and DataFrame')
+            res_list.append(v)
+
+        res_df = pd.concat(res_list, axis=1)
+
+        # * insert ticker name
+        if ticker_name:
+            res_df.insert(0, 'ticker', ticker_name)
+        return res_df
+
+    def execute_object(self, obj, function_args_dict, ticker_name: str = None, concat_result: bool = True, verbose: bool = False):
+        all_result = {}
+        for function_name, kw_arguments in function_args_dict.items():
+            if hasattr(obj, function_name) and callable(getattr(obj, function_name)):
+                function_to_call = getattr(obj, function_name)
+                result = function_to_call(**kw_arguments)
+                all_result[function_name] = result
+                if verbose:
+                    print(f"Function '{function_name}' executed with {kw_arguments}")
+            else:
+                if verbose:
+                    print(f"Function '{function_name}' does not exist or is not callable.")
+
+        if concat_result:
+            return self.combine_indicators(all_result, ticker_name)
+        else:
+            return all_result
+
+    def generate_indicator_grid(self, data, indicator_params, ticker_list: list = None, ticker_col_name: str = 'ticker'):
+        if not ticker_list:
+            ticker_list = data['ticker'].unique()
+
+        indicator_table_list = [
+            self.execute_object(
+                TechnicalIndicators(data[data[ticker_col_name] == ticker]), indicator_params, ticker, True, False
+            )
+            for ticker in ticker_list
+        ]
+
+        indicator_df = pd.concat(indicator_table_list, axis=0)
+        return indicator_df
