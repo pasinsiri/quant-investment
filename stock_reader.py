@@ -9,7 +9,7 @@ How to run:
         --export_path ./data/prices/set \
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2023-10-01 --end 2023-11-27 --ann_factor 252 --market_suffix .BK \
+    python stock_reader.py --start 2023-11-01 --end 2023-12-07 --ann_factor 252 --market_suffix .BK \
         --ticker_universe mai \
         --export_path ./data/prices/mai \
         --auto_adjust --actions
@@ -96,7 +96,7 @@ logging.info(f'actions is set to {ACTIONS}.')
 
 # TODO: load stock and sector data
 if TICKER_UNIVERSE.lower() == 'set':
-    with open('./keys/set_ticker_list/2023-10-16.json', 'r') as f:
+    with open('./content/thai/set_ticker_list/2023-10-16.json', 'r') as f:
         sectors = json.load(f)
     
     # * remove set100 (the value is redundant with set_100_exclude_50)
@@ -105,7 +105,7 @@ if TICKER_UNIVERSE.lower() == 'set':
     ticker_list = [t for v in sectors.values() for t in v]
 
 elif TICKER_UNIVERSE.lower() == 'mai':
-    with open('./keys/mai_ticker_list/2023-10-16.json', 'r') as f:
+    with open('./content/thai/mai_ticker_list/2023-10-16.json', 'r') as f:
         sectors = json.load(f)
     # * flatten sectors' values
     ticker_list = [t for v in sectors.values() for t in v]
