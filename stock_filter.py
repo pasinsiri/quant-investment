@@ -1,8 +1,13 @@
 import pandas as pd
 import datetime as dt
 import os
+import argparse
 from dateutil.relativedelta import relativedelta
 from functions.indicators import IndicatorExecutor
+
+# TODO: get arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--date', help='Target date', default=None)
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
