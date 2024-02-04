@@ -8,6 +8,9 @@ from functions.indicators import IndicatorExecutor
 # TODO: get arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--date', help='Target date', default=None)
+parser.add_argument('--market', help='Market (set or mai or all)', default='all')
+parser.add_argument('--basepath', help='Data source path')
+parser.add_argument('--export', help='Export path')
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
