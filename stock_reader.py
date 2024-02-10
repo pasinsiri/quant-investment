@@ -118,7 +118,7 @@ elif TICKER_UNIVERSE.lower() == 'all':
 else:
     raise ValueError('Ticker universe is not defined, must be either set, mai, or all')
 
-logging.info(f'Getting data of {len(sectors)} tickers')
+logging.info(f'Getting data of {len(ticker_list)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
 yfr.save(EXPORT_PATH, start_writing_date=START_WRITING)
