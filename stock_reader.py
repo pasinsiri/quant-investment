@@ -110,6 +110,9 @@ elif TICKER_UNIVERSE.lower() == 'mai':
     # * flatten sectors' values
     ticker_list = [t for v in sectors.values() for t in v]
 
+elif TICKER_UNIVERSE.lower() == 'all':
+    pass
+
 else:
     raise ValueError('Ticker universe is not defined, must be either set, mai, or all')
 
