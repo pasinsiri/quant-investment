@@ -1,12 +1,21 @@
 import pandas as pd
 import datetime as dt
 import os
+import argparse
 from dateutil.relativedelta import relativedelta
 from functions.indicators import IndicatorExecutor
 
+# TODO: get arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--date', help='Target date', default=None)
+parser.add_argument('--market', help='Market (set or mai or all_thai)', default='all_thai')
+parser.add_argument('--basepath', help='Data source path')
+parser.add_argument('--export', help='Export path')
+args = parser.parse_args()
+
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
-market = 'set'
+market = args.market
 base_path = os.path.join('data/prices', market)
 save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
@@ -53,6 +62,8 @@ filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
                         (latest_df['ma_50_pct_deviation'] < 0.0) &
                         ((latest_df['bollinger_ratio'].between(-0.05, 0.2)) | \
                             latest_df['bollinger_ratio'].between(0.45, 0.6))]
+# filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
+#                         (latest_df['ma_50_pct_deviation'] < 0.0)]
 
 print(f'{market}: found {len(filtered_df)} tickers')
 print(filtered_df.head(30))
