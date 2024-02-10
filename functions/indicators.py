@@ -6,6 +6,9 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
+    def parse_col(self):
+        pass
+
     def _get_min_max(self, col_name: str = 'close', n: int = 14):
         """
         Get the minimum and maximum values for a given number of periods (n)
