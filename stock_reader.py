@@ -10,8 +10,8 @@ How to run:
         --start_writing 1900-01-01 --auto_adjust --actions
     Or:
     python stock_reader.py --start 2014-01-01 --end 2024-02-10 --ann_factor 252 --market_suffix .BK \
-        --ticker_universe set \
-        --export_path ./data/prices/set \
+        --ticker_universe all \
+        --export_path ./data/prices/thai \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
@@ -111,7 +111,7 @@ elif TICKER_UNIVERSE.lower() == 'mai':
     ticker_list = [t for v in sectors.values() for t in v]
 
 else:
-    raise ValueError('Ticker universe is not defined, must be either set or mai')
+    raise ValueError('Ticker universe is not defined, must be either set, mai, or all')
 
 logging.info(f'Getting data of {len(sectors)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
