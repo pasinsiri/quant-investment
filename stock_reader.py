@@ -11,13 +11,14 @@ How to run:
     Or:
     python stock_reader.py --start 2014-01-01 --end 2024-02-10 --ann_factor 252 --market_suffix .BK \
         --ticker_universe all \
-        --export_path ./data/prices/thai \
+        --export_path ./data/prices/all_thai \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
 """
 
 import json
 import datetime as dt
+import pandas as pd
 import logging
 import argparse
 from functions.data_reader import YFinanceReader
@@ -111,7 +112,8 @@ elif TICKER_UNIVERSE.lower() == 'mai':
     ticker_list = [t for v in sectors.values() for t in v]
 
 elif TICKER_UNIVERSE.lower() == 'all':
-    pass
+    ticker_df = pd.read_csv('./content/thai/ticker_list/thai_ticker.csv')
+    ticker_list = ticker_df['ticker']
 
 else:
     raise ValueError('Ticker universe is not defined, must be either set, mai, or all')
