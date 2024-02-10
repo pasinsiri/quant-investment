@@ -6,7 +6,7 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
-    def parse_col(self, col_list: list):
+    def parse_cols(self, col_list: list):
         return self.ohlcv_df[col_list]
 
     def _get_min_max(self, col_name: str = 'close', n: int = 14):
