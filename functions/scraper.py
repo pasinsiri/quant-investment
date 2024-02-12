@@ -82,7 +82,12 @@ class SiamchartScraper():
         if return_type == 'json':
             info_dict = {}
             for ticker, info in zip(ticker_list, info_list_raw):
-                pass
+                if len(info) == 0:
+                    info_dict[ticker] = []
+                    continue
+                info = info[0].strip(r'\[\]').split(',')
+                info_dict[ticker] = info
+            return info_dict
 
         elif return_type == 'table':
             info_list = []
