@@ -121,6 +121,4 @@ else:
 logging.info(f'Getting data of {len(ticker_list)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
-print(yfr.price_df.head())
-print(yfr.price_df.shape)
 yfr.save(EXPORT_PATH, start_writing_date=START_WRITING, verbose=True)
