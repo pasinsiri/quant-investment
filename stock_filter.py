@@ -77,9 +77,12 @@ if show_tag:
     tag_df = pd.read_csv(os.path.join('content/thai/ticker_list', 'thai_ticker.csv'))
     filtered_df = tag_df.merge(filtered_df, on='ticker', how='right')
 
-print(f'{market}: found {len(filtered_df)} tickers')
-print('--- EXAMPLE TICKERS ---')
-print(filtered_df.head(30))
+n_ticker = len(filtered_df)
+n_show = 20
+print(f'{market}: found {n_ticker} tickers')
+if n_ticker > n_show:
+    print('--- EXAMPLE TICKERS ---')
+print(filtered_df.head(n_show))
 
 if save:
     filtered_df.to_csv(os.path.join(export_path, dt.datetime.strftime(curr_date, '%Y-%m-%d') + '.csv'))
