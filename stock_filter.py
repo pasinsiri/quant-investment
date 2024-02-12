@@ -67,6 +67,7 @@ filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
 #                         (latest_df['ma_50_pct_deviation'] < 0.0)]
 
 print(f'{market}: found {len(filtered_df)} tickers')
+print('--- EXAMPLE TICKERS ---')
 print(filtered_df.head(30))
 
 if save:
