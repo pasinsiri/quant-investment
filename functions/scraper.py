@@ -80,14 +80,16 @@ class SiamchartScraper():
         info_list_raw = [re.findall(INFO_PATTERN, link.text) for link in links]
 
         if return_type == 'json':
-            info_dict = {}
+            info_list = []
             for ticker, info in zip(ticker_list, info_list_raw):
+                info_dict = {'ticker': ticker}
                 if len(info) == 0:
-                    info_dict[ticker] = []
+                    info_dict['tag'] = None
                     continue
                 info = info[0].strip(r'\[\]').split(',')
-                info_dict[ticker] = info
-            return info_dict
+                info_dict['tag'] = info
+                info_list.append(info_dict)
+            return info_list
 
         elif return_type == 'table':
             info_list = []
