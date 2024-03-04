@@ -9,7 +9,7 @@ How to run:
         --export_path ./data/prices/all_thai \
         --auto_adjust --actions
     Or:
-    python stock_reader.py --start 2020-01-01 --end 2022-02-28 --ann_factor 252 --market_suffix .BK \
+    python stock_reader.py --start 2014-01-01 --end 2023-03-04 --ann_factor 252 --market_suffix .BK \
         --ticker_universe all \
         --export_path ./data/prices/all_thai \
         --auto_adjust --actions
@@ -60,7 +60,7 @@ parser.add_argument('--log', default='warning')
 args = parser.parse_args()
 START = dt.datetime.strptime(args.start, '%Y-%m-%d') if args.start else None
 END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
-PERIOD = args.period or '5y'
+PERIOD = args.period or 'max'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
 TICKER_UNIVERSE = args.ticker_universe
