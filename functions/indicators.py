@@ -65,7 +65,7 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi.fillna(0)
 
-    def stochasticRSI(self, n: int = 14, d: int = 3):
+    def stochasticRSI(self, n: int = 14, d: int = 3, concat_result: bool = True):
         """calculate stochastic RSI
 
         Args:
@@ -79,7 +79,10 @@ class TechnicalIndicators():
         stoch_rsi_k = (rsi - rsi.rolling(n).min()) / \
             (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
-        return stoch_rsi_k, stoch_rsi_d
+        if concat_result:
+            return pd.DataFrame([stoch_rsi_k, stoch_rsi_d], columns=['stoch_rsi_k' ,'stoch_rsi_d'])
+        else:
+            return stoch_rsi_k, stoch_rsi_d
 
     def MACD(self, n_long: int = 26, n_short: int = 12, concat_result: bool = False):
         """calculate MACD
