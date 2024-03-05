@@ -80,7 +80,9 @@ class TechnicalIndicators():
             (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
         if concat_result:
-            return pd.DataFrame([stoch_rsi_k, stoch_rsi_d], columns=['stoch_rsi_k' ,'stoch_rsi_d'])
+            res = pd.concat([stoch_rsi_k, stoch_rsi_d], axis=1)
+            res.columns = ['stoch_rsi_k', 'stoch_rsi_d']
+            return res
         else:
             return stoch_rsi_k, stoch_rsi_d
 
