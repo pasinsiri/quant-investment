@@ -29,7 +29,7 @@ curr_date = dt.date.today()
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
     'parse_cols': {'col_list': ['close']},
-    'RSI': {'n': 14},
+    # 'RSI': {'n': 14},
     'moving_average_deviation': {'col_name': 'close', 'n': [20, 200]},
     'bollinger_ratio': {'n': 20, 'k': 2},
     'candlestick_volume_ratio': {'mode': 'body'}
