@@ -30,7 +30,7 @@ curr_date = dt.date.today()
 INDICATOR_PARAMS = {
     'parse_cols': {'col_list': ['close']},
     'RSI': {'n': 14},
-    'moving_average_deviation': {'col_name': 'close', 'n': [20, 50, 200]},
+    'moving_average_deviation': {'col_name': 'close', 'n': [20, 200]},
     'bollinger_ratio': {'n': 20, 'k': 2},
     'candlestick_volume_ratio': {'mode': 'body'}
 }
@@ -78,7 +78,7 @@ if show_tag:
     filtered_df = tag_df.merge(filtered_df, on='ticker', how='right')
 
 n_ticker = len(filtered_df)
-n_show = 20
+n_show = 30
 print(f'{market}: found {n_ticker} tickers')
 if n_ticker > n_show:
     print('--- EXAMPLE TICKERS ---')
