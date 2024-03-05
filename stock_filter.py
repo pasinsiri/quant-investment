@@ -65,7 +65,7 @@ latest_df = indicator_df[indicator_df.index == latest_date]
 """
 
 filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
-                        (latest_df['ma_50_pct_deviation'] < 0.0) &
+                        (latest_df['ma_20_pct_deviation'] < 0.0) &
                         ((latest_df['bollinger_ratio'].between(-0.05, 0.2)) | \
                             latest_df['bollinger_ratio'].between(0.45, 0.6))]
 # filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
