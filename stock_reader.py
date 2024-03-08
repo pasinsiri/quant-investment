@@ -10,7 +10,7 @@ How to run:
         --auto_adjust --actions
     Or:
     python stock_reader.py --start 2014-01-01 --end 2023-03-04 --ann_factor 252 --market_suffix .BK \
-        --ticker_universe all \
+        --ticker_universe 10y \
         --export_path ./data/prices/all_thai \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
