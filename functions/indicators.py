@@ -28,6 +28,15 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def moving_average(self, col_name: str = 'close', n: int = 7):
+        """Calculte the simple moving average of a specified column in the dataframe
+
+        Args:
+            col_name (str, optional): column name. Defaults to 'close'.
+            n (int, optional): MA trailing number. Defaults to 7.
+
+        Returns:
+            pd.Series: a series of moving average values
+        """
         if isinstance(n, int):
             return self.ohlcv_df[col_name].rolling(n).mean()
         elif isinstance(n, list):
