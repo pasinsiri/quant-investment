@@ -70,8 +70,10 @@ class TechnicalIndicators():
                 ma_dev_df[f'ma_{i}_pct_deviation'] = (self.ohlcv_df[col_name].iloc[i:] - ma_series) / ma_series
             return ma_dev_df
 
-    def rolling_sd(self, n: int = 14):
-        pass           
+    def rolling_sd(self, col_name: str = 'close', n: int = 14):
+        if isinstance(n, int):
+            sd_series = self.ohlcv_df[col_name]
+        pass
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
