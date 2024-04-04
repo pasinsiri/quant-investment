@@ -55,7 +55,7 @@ class TechnicalIndicators():
             n (int, optional): MA trailing number. Defaults to 7.
 
         Returns:
-            _type_: _description_
+            pd.Series: a series of moving average deviation
         """
         if isinstance(n, int):
             ma_series = self.moving_average(col_name, n)
