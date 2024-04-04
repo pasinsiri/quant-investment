@@ -46,11 +46,13 @@ class TechnicalIndicators():
             return ma_res_df
     
     def moving_average_deviation(self, col_name: str = 'close', n: int = 7):
-        """A 
+        """Calculate the moving average deviation. 
+        Using the given column name, the function will calculate the MA using the values from that column.
+        Then it will calculate the MA deviation using the formula: MA deviation = original value - MA value
 
         Args:
-            col_name (str, optional): _description_. Defaults to 'close'.
-            n (int, optional): _description_. Defaults to 7.
+            col_name (str, optional): column name. Defaults to 'close'.
+            n (int, optional): MA trailing number. Defaults to 7.
 
         Returns:
             _type_: _description_
