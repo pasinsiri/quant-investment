@@ -28,7 +28,7 @@ class TechnicalIndicators():
         return roll_low, roll_high
     
     def moving_average(self, col_name: str = 'close', n: int = 7):
-        """Calculte the simple moving average of a specified column in the dataframe
+        """Calculate the simple moving average of a specified column in the dataframe
 
         Args:
             col_name (str, optional): column name. Defaults to 'close'.
@@ -46,6 +46,15 @@ class TechnicalIndicators():
             return ma_res_df
     
     def moving_average_deviation(self, col_name: str = 'close', n: int = 7):
+        """A 
+
+        Args:
+            col_name (str, optional): _description_. Defaults to 'close'.
+            n (int, optional): _description_. Defaults to 7.
+
+        Returns:
+            _type_: _description_
+        """
         if isinstance(n, int):
             ma_series = self.moving_average(col_name, n)
             return (self.ohlcv_df[col_name].iloc[n:] - ma_series) / ma_series
