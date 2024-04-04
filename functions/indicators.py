@@ -72,7 +72,8 @@ class TechnicalIndicators():
 
     def rolling_sd(self, col_name: str = 'close', n: int = 14):
         if isinstance(n, int):
-            sd_series = self.ohlcv_df[col_name]
+            sd_series = self.ohlcv_df[col_name].rolling(n).std()
+        return sd_series
         pass
 
     def RSI(self, n: int = 14):
