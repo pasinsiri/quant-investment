@@ -7,6 +7,15 @@ class TechnicalIndicators():
         self.ohlcv_df = ohlcv_df
 
     def parse_cols(self, col_list: list):
+        """Parse the columns from the raw dataset to the final dataset.
+        For example, if you want close price in the final dataset, use this function
+
+        Args:
+            col_list (list): a list of required columns in the OHLCV dataset
+
+        Returns:
+            pd.DataFrame: a subset of the OHLCV dataframe with the selected columns
+        """
         return self.ohlcv_df[col_list]
 
     def _get_min_max(self, col_name: str = 'close', n: int = 14):
