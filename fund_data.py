@@ -24,3 +24,11 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
 
     if res.status_code != 200:
         print(f'{fund_code} failed with status code {res.status_code}')
+        failed_code.append(fund_code)
+        c += 1
+        continue
+
+    if res.json()['data']['navs'] == []:
+        print(f'{fund_code} (fund_id = {fund_id}) has no data')
+        c += 1
+        continue
