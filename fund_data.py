@@ -32,3 +32,9 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
         print(f'{fund_code} (fund_id = {fund_id}) has no data')
         c += 1
         continue
+
+    raw_df = pd.DataFrame(res.json()['data']['navs']) \
+                .rename(columns={'value': 'unit_price', 'amount': 'amount'})
+    raw_df['date'] = pd.to_datetime(raw_df['date']).dt.date
+    raw_df['fund_code'] = fund_code
+    raw_df['fund_id'] = fund_id
