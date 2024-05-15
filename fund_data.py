@@ -1,6 +1,6 @@
-import numpy as np
 import pandas as pd
 import requests
+import time
 from functions.finno_api import FinnoFund
 
 ff = FinnoFund()
@@ -38,3 +38,11 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
     raw_df['date'] = pd.to_datetime(raw_df['date']).dt.date
     raw_df['fund_code'] = fund_code
     raw_df['fund_id'] = fund_id
+
+    nav_df = pd.concat([nav_df, raw_df], axis=0)
+    c += 1
+    if c % 200 == 0:
+        print(f'{c}/{n_funds} completed')
+    time.sleep(1.5)
+
+print('Completed')
