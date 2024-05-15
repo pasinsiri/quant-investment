@@ -22,7 +22,7 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
         continue
 
     url = f'{base_url}/funds/{fund_id}/nav/q?range=MAX'
-    res = requests.get(url)
+    res = requests.get(url, timeout=1)
 
     if res.status_code != 200:
         print(f'{fund_code} failed with status code {res.status_code}')
