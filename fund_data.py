@@ -9,7 +9,8 @@ ff = FinnoFund()
 fund_data = ff.get_fund_data(filter_sec_active=True)
 
 def save_data(nav_df):
-    pass
+    date_str = dt.datetime.strftime(dt.date.today(), '%Y%m%d')
+    nav_df.to_csv(f'res/fund_data/fund_nav_{date_str}.csv')
 
 success_code = []
 
@@ -53,7 +54,8 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
 # * save success and failed fund codes
 
 # * save data
-date_str = dt.datetime.strftime(dt.date.today(), '%Y%m%d')
-nav_df.to_csv(f'res/fund_data/fund_nav_{date_str}.csv')
+# date_str = dt.datetime.strftime(dt.date.today(), '%Y%m%d')
+# nav_df.to_csv(f'res/fund_data/fund_nav_{date_str}.csv')
+save_data(nav_df)
 
 print('Completed')
