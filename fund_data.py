@@ -50,6 +50,7 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
 # * save success and failed fund codes
 
 # * save data
-nav_df.to_csv('res/fund_data/fund_nav_20240515')
+date_str = dt.datetime.strftime(dt.date.today(), '%Y%m%d')
+nav_df.to_csv(f'res/fund_data/fund_nav_{date_str}.csv')
 
 print('Completed')
