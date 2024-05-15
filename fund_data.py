@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 import time
+import json
+import datetime as dt
 from functions.finno_api import FinnoFund
 
 ff = FinnoFund()
@@ -41,8 +43,13 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
 
     nav_df = pd.concat([nav_df, raw_df], axis=0)
     c += 1
-    if c % 200 == 0:
+    if c % 50 == 0:
         print(f'{c}/{n_funds} completed')
     time.sleep(1.5)
+
+# * save success and failed fund codes
+
+# * save data
+nav_df.to_csv('res/fund_data/fund_nav_20240515')
 
 print('Completed')
