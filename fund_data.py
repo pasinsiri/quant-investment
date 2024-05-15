@@ -8,6 +8,9 @@ from functions.finno_api import FinnoFund
 ff = FinnoFund()
 fund_data = ff.get_fund_data(filter_sec_active=True)
 
+def save_data(nav_df):
+    pass
+
 success_code = []
 
 # * iterate
