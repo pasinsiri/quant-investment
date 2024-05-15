@@ -1,0 +1,6106 @@
+[
+    {
+        "ticker": "24CS",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "2S",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "BAT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "7UP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "A",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "A5",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "AAI",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "AAV",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "ABM",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "ACAP",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "ACC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "ACE",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "ACG",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "ADB",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "ADD",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "ADVANC",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "AEONTS",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "AF",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "AFC",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "AGE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "AH",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "AHC",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "AI",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "AIE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "AIRA",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "AIT",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "AJ",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "AJA",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "AKP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "AKR",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "ALL",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "ALLA",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "ALPHAX",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "ALT",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "ALUCON",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "AMA",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "AMANAH",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "AMARC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "AMARIN",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "AMATA",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "AMATAV",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "AMC",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "AMR",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "ANAN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "AOT",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "AP",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "APCO",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "APCS",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "APEX",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "APP",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "APURE",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "AQ",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "AQUA",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "ARIN",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "ARIP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "ARROW",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "AS",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "ASAP",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "ASEFA",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "ASIA",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "ASIAN",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "ASIMAR",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "ASK",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "ASN",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "ASP",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "ASW",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "ATP30",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "AU",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "AUCT",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "AURA",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "AWC",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "AYUD",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "B",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "B52",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "BA",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "BAFS",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "BAM",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BANPU",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BAY",
+        "tag": [
+            "FINCIAL",
+            "BANK"
+        ]
+    },
+    {
+        "ticker": "BBGI",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "BBIK",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "BBL",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "BC",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "BCH",
+        "tag": [
+            "SERVICE",
+            "HELTH",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "BCP",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BCPG",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "BCT",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "BDMS",
+        "tag": [
+            "SERVICE",
+            "HELTH",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BE8",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "BEAUTY",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "BEC",
+        "tag": [
+            "SERVICE",
+            "MEDIA",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BEM",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BEYOND",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "BGC",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "BGRIM",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BGT",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "BH",
+        "tag": [
+            "SERVICE",
+            "HELTH",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BIG",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "BIOTEC",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "BIS",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "BIZ",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "BJC",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "BJCHI",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "BKD",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "BKI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "BLA",
+        "tag": [
+            "FINCIAL",
+            "INSUR",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "BLAND",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "BLESS",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "BLISS",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "BM",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "BOL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "BPP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "BR",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "BRI",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "BROCK",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "BROOK",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "BRR",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "BSBM",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "BSM",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "BTG",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "BTNC",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "BTS",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "BTW",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "BUI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "BVG",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "BWG",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "BYD",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CAZ",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "CBG",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CCET",
+        "tag": [
+            "TECH",
+            "ETRON"
+        ]
+    },
+    {
+        "ticker": "CCP",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "CEN",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "CENTEL",
+        "tag": [
+            "SERVICE",
+            "TOURISM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CEYE",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "CFRESH",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CGD",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "CGH",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "CH",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CHARAN",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "CHASE",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "CHAYO",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "CHEWA",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "CHG",
+        "tag": [
+            "SERVICE",
+            "HELTH",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "CHIC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "CHO",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "CHOTI",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CHOW",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "CI",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "CIG",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "CIMBT",
+        "tag": [
+            "FINCIAL",
+            "BANK"
+        ]
+    },
+    {
+        "ticker": "CITY",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "CIVIL",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "CK",
+        "tag": [
+            "PROPCON",
+            "CONS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CKP",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CM",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CMAN",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "CMC",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "CMO",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "CMR",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "CNT",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "COLOR",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "COM7",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "COMAN",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "COTTO",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "CPALL",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CPANEL",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "CPF",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "CPH",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "CPI",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CPL",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "CPN",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CPR",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "CPT",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "CPW",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "CRANE",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "CRC",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "CRD",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "CSC",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "CSP",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "CSR",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "CSS",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "CTW",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "CV",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "CWT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "D",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "DCC",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "DCON",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "DDD",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "DELTA",
+        "tag": [
+            "TECH",
+            "ETRON",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "DEMCO",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "DEXON",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "DHOUSE",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "DIMET",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "DITTO",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "DMT",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "DOD",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "DOHOME",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "DPAINT",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "DRT",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "DTCENT",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "DTCI",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "DUSIT",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "DV8",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "EA",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "EASON",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "EASTW",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "ECF",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "ECL",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "EE",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "EFORL",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "EGCO",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "EKH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "EMC",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "EP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "EPG",
+        "tag": [
+            "PROPCON",
+            "CONMAT",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "ERW",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "ESSO",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "ESTAR",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "ETC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "ETE",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "EVER",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "D",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "FANCY",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "FE",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "FLOYD",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "FMT",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "FN",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "FNS",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "FORTH",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "FPI",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "FPT",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "FSMART",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "FSS",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "FTE",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "FTI",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "FVC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "GBX",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "GC",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "GCAP",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "GEL",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "GENCO",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "GFPT",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "GGC",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "GIFT",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "GJS",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "GL",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "GLAND",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "GLOBAL",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "GLOCON",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "GLORY",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "GPI",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "GPSC",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "GRAMMY",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "GRAND",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "GREEN",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "GSC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "GSTEEL",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "GTB",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "GTV",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "GULF",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "GUNKUL",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "GYT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "HANA",
+        "tag": [
+            "TECH",
+            "ETRON",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "HARN",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "HEMP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "HENG",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "HFT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "HL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "HMPRO",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "HPT",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "HTC",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "HTECH",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "HUMAN",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "HYDRO",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "ICC",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "ICHI",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "ICN",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "IFEC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "IFS",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "IHL",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "IIG",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "III",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "ILINK",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "ILM",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "IMH",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "IND",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "INET",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "INGRS",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "INOX",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "INSET",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "INSURE",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "INTUCH",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "IP",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "IRC",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "IRCP",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "IRPC",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "IT",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "ITC",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "ITD",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "ITEL",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "ITNS",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "ITTHI",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "IVL",
+        "tag": [
+            "INDUS",
+            "PETRO",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "J",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "JAK",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "JAS",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "JCK",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "JCKH",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "JCT",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "JDF",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "JKN",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "JMART",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "JMT",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "JR",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "JSP",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "JTS",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "JUBILE",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "K",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "KAMART",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "KASET",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "KBANK",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "KBS",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "KC",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "KCAR",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "KCC",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "KCE",
+        "tag": [
+            "TECH",
+            "ETRON",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "KCM",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "KDH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "KEX",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "KGEN",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "KGI",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "KIAT",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "KISS",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "KJL",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "KK",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "KKC",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "KKP",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "KLINIQ",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "KOOL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "KSL",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "KTB",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "KTC",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "KTIS",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "KTMS",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "KUMWEL",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "KUN",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "KWC",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "KWI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "KWM",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "KYE",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "E",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "LALIN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "LANNA",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "LDC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "LEE",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "LEO",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "LH",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "LHFG",
+        "tag": [
+            "FINCIAL",
+            "BANK"
+        ]
+    },
+    {
+        "ticker": "LHK",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "LIT",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "LOXLEY",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "LPH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "LPN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "LRH",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "LST",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "M",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "CHAI",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "MACO",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MAJOR",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MAKRO",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "MALEE",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "MANRIN",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "MASTER",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "MATCH",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MATI",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MAX",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "MBAX",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "MBK",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "MC",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "MCOT",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MCS",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "MDX",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "MEB",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "MEGA",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "MENA",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "META",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "METCO",
+        "tag": [
+            "TECH",
+            "ETRON"
+        ]
+    },
+    {
+        "ticker": "MFC",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "MFEC",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "MGT",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "MICRO",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "MIDA",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "MILL",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "MINT",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "MITSIB",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "MJD",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "MK",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "ML",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "MODERN",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "MONO",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MOONG",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "MORE",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "MOSHI",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "MPIC",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "MSC",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "MST",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "MTC",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "MTI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "MTW",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "MUD",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "MVP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "NATION",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "NC",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "NCAP",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "NCH",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "NCL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "NDR",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "NEP",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "NER",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "NETBAY",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "NEW",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "NEWS",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "NEX",
+        "tag": [
+            "TECH",
+            "ETRON",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "NFC",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "NINE",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "NKI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "NNCL",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "NOBLE",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "NOK",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "NOVA",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "NPK",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "NRF",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "NSI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "NSL",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "NTSC",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "NTV",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "NUSA",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "NV",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "NVD",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "NWR",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "NYT",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "OCC",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "OGC",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "OHTL",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "OISHI",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "ONEE",
+        "tag": [
+            "SERVICE",
+            "MEDIA",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "OR",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "ORI",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "OSP",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "OTO",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "PACE",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PACO",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "PAF",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "PAP",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "PATO",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "PB",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "PCC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "PCSGH",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "PDG",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "PDJ",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "PEACE",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PERM",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "PF",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PG",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "PHOL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "PICO",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "PIMO",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "PIN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PJW",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "PK",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "PL",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "PLANB",
+        "tag": [
+            "SERVICE",
+            "MEDIA",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "PLANET",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "PLAT",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PLE",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "PLUS",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "PM",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "PMTA",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "POLAR",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "POLY",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "PORT",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "POST",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "PPM",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "PPP",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "PPPM",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "PPS",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "PQS",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "PR9",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "PRAKIT",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "PRAPAT",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "PREB",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "PRECHA",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PRG",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "PRI",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "PRIME",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "PRIN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PRINC",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "PRM",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "PRO",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "PROEN",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "PROS",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "PROUD",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "PRTR",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "PSG",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "PSH",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "PSL",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "PSTC",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "PT",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "PTC",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "PTECH",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "PTG",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "PTL",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "PTT",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "PTTEP",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "PTTGC",
+        "tag": [
+            "INDUS",
+            "PETRO",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "PYLON",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "CON",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "QH",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "QLT",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "QTC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "RABBIT",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "RAM",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "RATCH",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "RBF",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "RCL",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "READY",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "RICHY",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "RJH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "RML",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "ROCK",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "ROH",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "ROJNA",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "RP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "RPC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "RPH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "RS",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "RSP",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "RT",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "RWI",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "S",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "J",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "S11",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "SA",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "SAAM",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "SABINA",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "SABUY",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SAF",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SAK",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "SALEE",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SAM",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "SAMART",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SAMCO",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "SAMTEL",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SANKO",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SAPPE",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SAT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "SAUCE",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SAWAD",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "SAWANG",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "SC",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "SCAP",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "SCB",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SCC",
+        "tag": [
+            "PROPCON",
+            "CONMAT",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "SCCC",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "SCG",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SCGP",
+        "tag": [
+            "INDUS",
+            "PKG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SCI",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SCM",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "SCN",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SCP",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "SDC",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SE",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "ED",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "SEAFCO",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "SEAOIL",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "SECURE",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "SELIC",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SENA",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "SENAJ",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "SFLEX",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "SFP",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SFT",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SGC",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "SGF",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "SGP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SHANG",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "SHR",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "SIAM",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "SICT",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "SIMAT",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "SINGER",
+        "tag": [
+            "SERVICE",
+            "COMM",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SIRI",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "SIS",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SISB",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "SITHAI",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "SJWD",
+        "tag": [
+            "SERVICE",
+            "TRANS",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SK",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "SKE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SKN",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "SKR",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "SKY",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SLM",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "SLP",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "SM",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "SMART",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "SMD",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "SMIT",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "SMK",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "SMPC",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "SMT",
+        "tag": [
+            "TECH",
+            "ETRON"
+        ]
+    },
+    {
+        "ticker": "SNC",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "SNNP",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SNP",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SO",
+        "tag": [
+            "SERVICE",
+            "PROF"
+        ]
+    },
+    {
+        "ticker": "SOLAR",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SONIC",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "SORKON",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SPA",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "SPACK",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "SPALI",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "SPC",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "SPCG",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SPG",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "SPI",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "SPRC",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "SPVI",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "SQ",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "SR",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "SRICHA",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "SSC",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SSF",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SSP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SSS",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "SSSC",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "SST",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "STA",
+        "tag": [
+            "AGRO",
+            "AGRI",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "STANLY",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "STARK",
+        "tag": [
+            "INDUS",
+            "IMM",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "STC",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "STEC",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "STECH",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "STGT",
+        "tag": [
+            "CONSUMP",
+            "PERSON",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "STHAI",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "STI",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "STOWER",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "STP",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "STPI",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "SUC",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "SUN",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "SUPER",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SUSCO",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "SUTHA",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "SVI",
+        "tag": [
+            "TECH",
+            "ETRON"
+        ]
+    },
+    {
+        "ticker": "SVOA",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SVR",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "SVT",
+        "tag": [
+            "SERVICE",
+            "COMM"
+        ]
+    },
+    {
+        "ticker": "SWC",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "SYMC",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SYNEX",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "SYNTEC",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TACC",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "TAE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TAKUNI",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "TAPAC",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "TASCO",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "TC",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TCAP",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "TCC",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TCCC",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "TCJ",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "TCMC",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "TCOAT",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TEAM",
+        "tag": [
+            "TECH",
+            "ETRON"
+        ]
+    },
+    {
+        "ticker": "TEAMG",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TEGH",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "TEKA",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TFG",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TFI",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TFM",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "TFMAMA",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TGE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TGH",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "TGPRO",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "TH",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "THAI",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "THANA",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "THANI",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "THCOM",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "THE",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "THG",
+        "tag": [
+            "SERVICE",
+            "HELTH",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "THIP",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "THL",
+        "tag": [
+            "RESOURC",
+            "MINE"
+        ]
+    },
+    {
+        "ticker": "THMUI",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "THRE",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "THREL",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "TIDLOR",
+        "tag": [
+            "FINCIAL",
+            "FIN",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "TIGER",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "TIPCO",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TIPH",
+        "tag": [
+            "FINCIAL",
+            "INSUR",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "TISCO",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "TITLE",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "TK",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "TKC",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "TKN",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TKS",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "TKT",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "TLI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "TM",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "TMC",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "TMD",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TMI",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "TMILL",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "TMT",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "TMW",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "TNDT",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TNH",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TNITY",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "TNL",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "TNP",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TNPC",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "TNR",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "TOA",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "TOG",
+        "tag": [
+            "CONSUMP",
+            "PERSON"
+        ]
+    },
+    {
+        "ticker": "TOP",
+        "tag": [
+            "RESOURC",
+            "ENERG",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "TOPP",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TPA",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "TPAC",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TPBI",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TPCH",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "TPCS",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "TPIPL",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "TPIPP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TPLAS",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "TPOLY",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TPP",
+        "tag": [
+            "INDUS",
+            "PKG"
+        ]
+    },
+    {
+        "ticker": "TPS",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "TQM",
+        "tag": [
+            "FINCIAL",
+            "INSUR",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "TQR",
+        "tag": [
+            "MAI",
+            "FINCIAL-m",
+            "FINCIAL-ms"
+        ]
+    },
+    {
+        "ticker": "TR",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "TRC",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TRITN",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TRT",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "TRU",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "TRUBB",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "TRUE",
+        "tag": [
+            "TECH",
+            "ICT",
+            "SET50",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "TRV",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "TSC",
+        "tag": [
+            "INDUS",
+            "AUTO"
+        ]
+    },
+    {
+        "ticker": "TSE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TSF",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TSI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "TSR",
+        "tag": [
+            "CONSUMP",
+            "HOME"
+        ]
+    },
+    {
+        "ticker": "TSTE",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "TSTH",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "TTA",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "TTB",
+        "tag": [
+            "FINCIAL",
+            "BANK",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "TTCL",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "TTI",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "TTT",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "TTW",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "TU",
+        "tag": [
+            "AGRO",
+            "FOOD",
+            "SET50",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "TVDH",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TVI",
+        "tag": [
+            "FINCIAL",
+            "INSUR"
+        ]
+    },
+    {
+        "ticker": "TVO",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "TVT",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "TWP",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "TWPC",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "TWZ",
+        "tag": [
+            "TECH",
+            "ICT"
+        ]
+    },
+    {
+        "ticker": "TYCN",
+        "tag": [
+            "INDUS",
+            "STEEL"
+        ]
+    },
+    {
+        "ticker": "UAC",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "UBA",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "UBE",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "UBIS",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "UEC",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "UKEM",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "UMI",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "UMS",
+        "tag": [
+            "MAI",
+            "RESOURC-m",
+            "RESOURC-ms"
+        ]
+    },
+    {
+        "ticker": "UNIQ",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "UOBKH",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "UP",
+        "tag": [
+            "INDUS",
+            "PETRO"
+        ]
+    },
+    {
+        "ticker": "UPF",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "UPOIC",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "UREKA",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "UTP",
+        "tag": [
+            "INDUS",
+            "PAPER"
+        ]
+    },
+    {
+        "ticker": "UV",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "UVAN",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "VARO",
+        "tag": [
+            "INDUS",
+            "IMM"
+        ]
+    },
+    {
+        "ticker": "VCOM",
+        "tag": [
+            "MAI",
+            "TECH-m",
+            "TECH-ms"
+        ]
+    },
+    {
+        "ticker": "VGI",
+        "tag": [
+            "SERVICE",
+            "MEDIA",
+            "SET100"
+        ]
+    },
+    {
+        "ticker": "VIBHA",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "VIH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "VL",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "VNG",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "VPO",
+        "tag": [
+            "AGRO",
+            "AGRI"
+        ]
+    },
+    {
+        "ticker": "VRANDA",
+        "tag": [
+            "SERVICE",
+            "TOURISM"
+        ]
+    },
+    {
+        "ticker": "W",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "WACOAL",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "WARRIX",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "WAVE",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "WFX",
+        "tag": [
+            "CONSUMP",
+            "FASHION"
+        ]
+    },
+    {
+        "ticker": "WGE",
+        "tag": [
+            "PROPCON",
+            "CONS"
+        ]
+    },
+    {
+        "ticker": "WHA",
+        "tag": [
+            "PROPCON",
+            "PROP",
+            "SET100",
+            "SETHD"
+        ]
+    },
+    {
+        "ticker": "WHAUP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "WICE",
+        "tag": [
+            "SERVICE",
+            "TRANS"
+        ]
+    },
+    {
+        "ticker": "WIIK",
+        "tag": [
+            "PROPCON",
+            "CONMAT"
+        ]
+    },
+    {
+        "ticker": "WIN",
+        "tag": [
+            "PROPCON",
+            "PROP"
+        ]
+    },
+    {
+        "ticker": "WINMED",
+        "tag": [
+            "MAI",
+            "CONSUMP-m",
+            "CONSUMP-ms"
+        ]
+    },
+    {
+        "ticker": "WINNER",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "WORK",
+        "tag": [
+            "SERVICE",
+            "MEDIA"
+        ]
+    },
+    {
+        "ticker": "WP",
+        "tag": [
+            "RESOURC",
+            "ENERG"
+        ]
+    },
+    {
+        "ticker": "WPH",
+        "tag": [
+            "SERVICE",
+            "HELTH"
+        ]
+    },
+    {
+        "ticker": "XO",
+        "tag": [
+            "MAI",
+            "AGRO-m",
+            "AGRO-ms"
+        ]
+    },
+    {
+        "ticker": "XPG",
+        "tag": [
+            "FINCIAL",
+            "FIN"
+        ]
+    },
+    {
+        "ticker": "YGG",
+        "tag": [
+            "MAI",
+            "SERVICE-m",
+            "SERVICE-ms"
+        ]
+    },
+    {
+        "ticker": "YONG",
+        "tag": [
+            "MAI",
+            "PROPCON-m",
+            "PROPCON-ms"
+        ]
+    },
+    {
+        "ticker": "YUASA",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    },
+    {
+        "ticker": "ZEN",
+        "tag": [
+            "AGRO",
+            "FOOD"
+        ]
+    },
+    {
+        "ticker": "ZIGA",
+        "tag": [
+            "MAI",
+            "INDUS-m",
+            "INDUS-ms"
+        ]
+    }
+]
