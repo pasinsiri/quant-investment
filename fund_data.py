@@ -26,7 +26,11 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
         continue
 
     url = f'{base_url}/funds/{fund_id}/nav/q?range=MAX'
-    res = requests.get(url, timeout=1)
+    try:
+        res = requests.get(url, timeout=1)
+    except:
+        save_data(nav_df)
+        raise RuntimeError('Session timeout')
 
     if res.status_code != 200:
         print(f'{fund_code} failed with status code {res.status_code}')
@@ -54,6 +58,7 @@ for fund_id, fund_code in zip(fund_data['fund_id'], fund_data['short_code']):
 # * save success and failed fund codes
 
 # * save data
+print('Start saving the entire data')
 # date_str = dt.datetime.strftime(dt.date.today(), '%Y%m%d')
 # nav_df.to_csv(f'res/fund_data/fund_nav_{date_str}.csv')
 save_data(nav_df)
