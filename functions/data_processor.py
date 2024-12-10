@@ -38,8 +38,8 @@ def adjust_price(
         for path in paths:
             path_split = path.split('/')
             year, month = path_split[4], path_split[5]
-            month_df = ticker_df[(ticker_df.index.year == year) & 
-                                 (ticker_df.index.month == month)]
+            month_df = ticker_df[(ticker_df.index.year == int(year)) & 
+                                 (ticker_df.index.month == int(month))]
             # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
             year_path = f'{export_base_path}/{year}'
             if not os.path.exists(year_path):
