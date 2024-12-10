@@ -15,3 +15,6 @@ def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
                 pass
     return paths
 
+def adjust_price(df, ticker_list: list, base_path: str, first_year: int, last_year: int):
+    for ticker in ticker_list:
+        paths = custom_load()
