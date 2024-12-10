@@ -15,6 +15,9 @@ def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
                 pass
     return paths
 
-def adjust_price(df, ticker_list: list, base_path: str, first_year: int, last_year: int):
+def adjust_price(df, ticker_list: list, base_path: str, first_year: int, last_year: int, split_col_name:str = 'stock split'):
     for ticker in ticker_list:
-        paths = custom_load()
+        paths = custom_load(base_path, ticker, first_year, last_year)
+        ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+        ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                        .apply(lambda x: 1 if x == 0 else x)
