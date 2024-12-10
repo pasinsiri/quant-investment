@@ -30,3 +30,7 @@ def adjust_price(
             ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
         
         # TODO: save data
+        for path in paths:
+            path_split = path.split('/')
+            year, month = int(path_split[1]), int(path_split[2])
+            
