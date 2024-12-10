@@ -15,9 +15,6 @@ def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
                 pass
     return paths
 
-def save_data(base_path: str):
-    pass
-
 def adjust_price(
         df, ticker_list: list, base_path: str, first_year: int, last_year: int, 
         adjust_cols: list = ['Open', 'High', 'Low', 'Close'], split_col_name:str = 'stock split'
