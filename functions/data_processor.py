@@ -21,6 +21,10 @@ def adjust_price(
 ):
     for ticker in ticker_list:
         paths = custom_load(base_path, ticker, first_year, last_year)
+
+        # * if data for the ticker does not exist, skip it
+        
+
         ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
         ticker_df['adjust_factor'] = ticker_df[split_col_name] \
                                         .apply(lambda x: 1 if x == 0 else x)
