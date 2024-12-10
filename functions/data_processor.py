@@ -33,4 +33,5 @@ def adjust_price(
         for path in paths:
             path_split = path.split('/')
             year, month = int(path_split[1]), int(path_split[2])
-            
+            month_df = ticker_df[(ticker_df.index.year == year) & 
+                                 (ticker_df.index.month == month)]
