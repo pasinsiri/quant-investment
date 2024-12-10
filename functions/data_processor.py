@@ -21,3 +21,4 @@ def adjust_price(df, ticker_list: list, base_path: str, first_year: int, last_ye
         ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
         ticker_df['adjust_factor'] = ticker_df[split_col_name] \
                                         .apply(lambda x: 1 if x == 0 else x)
+        ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod()
