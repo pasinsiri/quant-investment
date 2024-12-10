@@ -16,7 +16,7 @@ def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
     return paths
 
 def adjust_price(
-        df, ticker_list: list, base_path: str, first_year: int, last_year: int, 
+        df, ticker_list: list, base_path: str, export_base_path: str, first_year: int, last_year: int, 
         adjust_cols: list = ['Open', 'High', 'Low', 'Close'], split_col_name:str = 'stock split'
 ):
     for ticker in ticker_list:
@@ -35,3 +35,11 @@ def adjust_price(
             year, month = int(path_split[1]), int(path_split[2])
             month_df = ticker_df[(ticker_df.index.year == year) & 
                                  (ticker_df.index.month == month)]
+            # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
+            year_path = f'{export_base_path}/{year}'
+            if not os.path.exists(year_path):
+                os.mkdir(year_path)
+            month_path = f'{year_path}/{month}'
+            if not os.path.exists(month_path):
+                os.mkdir(month_path)
+            
