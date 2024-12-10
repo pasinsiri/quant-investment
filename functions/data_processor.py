@@ -42,4 +42,4 @@ def adjust_price(
             month_path = f'{year_path}/{month}'
             if not os.path.exists(month_path):
                 os.mkdir(month_path)
-            
+            month_df.to_parquet(f'{month_path}/{ticker}.parquet')
