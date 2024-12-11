@@ -12,7 +12,7 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
             if ticker is None:
                 paths.extend(os.listdir(ym_path))
             else:
-                path = f'{base_path}/{year}/{m_str}/{ticker}.parquet'
+                path = f'{ym_path}/{ticker}.parquet'
                 if os.path.exists(path):
                     paths.append(path)
                 else:
