@@ -33,8 +33,9 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
     return paths
 
 def adjust_price(
-        df, ticker_list: list, base_path: str, export_base_path: str, first_year: int, last_year: int, 
-        dtype_dict: dict, adjust_cols: list = ['open', 'high', 'low', 'close'], split_col_name:str = 'stock splits'
+        ticker_list: list, base_path: str, export_base_path: str, 
+        first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
+        adjust_cols: list = ['open', 'high', 'low', 'close'], split_col_name:str = 'stock splits'
 ):
     for ticker in ticker_list:
         paths = get_parquet_paths(base_path, ticker, first_year, last_year)
