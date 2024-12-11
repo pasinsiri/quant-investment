@@ -180,6 +180,9 @@ stock_rank.csv
 # all data
 data/*
 
+# contents
+content/thai/ticker_list
+
 # credentials
 creds.json
 creds_meta.json

@@ -11,11 +11,16 @@ parser.add_argument('--date', help='Target date', default=None)
 parser.add_argument('--market', help='Market (set or mai or all_thai)', default='all_thai')
 parser.add_argument('--basepath', help='Data source path')
 parser.add_argument('--export', help='Export path')
+parser.add_argument(
+    '--show_tag',
+    help='If called, ticker tags (from Siamchart) will be joined and displayed',
+    action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
 
 target_date = dt.date.today()
 start_date = (target_date - relativedelta(years=1)).replace(day=1)
 market = args.market
+show_tag = args.show_tag or True
 base_path = os.path.join('data/prices', market)
 save = True
 export_path = os.path.join('res/thai_stock_filtered', market)
@@ -23,8 +28,9 @@ curr_date = dt.date.today()
 
 # TODO: set parameters for technical indicators
 INDICATOR_PARAMS = {
-    'RSI': {'n': 14},
-    'moving_average_deviation': {'col_name': 'close', 'n': [20, 50, 200]},
+    'parse_cols': {'col_list': ['close']},
+    # 'RSI': {'n': 14},
+    'moving_average_deviation': {'col_name': 'close', 'n': [20, 200]},
     'bollinger_ratio': {'n': 20, 'k': 2},
     'candlestick_volume_ratio': {'mode': 'body'}
 }
@@ -59,14 +65,24 @@ latest_df = indicator_df[indicator_df.index == latest_date]
 """
 
 filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
-                        (latest_df['ma_50_pct_deviation'] < 0.0) &
+                        (latest_df['ma_20_pct_deviation'] < 0.0) &
                         ((latest_df['bollinger_ratio'].between(-0.05, 0.2)) | \
                             latest_df['bollinger_ratio'].between(0.45, 0.6))]
 # filtered_df = latest_df[(latest_df['ma_200_pct_deviation'] > 0.0) &
 #                         (latest_df['ma_50_pct_deviation'] < 0.0)]
 
-print(f'{market}: found {len(filtered_df)} tickers')
-print(filtered_df.head(30))
+
+# TODO: if show_tag, join tag data from Siamchart
+if show_tag:
+    tag_df = pd.read_csv(os.path.join('content/thai/ticker_list', 'thai_ticker.csv'))
+    filtered_df = tag_df.merge(filtered_df, on='ticker', how='right')
+
+n_ticker = len(filtered_df)
+n_show = 30
+print(f'{market}: found {n_ticker} tickers')
+if n_ticker > n_show:
+    print('--- EXAMPLE TICKERS ---')
+print(filtered_df.head(n_show))
 
 if save:
     filtered_df.to_csv(os.path.join(export_path, dt.datetime.strftime(curr_date, '%Y-%m-%d') + '.csv'))
