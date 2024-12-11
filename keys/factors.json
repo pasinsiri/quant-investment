@@ -5,5 +5,9 @@
         "Value": "VLUE",
         "Quality": "QUAL",
         "Size": "SIZE"
+    },
+    "US Small": {
+        "MinVol": "SMMV",
+        "Value": "SVAL"
     }
 }
