@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
+def get_parquet_paths(base_path: str, ticker: str, first_year: int, last_year: int):
     paths = []
     for year in range(first_year, last_year + 1):
         for month in range(1, 13):
@@ -20,7 +20,7 @@ def adjust_price(
         adjust_cols: list = ['open', 'high', 'low', 'close'], split_col_name:str = 'stock splits'
 ):
     for ticker in ticker_list:
-        paths = custom_load(base_path, ticker, first_year, last_year)
+        paths = get_parquet_paths(base_path, ticker, first_year, last_year)
 
         # * if data for the ticker does not exist, skip it
         if len(paths) == 0:
