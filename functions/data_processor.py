@@ -10,7 +10,7 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
             # ? if no ticker is parsed, all available in a specific year and month will be returned
             ym_path = f'{base_path}/{year}/{m_str}'
             if ticker is None:
-                paths.extend(os.listdir(f'{base_path}'))
+                paths.extend(os.listdir(ym_path))
             else:
                 path = f'{base_path}/{year}/{m_str}/{ticker}.parquet'
                 if os.path.exists(path):
