@@ -39,6 +39,10 @@ def adjust_price(
         for col in adjust_cols:
             ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
         ticker_df = ticker_df.sort_index()
+
+        # TODO: cast data type
+        for col, dtype in dtype_dict.items():
+            ticker_df[col] = ticker_df[col].astype(dtype)
         
         # TODO: save data
         for path in paths:
