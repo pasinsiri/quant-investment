@@ -38,6 +38,7 @@ def adjust_price(
                                         .shift(1).fillna(1)
         for col in adjust_cols:
             ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+        ticker_df = ticker_df.sort_index()
         
         # TODO: save data
         for path in paths:
