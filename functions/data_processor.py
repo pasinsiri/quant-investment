@@ -2,6 +2,18 @@ import pandas as pd
 import numpy as np
 import os
 
+DEFAULT_DTYPE_DICT = {
+    'ticker': 'str',
+    'open': 'float64',
+    'high': 'float64',
+    'low': 'float64',
+    'close': 'float64',
+    'volume': 'int64',
+    'adj close': 'float64',
+    'dividends': 'float64',
+    'stock splits': 'float64'
+}
+
 def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: str = None):
     paths = []
     for year in range(first_year, last_year + 1):
