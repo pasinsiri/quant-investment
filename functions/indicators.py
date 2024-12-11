@@ -6,6 +6,18 @@ class TechnicalIndicators():
     def __init__(self, ohlcv_df):
         self.ohlcv_df = ohlcv_df
 
+    def parse_cols(self, col_list: list):
+        """Parse the columns from the raw dataset to the final dataset.
+        For example, if you want close price in the final dataset, use this function
+
+        Args:
+            col_list (list): a list of required columns in the OHLCV dataset
+
+        Returns:
+            pd.DataFrame: a subset of the OHLCV dataframe with the selected columns
+        """
+        return self.ohlcv_df[col_list]
+
     def _get_min_max(self, col_name: str = 'close', n: int = 14):
         """
         Get the minimum and maximum values for a given number of periods (n)
@@ -15,10 +27,16 @@ class TechnicalIndicators():
         roll_high = close.rolling(n).max()
         return roll_low, roll_high
     
-    def pass_columns(self, col_list: list):
-        return self.ohlcv_df[col_list]
-    
     def moving_average(self, col_name: str = 'close', n: int = 7):
+        """Calculate the simple moving average of a specified column in the dataframe
+
+        Args:
+            col_name (str, optional): column name. Defaults to 'close'.
+            n (int, optional): MA trailing number. Defaults to 7.
+
+        Returns:
+            pd.Series: a series of moving average values
+        """
         if isinstance(n, int):
             return self.ohlcv_df[col_name].rolling(n).mean()
         elif isinstance(n, list):
@@ -28,6 +46,17 @@ class TechnicalIndicators():
             return ma_res_df
     
     def moving_average_deviation(self, col_name: str = 'close', n: int = 7):
+        """Calculate the moving average deviation. 
+        Using the given column name, the function will calculate the MA using the values from that column.
+        Then it will calculate the MA deviation using the formula: MA deviation = original value - MA value
+
+        Args:
+            col_name (str, optional): column name. Defaults to 'close'.
+            n (int, optional): MA trailing number. Defaults to 7.
+
+        Returns:
+            pd.Series: a series of moving average deviation
+        """
         if isinstance(n, int):
             ma_series = self.moving_average(col_name, n)
             return (self.ohlcv_df[col_name].iloc[n:] - ma_series) / ma_series
@@ -41,8 +70,11 @@ class TechnicalIndicators():
                 ma_dev_df[f'ma_{i}_pct_deviation'] = (self.ohlcv_df[col_name].iloc[i:] - ma_series) / ma_series
             return ma_dev_df
 
-    def rolling_sd(self, n: int = 14):
-        pass           
+    def rolling_sd(self, col_name: str = 'close', n: int = 14):
+        if isinstance(n, int):
+            sd_series = self.ohlcv_df[col_name].rolling(n).std()
+        return sd_series
+        pass
 
     def RSI(self, n: int = 14):
         """calculate the relative strength index (RSI) from a given rolling period
@@ -62,7 +94,7 @@ class TechnicalIndicators():
         rsi = 100 - (100 / (1 + rs))
         return rsi.fillna(0)
 
-    def stochasticRSI(self, n: int = 14, d: int = 3):
+    def stochasticRSI(self, n: int = 14, d: int = 3, concat_result: bool = True):
         """calculate stochastic RSI
 
         Args:
@@ -76,7 +108,12 @@ class TechnicalIndicators():
         stoch_rsi_k = (rsi - rsi.rolling(n).min()) / \
             (rsi.rolling(n).max() - rsi.rolling(n).min())
         stoch_rsi_d = stoch_rsi_k.rolling(d).mean()
-        return stoch_rsi_k, stoch_rsi_d
+        if concat_result:
+            res = pd.concat([stoch_rsi_k, stoch_rsi_d], axis=1)
+            res.columns = ['stoch_rsi_k', 'stoch_rsi_d']
+            return res
+        else:
+            return stoch_rsi_k, stoch_rsi_d
 
     def MACD(self, n_long: int = 26, n_short: int = 12, concat_result: bool = False):
         """calculate MACD

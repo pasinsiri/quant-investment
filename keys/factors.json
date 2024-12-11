@@ -1,0 +1,13 @@
+{
+    "US": {
+        "Momentum": "MTUM",
+        "MinVol": "USMV",
+        "Value": "VLUE",
+        "Quality": "QUAL",
+        "Size": "SIZE"
+    },
+    "US Small": {
+        "MinVol": "SMMV",
+        "Value": "SVAL"
+    }
+}
