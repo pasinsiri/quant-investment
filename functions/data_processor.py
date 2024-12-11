@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-def get_parquet_paths(base_path: str, ticker: str, first_year: int, last_year: int):
+def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: str = None):
     paths = []
     for year in range(first_year, last_year + 1):
         for month in range(1, 13):
