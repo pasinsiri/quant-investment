@@ -57,6 +57,9 @@ def convert_price_to_raw(
         # TODO: cast data type
         for col, dtype in dtype_dict.items():
             ticker_df[col] = ticker_df[col].astype(dtype)
+
+        if remove_factor_columns:
+            ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
         
         # TODO: save data
         for path in paths:
