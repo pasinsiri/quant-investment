@@ -87,19 +87,20 @@ def adjust_price(
         if len(paths) == 0:
             continue
 
-    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+        ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
 
-    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
-                                    .apply(lambda x: 1 if x == 0 else x) \
-                                    .astype(float)
-    ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
-                                    .shift(1).fillna(1) \
-                                    .astype(float)
-    
-    for col in adjust_cols:
-        ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
+        ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                        .apply(lambda x: 1 if x == 0 else x) \
+                                        .astype(float)
+        ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
+                                        .shift(1).fillna(1) \
+                                        .astype(float)
+        
+        for col in adjust_cols:
+            ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
 
-    # adjusted close price for dividends
-    ticker_df['cum_dividend'] = ticker_df['dividends'].shift(1).fillna(0).cumsum()
-    ticker_df['adjusted_close'] = ticker_df['close'] - ticker_df['cum_dividend']
-    ticker_df = ticker_df.sort_index()
+        # adjusted close price for dividends
+        ticker_df['cum_dividend'] = ticker_df['dividends'].shift(1).fillna(0).cumsum()
+        ticker_df['adjusted_close'] = ticker_df['close'] - ticker_df['cum_dividend']
+        ticker_df = ticker_df.sort_index()
+
