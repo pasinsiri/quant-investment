@@ -81,7 +81,7 @@ def adjust_price(
         first_year: int, last_year: int,
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits'
 ):
-    pass
+    paths = get_parquet_paths(base_path, ticker, first_year, last_year)
 
 def adjust_price_multiple(
         ticker_list: list, base_path: str, export_base_path: str,
