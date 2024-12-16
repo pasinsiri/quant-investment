@@ -82,3 +82,8 @@ def adjust_price(
 ):
     for ticker in ticker_list:
         paths = get_parquet_paths(base_path, ticker, first_year, last_year)
+
+        # * if data for the ticker does not exist, skip it
+        if len(paths) == 0:
+            continue
+
