@@ -98,3 +98,7 @@ def adjust_price(
     
     for col in adjust_cols:
         ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
+
+    # adjusted close price for dividends
+    ticker_df['cum_dividend'] = ticker_df['dividends'].shift(1).fillna(0).cumsum()
+    ticker_df['adjusted_close'] = ticker_df['close'] - ticker_df['cum_dividend']
