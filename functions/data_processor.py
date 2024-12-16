@@ -87,3 +87,4 @@ def adjust_price(
         if len(paths) == 0:
             continue
 
+    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
