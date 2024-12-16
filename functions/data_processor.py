@@ -76,7 +76,11 @@ def convert_price_to_raw(
                 os.mkdir(month_path)
             month_df.to_parquet(f'{month_path}/{ticker}.parquet')
 
-def adjust_price():
+def adjust_price(
+        ticker: str, base_path: str, export_base_path: str,
+        first_year: int, last_year: int,
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits'
+):
     pass
 
 def adjust_price_multiple(
