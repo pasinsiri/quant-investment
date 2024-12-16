@@ -88,3 +88,10 @@ def adjust_price(
             continue
 
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+
+    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                    .apply(lambda x: 1 if x == 0 else x) \
+                                    .astype(float)
+    ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
+                                    .shift(1).fillna(1) \
+                                    .astype(float)
