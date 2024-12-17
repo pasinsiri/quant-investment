@@ -133,7 +133,7 @@ def adjust_price_multiple(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         save_result: bool = False
 ):
-    _ = [
+    res = [
         adjust_price(
             ticker=ticker,
             base_path=base_path,
@@ -145,3 +145,4 @@ def adjust_price_multiple(
             save_result=save_result
         ) for ticker in ticker_list
     ]
+    return res
