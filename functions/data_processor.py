@@ -125,4 +125,14 @@ def adjust_price_multiple(
         first_year: int, last_year: int,
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits'
 ):
-    pass
+    _ = [
+        adjust_price(
+            ticker=ticker,
+            base_path=base_path,
+            export_base_path=export_base_path,
+            first_year=first_year,
+            last_year=last_year,
+            adjust_cols=adjust_cols,
+            split_col_name=split_col_name
+        ) for ticker in ticker_list
+    ]
