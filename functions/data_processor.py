@@ -86,6 +86,8 @@ def adjust_price(
     # * if data for the ticker does not exist, skip it
     if len(paths) == 0:
         return
+
+    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
     
 
 def adjust_price_multiple(
