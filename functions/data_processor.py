@@ -141,6 +141,7 @@ def adjust_price_multiple(
             first_year=first_year,
             last_year=last_year,
             adjust_cols=adjust_cols,
-            split_col_name=split_col_name
+            split_col_name=split_col_name,
+            save_result=save_result
         ) for ticker in ticker_list
     ]
