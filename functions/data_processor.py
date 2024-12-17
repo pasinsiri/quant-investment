@@ -109,6 +109,9 @@ def adjust_price(
     ticker_df = ticker_df.sort_index()
 
     # TODO: save data
+    if not save_result:
+        return
+
     for path in paths:
         path_split = path.split('/')
         year, month = path_split[4], path_split[5]
