@@ -32,6 +32,9 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
                     pass
     return paths
 
+def convert_price_to_raw():
+    pass
+
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
         first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
