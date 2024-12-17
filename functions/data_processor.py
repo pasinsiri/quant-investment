@@ -110,7 +110,7 @@ def adjust_price(
 
     # TODO: save data
     if not save_result:
-        return
+        return ticker_df
 
     for path in paths:
         path_split = path.split('/')
