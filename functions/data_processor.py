@@ -42,7 +42,12 @@ def convert_price_to_raw_multiple(
         remove_factor_columns: bool = True
 ):
     for ticker in ticker_list:
-        paths = get_parquet_paths(base_path, ticker, first_year, last_year)
+        paths = get_parquet_paths(
+            base_path=base_path,
+            first_year=first_year,
+            last_year=last_year,
+            ticker=ticker
+        )
 
         # * if data for the ticker does not exist, skip it
         if len(paths) == 0:
