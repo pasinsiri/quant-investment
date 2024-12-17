@@ -130,7 +130,8 @@ def adjust_price(
 def adjust_price_multiple(
         ticker_list: list, base_path: str, export_base_path: str,
         first_year: int, last_year: int,
-        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits'
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
+        save_data: bool = False
 ):
     _ = [
         adjust_price(
