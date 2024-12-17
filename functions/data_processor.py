@@ -90,7 +90,12 @@ def adjust_price(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         save_result: bool = False
 ):
-    paths = get_parquet_paths(base_path, ticker, first_year, last_year)
+    paths = get_parquet_paths(
+        base_path=base_path,
+        first_year=first_year,
+        last_year=last_year,
+        ticker=ticker
+    )
 
     # * if data for the ticker does not exist, skip it
     if len(paths) == 0:
