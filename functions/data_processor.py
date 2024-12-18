@@ -104,6 +104,7 @@ def adjust_price(
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
     ticker_df['fwd_div'] = ticker_df['dividends'].shift(1).fillna(0)
     ticker_df['retention_rate'] = 1 - (ticker_df['fwd_div'] / ticker_df['close'])
+    ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
     
 
 def adjust_price_multiple(
