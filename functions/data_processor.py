@@ -103,38 +103,6 @@ def adjust_price(
 
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
 
-    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
-                                    .apply(lambda x: 1 if x == 0 else x) \
-                                    .astype(float)
-    ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
-                                    .shift(1).fillna(1) \
-                                    .astype(float)
-    
-    for col in adjust_cols:
-        ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
-
-    # adjusted close price for dividends
-    ticker_df['cum_dividend'] = ticker_df['dividends'].shift(1).fillna(0).cumsum()
-    ticker_df['adjusted_close'] = ticker_df['close'] - ticker_df['cum_dividend']
-    ticker_df = ticker_df.sort_index()
-
-    # TODO: save data
-    if not save_result:
-        return ticker_df
-
-    for path in paths:
-        path_split = path.split('/')
-        year, month = path_split[4], path_split[5]
-        month_df = ticker_df[(ticker_df.index.year == int(year)) & 
-                                (ticker_df.index.month == int(month))]
-        # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
-        year_path = f'{export_base_path}/{year}'
-        if not os.path.exists(year_path):
-            os.mkdir(year_path)
-        month_path = f'{year_path}/{month}'
-        if not os.path.exists(month_path):
-            os.mkdir(month_path)
-        month_df.to_parquet(f'{month_path}/{ticker}.parquet')
     
 
 def adjust_price_multiple(
