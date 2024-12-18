@@ -102,6 +102,7 @@ def adjust_price(
         return
 
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+    ticker_df['div_lag'] = ticker_df['dividends'].shift(1).fillna(0)
 
     
 
