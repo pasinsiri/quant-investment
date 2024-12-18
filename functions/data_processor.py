@@ -105,6 +105,7 @@ def adjust_price(
     ticker_df['fwd_div'] = ticker_df['dividends'].shift(1).fillna(0)
     ticker_df['retention_rate'] = 1 - (ticker_df['fwd_div'] / ticker_df['close'])
     ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
+    ticker_df['adj_close'] = ticker_df['accum_retention'] * ticker_df['close']
     
 
 def adjust_price_multiple(
