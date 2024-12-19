@@ -103,6 +103,7 @@ def adjust_price(
 
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
 
+    # * handle for stock splits
     ticker_df['adjust_factor'] = ticker_df[split_col_name] \
                                     .apply(lambda x: 1 if x == 0 else x)
     ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
@@ -115,7 +116,6 @@ def adjust_price(
     ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
     ticker_df['adj_close'] = ticker_df['accum_retention'] * ticker_df['close']
 
-    # TODO: handle for stock splits
     
 
 def adjust_price_multiple(
