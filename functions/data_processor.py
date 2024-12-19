@@ -45,6 +45,10 @@ def convert_price_to_raw(
         ticker=ticker
     )
 
+    # * if data for the ticker does not exist, skip it
+    if len(paths) == 0:
+        return
+
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
         first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
