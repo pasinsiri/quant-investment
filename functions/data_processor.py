@@ -109,7 +109,7 @@ def adjust_price(
     ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
                                     .shift(1).fillna(1)
     for col in adjust_cols:
-        ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+        ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
 
     # * adjust dividend
     ticker_df['fwd_div'] = ticker_df['dividends'].shift(1).fillna(0)
