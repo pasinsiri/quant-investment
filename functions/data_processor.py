@@ -48,6 +48,9 @@ def convert_price_to_raw(
     # * if data for the ticker does not exist, skip it
     if len(paths) == 0:
         return
+    
+    # * load data
+    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
