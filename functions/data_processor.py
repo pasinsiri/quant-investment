@@ -117,6 +117,7 @@ def adjust_price(
     ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
     ticker_df['adj_close'] = ticker_df['accum_retention'] * ticker_df['close']
 
+    return ticker_df
     
 
 def adjust_price_multiple(
