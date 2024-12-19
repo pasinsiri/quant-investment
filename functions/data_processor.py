@@ -38,7 +38,12 @@ def convert_price_to_raw(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         remove_factor_columns: bool = True
 ):
-    pass
+    paths = get_parquet_paths(
+        base_path=base_path,
+        first_year=first_year,
+        last_year=last_year,
+        ticker=ticker
+    )
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
