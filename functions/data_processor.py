@@ -51,6 +51,8 @@ def convert_price_to_raw(
     
     # * load data
     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                    .apply(lambda x: 1 if x == 0 else x)
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
