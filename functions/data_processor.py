@@ -55,6 +55,9 @@ def convert_price_to_raw(
                                     .apply(lambda x: 1 if x == 0 else x)
     ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
                                     .shift(1).fillna(1)
+    
+    for col in adjust_cols:
+        ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
 
 
 def convert_price_to_raw_multiple(
