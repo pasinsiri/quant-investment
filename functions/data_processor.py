@@ -58,6 +58,8 @@ def convert_price_to_raw(
     
     for col in adjust_cols:
         ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+    
+    ticker_df = ticker_df.sort_index()
 
 
 def convert_price_to_raw_multiple(
