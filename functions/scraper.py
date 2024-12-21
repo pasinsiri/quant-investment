@@ -67,7 +67,7 @@ class SiamchartScraper():
     def __init__(self) -> None:
         self.url = 'http://siamchart.com/stock/'
 
-    def get_ticker_info_table(self):
+    def get_ticker_info_table(self, return_type = 'dict'):
         TICKER_PATTERN = r'[\w\d]*\('
         INFO_PATTERN = r'\[.*\]'
 
@@ -79,12 +79,25 @@ class SiamchartScraper():
         ticker_list = [re.findall(TICKER_PATTERN, link.text)[0][:-1] for link in links]
         info_list_raw = [re.findall(INFO_PATTERN, link.text) for link in links]
 
-        info_list = []
-        for ticker, info in zip(ticker_list, info_list_raw):
-            if len(info) == 0:
-                info_list_raw.append([ticker])
-                continue
-            info = info[0].strip(r'\[\]').split(',')
-            info_list.append([ticker, info])
-        info_df = pd.DataFrame(info_list, columns=['ticker', 'tag'])
-        return info_df
+        if return_type == 'json':
+            info_list = []
+            for ticker, info in zip(ticker_list, info_list_raw):
+                info_dict = {'ticker': ticker}
+                if len(info) == 0:
+                    info_dict['tag'] = None
+                    continue
+                info = info[0].strip(r'\[\]').split(',')
+                info_dict['tag'] = info
+                info_list.append(info_dict)
+            return info_list
+
+        elif return_type == 'table':
+            info_list = []
+            for ticker, info in zip(ticker_list, info_list_raw):
+                if len(info) == 0:
+                    info_list_raw.append([ticker])
+                    continue
+                info = info[0].strip(r'\[\]').split(',')
+                info_list.append([ticker, info])
+            info_df = pd.DataFrame(info_list, columns=['ticker', 'tag'])
+            return info_df

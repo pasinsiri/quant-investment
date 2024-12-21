@@ -2,25 +2,84 @@ import pandas as pd
 import numpy as np
 import os
 
-def custom_load(base_path: str, ticker: str, first_year: int, last_year: int):
+DEFAULT_DTYPE_DICT = {
+    'ticker': 'str',
+    'open': 'float64',
+    'high': 'float64',
+    'low': 'float64',
+    'close': 'float64',
+    'volume': 'int64',
+    'adj close': 'float64',
+    'dividends': 'float64',
+    'stock splits': 'float64'
+}
+
+def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: str = None):
     paths = []
     for year in range(first_year, last_year + 1):
         for month in range(1, 13):
             m_str = '{:02d}'.format(month)
-            path = f'{base_path}/{year}/{m_str}/{ticker}.parquet'
-            if os.path.exists(path):
-                paths.append(path)
+            # ? if no ticker is parsed, all available in a specific year and month will be returned
+            ym_path = f'{base_path}/{year}/{m_str}'
+            if ticker is None:
+                paths.extend(os.listdir(ym_path))
             else:
-                # print(f'{path} not found')
-                pass
+                path = f'{ym_path}/{ticker}.parquet'
+                if os.path.exists(path):
+                    paths.append(path)
+                else:
+                    # print(f'{path} not found')
+                    pass
     return paths
 
-def adjust_price(
-        df, ticker_list: list, base_path: str, export_base_path: str, first_year: int, last_year: int, 
-        adjust_cols: list = ['Open', 'High', 'Low', 'Close'], split_col_name:str = 'stock split'
+def convert_price_to_raw(
+        ticker: str, base_path: str, export_base_path: str, 
+        first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
+        remove_factor_columns: bool = True
+):
+    paths = get_parquet_paths(
+        base_path=base_path,
+        first_year=first_year,
+        last_year=last_year,
+        ticker=ticker
+    )
+
+    # * if data for the ticker does not exist, skip it
+    if len(paths) == 0:
+        return
+    
+    # * load data
+    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                    .apply(lambda x: 1 if x == 0 else x)
+    ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
+                                    .shift(1).fillna(1)
+    
+    for col in adjust_cols:
+        ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+    
+    ticker_df = ticker_df.sort_index()
+
+
+def convert_price_to_raw_multiple(
+        ticker_list: list, base_path: str, export_base_path: str, 
+        first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
+        remove_factor_columns: bool = True
 ):
     for ticker in ticker_list:
-        paths = custom_load(base_path, ticker, first_year, last_year)
+        paths = get_parquet_paths(
+            base_path=base_path,
+            first_year=first_year,
+            last_year=last_year,
+            ticker=ticker
+        )
+
+        # * if data for the ticker does not exist, skip it
+        if len(paths) == 0:
+            continue
+
         ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
         ticker_df['adjust_factor'] = ticker_df[split_col_name] \
                                         .apply(lambda x: 1 if x == 0 else x)
@@ -28,13 +87,21 @@ def adjust_price(
                                         .shift(1).fillna(1)
         for col in adjust_cols:
             ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+        ticker_df = ticker_df.sort_index()
+
+        # TODO: cast data type
+        for col, dtype in dtype_dict.items():
+            ticker_df[col] = ticker_df[col].astype(dtype)
+
+        if remove_factor_columns:
+            ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
         
         # TODO: save data
         for path in paths:
             path_split = path.split('/')
-            year, month = int(path_split[1]), int(path_split[2])
-            month_df = ticker_df[(ticker_df.index.year == year) & 
-                                 (ticker_df.index.month == month)]
+            year, month = path_split[4], path_split[5]
+            month_df = ticker_df[(ticker_df.index.year == int(year)) & 
+                                 (ticker_df.index.month == int(month))]
             # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
             year_path = f'{export_base_path}/{year}'
             if not os.path.exists(year_path):
@@ -43,3 +110,61 @@ def adjust_price(
             if not os.path.exists(month_path):
                 os.mkdir(month_path)
             month_df.to_parquet(f'{month_path}/{ticker}.parquet')
+
+def adjust_price(
+        ticker: str, base_path: str, export_base_path: str,
+        first_year: int, last_year: int,
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
+        save_result: bool = False
+):
+    paths = get_parquet_paths(
+        base_path=base_path,
+        first_year=first_year,
+        last_year=last_year,
+        ticker=ticker
+    )
+
+    # * if data for the ticker does not exist, skip it
+    if len(paths) == 0:
+        return
+
+    ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+
+    # * handle for stock splits
+    ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+                                    .apply(lambda x: 1 if x == 0 else x)
+    ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
+                                    .shift(1).fillna(1)
+    for col in adjust_cols:
+        ticker_df[col] = ticker_df[col] / ticker_df['cum_adj_factor']
+
+    # * adjust dividend
+    ticker_df['fwd_div'] = ticker_df['dividends'].shift(1).fillna(0)
+    ticker_df['retention_rate'] = 1 - (ticker_df['fwd_div'] / ticker_df['close'])
+    ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
+    ticker_df['adj_close'] = ticker_df['accum_retention'] * ticker_df['close']
+
+    return ticker_df
+    
+
+def adjust_price_multiple(
+        ticker_list: list, base_path: str, export_base_path: str,
+        first_year: int, last_year: int,
+        adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
+        save_result: bool = False
+):
+    res = [
+        adjust_price(
+            ticker=ticker,
+            base_path=base_path,
+            export_base_path=export_base_path,
+            first_year=first_year,
+            last_year=last_year,
+            adjust_cols=adjust_cols,
+            split_col_name=split_col_name,
+            save_result=save_result
+        ) for ticker in ticker_list
+    ]
+
+    if not save_result:
+        return res

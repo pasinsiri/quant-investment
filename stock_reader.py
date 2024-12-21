@@ -4,13 +4,13 @@ Author: pasins
 Latest Update: 2023-11-15
 How to run:
     From your command line:
-    python stock_reader.py --period max --ann_factor 252 --market_suffix .BK \
-        --ticker_universe set \
-        --export_path ./data/prices/set \
-        --start_writing 1900-01-01 --auto_adjust --actions
-    Or:
-    python stock_reader.py --start 2014-01-01 --end 2024-02-10 --ann_factor 252 --market_suffix .BK \
+    python stock_reader.py --period 5y --ann_factor 252 --market_suffix .BK \
         --ticker_universe all \
+        --export_path ./data/prices/all_thai \
+        --auto_adjust --actions
+    Or:
+    python stock_reader.py --start 2014-01-01 --end 2023-03-04 --ann_factor 252 --market_suffix .BK \
+        --ticker_universe 10y \
         --export_path ./data/prices/all_thai \
         --auto_adjust --actions
     (all parameters description can be found in the parser block below)
@@ -60,7 +60,7 @@ parser.add_argument('--log', default='warning')
 args = parser.parse_args()
 START = dt.datetime.strptime(args.start, '%Y-%m-%d') if args.start else None
 END = dt.datetime.strptime(args.end, '%Y-%m-%d') if args.end else None
-PERIOD = args.period or '1y'
+PERIOD = args.period or 'max'
 ANNUALIZATION_FACTOR = args.ann_factor
 MARKET_SUFFIX = args.market_suffix
 TICKER_UNIVERSE = args.ticker_universe
@@ -121,4 +121,4 @@ else:
 logging.info(f'Getting data of {len(ticker_list)} tickers')
 yfr = YFinanceReader(ticker_list=ticker_list, market_suffix=MARKET_SUFFIX)
 yfr.load_data(period=PERIOD, auto_adjust=AUTO_ADJUST, actions=ACTIONS)
-yfr.save(EXPORT_PATH, start_writing_date=START_WRITING)
+yfr.save(EXPORT_PATH, start_writing_date=START_WRITING, verbose=True)
