@@ -65,6 +65,9 @@ def convert_price_to_raw(
     for col, dtype in dtype_dict.items():
         ticker_df[col] = ticker_df[col].astype(dtype)
 
+    if remove_factor_columns:
+        ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
+
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
