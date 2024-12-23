@@ -61,6 +61,10 @@ def convert_price_to_raw(
     
     ticker_df = ticker_df.sort_index()
 
+    # TODO: cast data type
+    for col, dtype in dtype_dict.items():
+        ticker_df[col] = ticker_df[col].astype(dtype)
+
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
