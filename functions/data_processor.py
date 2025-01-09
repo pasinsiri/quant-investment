@@ -19,7 +19,7 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
 
     Args:
         base_path (str): a base directory where the parquet files are stored
-        first_year (int): _description_
+        first_year (int): the first year to be considered
         last_year (int): _description_
         ticker (str, optional): _description_. Defaults to None.
 
