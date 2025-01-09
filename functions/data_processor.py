@@ -49,6 +49,9 @@ def convert_price_to_raw(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         remove_factor_columns: bool = True
 ):
+    """Calculate the raw prices by adjusting for stock splits and dividends.
+
+    """
     paths = get_parquet_paths(
         base_path=base_path,
         first_year=first_year,
