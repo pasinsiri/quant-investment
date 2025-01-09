@@ -21,7 +21,7 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
         base_path (str): a base directory where the parquet files are stored
         first_year (int): the first year to be considered
         last_year (int): the last year to be considered
-        ticker (str, optional): _description_. Defaults to None.
+        ticker (str, optional): the stock ticker of interest, if set to None, the function will read all the data regardless of tickers. Defaults to None.
 
     Returns:
         _type_: _description_
