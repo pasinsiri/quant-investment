@@ -51,6 +51,9 @@ def convert_price_to_raw(
 ):
     """Calculate the raw prices by adjusting for stock splits and dividends.
 
+    Args:
+        ticker (str): The stock ticker.
+
     """
     paths = get_parquet_paths(
         base_path=base_path,
