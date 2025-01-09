@@ -15,6 +15,17 @@ DEFAULT_DTYPE_DICT = {
 }
 
 def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: str = None):
+    """Get the paths of parquet files in a specific year and month
+
+    Args:
+        base_path (str): _description_
+        first_year (int): _description_
+        last_year (int): _description_
+        ticker (str, optional): _description_. Defaults to None.
+
+    Returns:
+        _type_: _description_
+    """
     paths = []
     for year in range(first_year, last_year + 1):
         for month in range(1, 13):
