@@ -53,6 +53,7 @@ def convert_price_to_raw(
 
     Args:
         ticker (str): The stock ticker.
+        base_path (str): The base directory where the parquet files are stored.
 
     """
     paths = get_parquet_paths(
