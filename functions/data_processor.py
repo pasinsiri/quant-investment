@@ -24,7 +24,7 @@ def get_parquet_paths(base_path: str, first_year: int, last_year: int, ticker: s
         ticker (str, optional): the stock ticker of interest, if set to None, the function will read all the data regardless of tickers. Defaults to None.
 
     Returns:
-        _type_: _description_
+        list: a list of paths of parquet files
     """
     paths = []
     for year in range(first_year, last_year + 1):
