@@ -92,6 +92,21 @@ def convert_price_to_raw(
     if remove_factor_columns:
         ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
 
+    # TODO: save data
+    if save_data:
+        for path in paths:
+            path_split = path.split('/')
+            year, month = path_split[4], path_split[5]
+            month_df = ticker_df[(ticker_df.index.year == int(year)) & 
+                                 (ticker_df.index.month == int(month))]
+            # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
+            year_path = f'{export_base_path}/{year}'
+            if not os.path.exists(year_path):
+                os.mkdir(year_path)
+            month_path = f'{year_path}/{month}'
+            if not os.path.exists(month_path):
+                os.mkdir(month_path)
+            month_df.to_parquet(f'{month_path}/{ticker}.parquet')
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
