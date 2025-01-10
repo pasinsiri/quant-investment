@@ -61,6 +61,7 @@ def convert_price_to_raw(
         adjust_cols (list, optional): A list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
         split_col_name (str, optional): The name of the column containing stock split information. Defaults to 'stock splits'.
         remove_factor_columns (bool, optional): Whether to remove the adjustment factor columns after processing. Defaults to True.
+        save_data (bool, optional): Whether to save the processed data. Defaults to True.
     """
     paths = get_parquet_paths(
         base_path=base_path,
