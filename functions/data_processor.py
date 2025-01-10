@@ -118,54 +118,55 @@ def convert_price_to_raw_multiple(
         remove_factor_columns: bool = True, save_data: bool = True
 ):
     
-    # convert_price_to_raw(
-    #     ticker, base_path, export_base_path, 
-    #     first_year, last_year, dtype_dict, 
-    #     adjust_cols, split_col_name, 
-    #     remove_factor_columns
-    # )
-    for ticker in ticker_list:
-        paths = get_parquet_paths(
-            base_path=base_path,
-            first_year=first_year,
-            last_year=last_year,
-            ticker=ticker
-        )
+    res_list = [convert_price_to_raw(
+        ticker, base_path, export_base_path, 
+        first_year, last_year, dtype_dict, 
+        adjust_cols, split_col_name, 
+        remove_factor_columns, save_data
+    ) for ticker in ticker_list]
+    
+    # for ticker in ticker_list:
+    #     paths = get_parquet_paths(
+    #         base_path=base_path,
+    #         first_year=first_year,
+    #         last_year=last_year,
+    #         ticker=ticker
+    #     )
 
-        # * if data for the ticker does not exist, skip it
-        if len(paths) == 0:
-            continue
+    #     # * if data for the ticker does not exist, skip it
+    #     if len(paths) == 0:
+    #         continue
 
-        ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
-        ticker_df['adjust_factor'] = ticker_df[split_col_name] \
-                                        .apply(lambda x: 1 if x == 0 else x)
-        ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
-                                        .shift(1).fillna(1)
-        for col in adjust_cols:
-            ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
-        ticker_df = ticker_df.sort_index()
+    #     ticker_df = pd.read_parquet(*[paths]).sort_index(ascending=False)
+    #     ticker_df['adjust_factor'] = ticker_df[split_col_name] \
+    #                                     .apply(lambda x: 1 if x == 0 else x)
+    #     ticker_df['cum_adj_factor'] = ticker_df['adjust_factor'].cumprod() \
+    #                                     .shift(1).fillna(1)
+    #     for col in adjust_cols:
+    #         ticker_df[col] = ticker_df[col] * ticker_df['cum_adj_factor']
+    #     ticker_df = ticker_df.sort_index()
 
-        # TODO: cast data type
-        for col, dtype in dtype_dict.items():
-            ticker_df[col] = ticker_df[col].astype(dtype)
+    #     # TODO: cast data type
+    #     for col, dtype in dtype_dict.items():
+    #         ticker_df[col] = ticker_df[col].astype(dtype)
 
-        if remove_factor_columns:
-            ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
+    #     if remove_factor_columns:
+    #         ticker_df = ticker_df.drop(['adjust_factor', 'cum_adj_factor'], axis=1)
         
-        # TODO: save data
-        for path in paths:
-            path_split = path.split('/')
-            year, month = path_split[4], path_split[5]
-            month_df = ticker_df[(ticker_df.index.year == int(year)) & 
-                                 (ticker_df.index.month == int(month))]
-            # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
-            year_path = f'{export_base_path}/{year}'
-            if not os.path.exists(year_path):
-                os.mkdir(year_path)
-            month_path = f'{year_path}/{month}'
-            if not os.path.exists(month_path):
-                os.mkdir(month_path)
-            month_df.to_parquet(f'{month_path}/{ticker}.parquet')
+    #     # TODO: save data
+    #     for path in paths:
+    #         path_split = path.split('/')
+    #         year, month = path_split[4], path_split[5]
+    #         month_df = ticker_df[(ticker_df.index.year == int(year)) & 
+    #                              (ticker_df.index.month == int(month))]
+    #         # export_path = f'{export_base_path}/{year}/{month}/{ticker}.parquet'
+    #         year_path = f'{export_base_path}/{year}'
+    #         if not os.path.exists(year_path):
+    #             os.mkdir(year_path)
+    #         month_path = f'{year_path}/{month}'
+    #         if not os.path.exists(month_path):
+    #             os.mkdir(month_path)
+    #         month_df.to_parquet(f'{month_path}/{ticker}.parquet')
 
 def adjust_price(
         ticker: str, base_path: str, export_base_path: str,
