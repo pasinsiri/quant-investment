@@ -108,6 +108,8 @@ def convert_price_to_raw(
             if not os.path.exists(month_path):
                 os.mkdir(month_path)
             month_df.to_parquet(f'{month_path}/{ticker}.parquet')
+    else:
+        return ticker_df
 
 def convert_price_to_raw_multiple(
         ticker_list: list, base_path: str, export_base_path: str, 
