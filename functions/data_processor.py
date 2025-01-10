@@ -47,7 +47,7 @@ def convert_price_to_raw(
         ticker: str, base_path: str, export_base_path: str, 
         first_year: int, last_year: int,  dtype_dict: dict = DEFAULT_DTYPE_DICT, 
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
-        remove_factor_columns: bool = True
+        remove_factor_columns: bool = True, save_data: bool = True
 ):
     """Calculate the raw prices by adjusting for stock splits and dividends.
 
@@ -99,6 +99,13 @@ def convert_price_to_raw_multiple(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         remove_factor_columns: bool = True
 ):
+    
+    # convert_price_to_raw(
+    #     ticker, base_path, export_base_path, 
+    #     first_year, last_year, dtype_dict, 
+    #     adjust_cols, split_col_name, 
+    #     remove_factor_columns
+    # )
     for ticker in ticker_list:
         paths = get_parquet_paths(
             base_path=base_path,
