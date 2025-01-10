@@ -58,6 +58,7 @@ def convert_price_to_raw(
         first_year (int): The first year to be considered.
         last_year (int): The last year to be considered.
         dtype_dict (dict, optional): A dictionary specifying the data types for the columns. Defaults to DEFAULT_DTYPE_DICT.
+        adjust_cols (list, optional): A list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
 
     """
     paths = get_parquet_paths(
