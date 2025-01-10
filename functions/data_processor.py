@@ -56,6 +56,8 @@ def convert_price_to_raw(
         base_path (str): The base directory where the parquet files are stored.
         export_base_path (str): The base directory where the processed files will be saved.
         first_year (int): The first year to be considered.
+        last_year (int): The last year to be considered.
+
     """
     paths = get_parquet_paths(
         base_path=base_path,
