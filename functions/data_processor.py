@@ -60,7 +60,7 @@ def convert_price_to_raw(
         dtype_dict (dict, optional): A dictionary specifying the data types for the columns. Defaults to DEFAULT_DTYPE_DICT.
         adjust_cols (list, optional): A list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
         split_col_name (str, optional): The name of the column containing stock split information. Defaults to 'stock splits'.
-        
+        remove_factor_columns (bool, optional): Whether to remove the adjustment factor columns after processing. Defaults to True.
     """
     paths = get_parquet_paths(
         base_path=base_path,
