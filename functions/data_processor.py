@@ -124,7 +124,10 @@ def convert_price_to_raw_multiple(
         adjust_cols, split_col_name, 
         remove_factor_columns, save_data
     ) for ticker in ticker_list]
-    
+
+    if not save_data:
+        return res_list
+
     # for ticker in ticker_list:
     #     paths = get_parquet_paths(
     #         base_path=base_path,
