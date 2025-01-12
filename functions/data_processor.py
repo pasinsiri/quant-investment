@@ -126,6 +126,7 @@ def convert_price_to_raw_multiple(
         first_year (int): first year to be considered
         last_year (int): last year to be considered
         dtype_dict (dict, optional): a dictionary representing data type for each column. Defaults to DEFAULT_DTYPE_DICT.
+        adjust_cols (list, optional): a list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
 
     """
     
