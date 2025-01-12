@@ -131,6 +131,8 @@ def convert_price_to_raw_multiple(
         remove_factor_columns (bool, optional): if true, remove factor columns created and used to adjust price. Defaults to True.
         save_data (bool, optional): if true, result will be saved. otherwise, it'll be returned. Defaults to True.
 
+    Returns:
+        pd.DataFrame: a pandas DataFrame of the processed data
     """
     
     res_list = [convert_price_to_raw(
