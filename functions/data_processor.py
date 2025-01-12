@@ -129,6 +129,7 @@ def convert_price_to_raw_multiple(
         adjust_cols (list, optional): a list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
         split_col_name (str, optional): column name for stock split actions. Defaults to 'stock splits'.
         remove_factor_columns (bool, optional): if true, remove factor columns created and used to adjust price. Defaults to True.
+        save_data (bool, optional): if true, result will be saved. otherwise, it'll be returned. Defaults to True.
 
     """
     
