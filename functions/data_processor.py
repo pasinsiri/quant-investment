@@ -119,6 +119,8 @@ def convert_price_to_raw_multiple(
 ):
     """Convert price to raw for multiple tickers.
 
+    Args:
+        ticker_list (list): a list of stock tickers
 
     """
     
