@@ -123,6 +123,7 @@ def convert_price_to_raw_multiple(
         ticker_list (list): a list of stock tickers
         base_path (str): base directory where the parquet files are stored
         export_base_path (str): export directory where the processed files will be saved
+        first_year (int): first year to be considered
 
     """
     
