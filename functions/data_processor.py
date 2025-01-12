@@ -117,6 +117,10 @@ def convert_price_to_raw_multiple(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         remove_factor_columns: bool = True, save_data: bool = True
 ):
+    """Convert price to raw for multiple tickers.
+
+
+    """
     
     res_list = [convert_price_to_raw(
         ticker, base_path, export_base_path, 
