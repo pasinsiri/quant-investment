@@ -124,6 +124,7 @@ def convert_price_to_raw_multiple(
         base_path (str): base directory where the parquet files are stored
         export_base_path (str): export directory where the processed files will be saved
         first_year (int): first year to be considered
+        last_year (int): last year to be considered
 
     """
     
