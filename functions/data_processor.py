@@ -127,6 +127,8 @@ def convert_price_to_raw_multiple(
         last_year (int): last year to be considered
         dtype_dict (dict, optional): a dictionary representing data type for each column. Defaults to DEFAULT_DTYPE_DICT.
         adjust_cols (list, optional): a list of columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
+        split_col_name (str, optional): column name for stock split actions. Defaults to 'stock splits'.
+        remove_factor_columns (bool, optional): if true, remove factor columns created and used to adjust price. Defaults to True.
 
     """
     
