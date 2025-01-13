@@ -194,6 +194,9 @@ def adjust_price(
         adjust_cols: list = ['open', 'high', 'low', 'close', 'dividends'], split_col_name:str = 'stock splits',
         save_result: bool = False
 ):
+    """adjust price for a single ticker
+
+    """
     paths = get_parquet_paths(
         base_path=base_path,
         first_year=first_year,
