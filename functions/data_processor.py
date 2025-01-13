@@ -204,6 +204,8 @@ def adjust_price(
         last_year (int): the last year
         adjust_cols (list, optional): price columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
         split_col_name (str, optional): stock splits' column name. Defaults to 'stock splits'.
+        save_result (bool, optional): whether to save result or not. Defaults to False.
+
 
     """
     paths = get_parquet_paths(
