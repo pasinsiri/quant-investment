@@ -197,6 +197,7 @@ def adjust_price(
     """adjust price for a single ticker
 
     Args:
+        ticker (str): a stock ticker
 
     """
     paths = get_parquet_paths(
