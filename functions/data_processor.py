@@ -201,6 +201,7 @@ def adjust_price(
         base_path (str): a base directory where the parquet files are stored
         export_base_path (str): an export directory where the processed files will be saved
         first_year (int): the first year
+        last_year (int): the last year
 
     """
     paths = get_parquet_paths(
