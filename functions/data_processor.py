@@ -202,6 +202,7 @@ def adjust_price(
         export_base_path (str): an export directory where the processed files will be saved
         first_year (int): the first year
         last_year (int): the last year
+        adjust_cols (list, optional): price columns to be adjusted. Defaults to ['open', 'high', 'low', 'close', 'dividends'].
 
     """
     paths = get_parquet_paths(
