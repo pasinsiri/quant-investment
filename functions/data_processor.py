@@ -206,7 +206,8 @@ def adjust_price(
         split_col_name (str, optional): stock splits' column name. Defaults to 'stock splits'.
         save_result (bool, optional): whether to save result or not. Defaults to False.
 
-
+    Returns:
+        pd.DataFrame: a pandas DataFrame of the processed data
     """
     paths = get_parquet_paths(
         base_path=base_path,
