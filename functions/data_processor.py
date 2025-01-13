@@ -200,6 +200,7 @@ def adjust_price(
         ticker (str): a stock ticker
         base_path (str): a base directory where the parquet files are stored
         export_base_path (str): an export directory where the processed files will be saved
+        first_year (int): the first year
 
     """
     paths = get_parquet_paths(
