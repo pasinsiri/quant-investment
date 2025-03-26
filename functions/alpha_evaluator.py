@@ -257,3 +257,6 @@ class AlphaFactorEvaluator():
 class PortfolioReturn():
     def __init__(self):
         pass
+
+    def calculate_eqw_return(self):
+        pass
