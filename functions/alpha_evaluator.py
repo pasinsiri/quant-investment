@@ -253,3 +253,7 @@ class AlphaFactorEvaluator():
                             .dropna()
             quantile_turnover_dict[factor] = turnover_df
         return quantile_turnover_dict
+
+class PortfolioReturn():
+    def __init__(self):
+        pass
