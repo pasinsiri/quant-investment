@@ -254,6 +254,11 @@ class AlphaFactorEvaluator():
             quantile_turnover_dict[factor] = turnover_df
         return quantile_turnover_dict
 
+class FactorProcessor():
+    def __init__(self):
+        pass
+
+
 class PortfolioReturn():
     def __init__(self):
         pass
