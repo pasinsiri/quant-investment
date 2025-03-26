@@ -260,3 +260,6 @@ class PortfolioReturn():
 
     def calculate_eqw_return(self):
         pass
+
+    def calculate_factor_based_return(self):
+        pass
