@@ -260,8 +260,15 @@ class FactorProcessor():
 
 
 class PortfolioReturn():
-    def __init__(self, raw_df:pd.DataFrame):
-        pass
+    def __init__(
+            self,
+            raw_df:pd.DataFrame,
+            shift_period: int = 1,
+            forward_return_period: int = 1
+    ):
+        self.raw_df = raw_df
+        self.shift_period = shift_period
+        self.forward_return_period = forward_return_period
 
     def calculate_eqw_return(self):
         pass
