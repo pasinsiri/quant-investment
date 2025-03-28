@@ -260,7 +260,7 @@ class FactorProcessor():
 
 
 class PortfolioReturn():
-    def __init__(self):
+    def __init__(self, raw_df:pd.DataFrame):
         pass
 
     def calculate_eqw_return(self):
