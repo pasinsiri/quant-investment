@@ -291,3 +291,8 @@ class PortfolioReturn():
             "Columns are not matched"
         assert self.raw_df.index == factor_df.index, \
             "Index is not matched"
+        
+        # factor_return_df = pd.DataFrame(index=self.raw_df.index, columns=self.raw_df.columns)
+        factor_asset_return_df = self.raw_df * factor_df
+        factor_return_df = factor_asset_return_df.sum(axis=1)
+        
