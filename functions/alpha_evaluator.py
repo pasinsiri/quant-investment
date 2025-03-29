@@ -286,5 +286,5 @@ class PortfolioReturn():
         else:
             return avg_return
 
-    def calculate_factor_based_return(self, factor_weight: pd.DataFrame):
+    def calculate_factor_weighted_return(self, factor_weight: pd.DataFrame):
         pass
