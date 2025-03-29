@@ -269,6 +269,7 @@ class PortfolioReturn():
         self.raw_df = raw_df
         self.shift_period = shift_period
         self.forward_return_period = forward_return_period
+        self.fwd_return_df = self.calculate_forward_return(drop_na=False)
 
     def calculate_forward_return(self, drop_na:bool = True):
         shifted_df = self.raw_df.shift(-self.shift_period)
@@ -278,8 +279,12 @@ class PortfolioReturn():
             fwd_return_df = fwd_return_df.dropna()
         return fwd_return_df
 
-    def calculate_eqw_return(self):
-        pass
+    def calculate_eqw_return(self, accumulate:bool = False):
+        avg_return = self.raw_df.mean(axis=1)
+        if accumulate:
+            return (avg_return + 1).cumprod() - 1
+        else:
+            return avg_return
 
     def calculate_factor_based_return(self):
         pass
