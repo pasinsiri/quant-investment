@@ -286,7 +286,8 @@ class PortfolioReturn():
         else:
             return avg_return
 
-    def calculate_factor_weighted_return(self, factor_weight: pd.DataFrame):
-        assert self.raw_df.columns == factor_weight.columns, \
+    def calculate_factor_weighted_return(self, factor_df: pd.DataFrame):
+        assert self.raw_df.columns == factor_df.columns, \
             "Columns are not matched"
-        pass
+        assert self.raw_df.index == factor_df.index, \
+            "Index is not matched"
