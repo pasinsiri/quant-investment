@@ -286,7 +286,7 @@ class PortfolioReturn():
         else:
             return avg_return
 
-    def calculate_factor_weighted_return(self, factor_df: pd.DataFrame):
+    def calculate_factor_weighted_return(self, factor_df:pd.DataFrame, accumulate:bool = False):
         assert self.raw_df.columns == factor_df.columns, \
             "Columns are not matched"
         assert self.raw_df.index == factor_df.index, \
@@ -294,5 +294,9 @@ class PortfolioReturn():
         
         # factor_return_df = pd.DataFrame(index=self.raw_df.index, columns=self.raw_df.columns)
         factor_asset_return_df = self.raw_df * factor_df
-        factor_return_df = factor_asset_return_df.sum(axis=1)
+        factor_return = factor_asset_return_df.sum(axis=1)
+        if accumulate:
+            return factor_return.add(1).cumprod().sub(1)
+        else:
+            return factor_return
         
