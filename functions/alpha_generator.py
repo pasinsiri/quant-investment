@@ -38,7 +38,8 @@ class NoOverlapClassifierAbstract(VotingClassifier):
     def fit(
         self, 
         X: pd.DataFrame, 
-        y: pd.Series
+        y: pd.Series,
+        weights: Optional[List[Union[int, float]]] = None
     ):
         estimator_names, clfs = zip(*self.estimators)
         self.le_ = LabelEncoder().fit(y)
