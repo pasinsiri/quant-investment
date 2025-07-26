@@ -9,6 +9,7 @@ import logging
 import os
 import yfinance as yf
 import csv
+from typing import Optional
 
 # TODO: Stock Reader
 # ? Yahoo Finance
