@@ -23,10 +23,11 @@ class NoOverlapClassifierAbstract(VotingClassifier):
         raise NotImplementedError
 
     def __init__(
-            self,
-            estimator,
-            voting: Literal['hard', 'soft'] = 'soft',
-            n_skip_samples: int = 4):
+        self,
+        estimator,
+        voting: Literal['hard', 'soft'] = 'soft',
+        n_skip_samples: int = 4
+    ):
         # List of estimators for all the subsets of data
         estimators = [('clf' + str(i), estimator)
                       for i in range(n_skip_samples + 1)]
@@ -34,7 +35,11 @@ class NoOverlapClassifierAbstract(VotingClassifier):
         self.n_skip_samples = n_skip_samples
         super().__init__(estimators=estimators, voting=voting)
 
-    def fit(self, X, y):
+    def fit(
+        self, 
+        X: pd.DataFrame, 
+        y: pd.Series
+    ):
         estimator_names, clfs = zip(*self.estimators)
         self.le_ = LabelEncoder().fit(y)
         self.classes_ = self.le_.classes_
