@@ -9,7 +9,7 @@ from typing import Union, Optional, List
 
 class NoOverlapClassifierAbstract(VotingClassifier):
     @abc.abstractmethod
-    def _calculate_oob_score(self, classifiers):
+    def _calculate_oob_score(self, classifiers: BaseEstimator):
         raise NotImplementedError
 
     @abc.abstractmethod
