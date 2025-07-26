@@ -236,7 +236,23 @@ def adjust_price(
     ticker_df['accum_retention'] = ticker_df['retention_rate'].cumprod()
     ticker_df['adj_close'] = ticker_df['accum_retention'] * ticker_df['close']
 
-    return ticker_df
+    # TODO: save data
+    if save_result:
+        for path in paths:
+            path_split = path.split('/')
+            year, month = path_split[4], path_split[5]
+            month_df = ticker_df[(ticker_df.index.year == int(year)) & 
+                                    (ticker_df.index.month == int(month))]
+
+            year_path = f'{export_base_path}/{year}'
+            if not os.path.exists(year_path):
+                os.mkdir(year_path)
+            month_path = f'{year_path}/{month}'
+            if not os.path.exists(month_path):
+                os.mkdir(month_path)
+            month_df.to_parquet(f'{month_path}/{ticker}.parquet')
+    else:
+        return ticker_df
     
 
 def adjust_price_multiple(

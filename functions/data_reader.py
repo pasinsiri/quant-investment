@@ -9,6 +9,7 @@ import logging
 import os
 import yfinance as yf
 import csv
+from typing import Optional
 
 # TODO: Stock Reader
 # ? Yahoo Finance
@@ -66,9 +67,9 @@ class YFinanceReader():
 
     def load_data(
             self,
-            start: str = None,
-            end: str = None,
-            period: str = None,
+            start: Optional[str] = None,
+            end: Optional[str] = None,
+            period: Optional[str] = None,
             interval: str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
@@ -98,7 +99,7 @@ class YFinanceReader():
     def save(
             self,
             parent_dir: str,
-            start_writing_date: dt.date = None,
+            start_writing_date: Optional[dt.date] = None,
             verbose: bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
@@ -328,7 +329,7 @@ class AlphaVantageReader():
 
     def get_earnings_calendar(
             self,
-            ticker: str = None,
+            ticker: Optional[str] = None,
             horizon: str = '3month') -> pd.DataFrame:
         """get earnings calendar of every company
 

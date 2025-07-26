@@ -253,3 +253,50 @@ class AlphaFactorEvaluator():
                             .dropna()
             quantile_turnover_dict[factor] = turnover_df
         return quantile_turnover_dict
+
+class FactorProcessor():
+    def __init__(self):
+        pass
+
+
+class PortfolioReturn():
+    def __init__(
+            self,
+            raw_df:pd.DataFrame,
+            shift_period: int = 1,
+            forward_return_period: int = 1
+    ):
+        self.raw_df = raw_df
+        self.shift_period = shift_period
+        self.forward_return_period = forward_return_period
+        self.fwd_return_df = self.calculate_forward_return(drop_na=False)
+
+    def calculate_forward_return(self, drop_na:bool = True):
+        shifted_df = self.raw_df.shift(-self.shift_period)
+        fwd_return_df = (shifted_df.shift(-self.forward_return_period) / shifted_df) - 1
+        fwd_return_df = fwd_return_df.rename(columns=lambda x: f'{x}_fwd_return')
+        if drop_na:
+            fwd_return_df = fwd_return_df.dropna()
+        return fwd_return_df
+
+    def calculate_eqw_return(self, accumulate:bool = False):
+        avg_return = self.raw_df.mean(axis=1)
+        if accumulate:
+            return (avg_return + 1).cumprod() - 1
+        else:
+            return avg_return
+
+    def calculate_factor_weighted_return(self, factor_df:pd.DataFrame, accumulate:bool = False):
+        assert self.raw_df.columns == factor_df.columns, \
+            "Columns are not matched"
+        assert self.raw_df.index == factor_df.index, \
+            "Index is not matched"
+        
+        # factor_return_df = pd.DataFrame(index=self.raw_df.index, columns=self.raw_df.columns)
+        factor_asset_return_df = self.raw_df * factor_df
+        factor_return = factor_asset_return_df.sum(axis=1)
+        if accumulate:
+            return factor_return.add(1).cumprod().sub(1)
+        else:
+            return factor_return
+        
