@@ -5,6 +5,7 @@ from sklearn.ensemble import VotingClassifier, VotingRegressor
 from sklearn.base import clone
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import Bunch
+from typing import Union, Optional
 
 
 class NoOverlapClassifierAbstract(VotingClassifier):
