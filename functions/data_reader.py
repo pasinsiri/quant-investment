@@ -329,7 +329,7 @@ class AlphaVantageReader():
 
     def get_earnings_calendar(
             self,
-            ticker: str = None,
+            ticker: Optional[str] = None,
             horizon: str = '3month') -> pd.DataFrame:
         """get earnings calendar of every company
 
