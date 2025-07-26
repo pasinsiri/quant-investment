@@ -2,25 +2,32 @@ import abc
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import VotingClassifier, VotingRegressor
-from sklearn.base import clone
+from sklearn.base import clone, BaseEstimator
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import Bunch
-
+from typing import Union, Optional, List, Literal
 
 class NoOverlapClassifierAbstract(VotingClassifier):
     @abc.abstractmethod
-    def _calculate_oob_score(self, classifiers):
+    def _calculate_oob_score(self, classifiers: BaseEstimator):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _non_overlapping_estimators(self, x, y, classifiers, n_skip_samples):
+    def _non_overlapping_estimators(
+        self, 
+        x: pd.DataFrame, 
+        y: pd.Series, 
+        classifiers: List[BaseEstimator], 
+        n_skip_samples: int
+    ):
         raise NotImplementedError
 
     def __init__(
-            self,
-            estimator,
-            voting: str = 'soft',
-            n_skip_samples: int = 4):
+        self,
+        estimator,
+        voting: Literal['hard', 'soft'] = 'soft',
+        n_skip_samples: int = 4
+    ):
         # List of estimators for all the subsets of data
         estimators = [('clf' + str(i), estimator)
                       for i in range(n_skip_samples + 1)]
@@ -28,7 +35,12 @@ class NoOverlapClassifierAbstract(VotingClassifier):
         self.n_skip_samples = n_skip_samples
         super().__init__(estimators=estimators, voting=voting)
 
-    def fit(self, X, y):
+    def fit(
+        self, 
+        X: pd.DataFrame, 
+        y: pd.Series,
+        weights: Optional[List[Union[int, float]]] = None
+    ):
         estimator_names, clfs = zip(*self.estimators)
         self.le_ = LabelEncoder().fit(y)
         self.classes_ = self.le_.classes_
