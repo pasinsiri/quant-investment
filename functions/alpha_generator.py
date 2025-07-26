@@ -2,11 +2,10 @@ import abc
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import VotingClassifier, VotingRegressor
-from sklearn.base import clone
+from sklearn.base import clone, BaseEstimator
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import Bunch
-from typing import Union, Optional
-
+from typing import Union, Optional, List
 
 class NoOverlapClassifierAbstract(VotingClassifier):
     @abc.abstractmethod
@@ -14,7 +13,13 @@ class NoOverlapClassifierAbstract(VotingClassifier):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _non_overlapping_estimators(self, x, y, classifiers, n_skip_samples):
+    def _non_overlapping_estimators(
+        self, 
+        x: pd.DataFrame, 
+        y: pd.Series, 
+        classifiers: List[BaseEstimator], 
+        n_skip_samples: int
+    ):
         raise NotImplementedError
 
     def __init__(
