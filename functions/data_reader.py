@@ -99,7 +99,7 @@ class YFinanceReader():
     def save(
             self,
             parent_dir: str,
-            start_writing_date: dt.date = None,
+            start_writing_date: Optional[dt.date] = None,
             verbose: bool = False):
         if not self.is_loaded:
             raise ReferenceError('call load_data first before saving')
