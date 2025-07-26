@@ -68,8 +68,8 @@ class YFinanceReader():
     def load_data(
             self,
             start: Optional[str] = None,
-            end: str = None,
-            period: str = None,
+            end: Optional[str] = None,
+            period: Optional[str] = None,
             interval: str = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
