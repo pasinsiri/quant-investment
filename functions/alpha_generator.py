@@ -5,7 +5,7 @@ from sklearn.ensemble import VotingClassifier, VotingRegressor
 from sklearn.base import clone, BaseEstimator
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import Bunch
-from typing import Union, Optional, List
+from typing import Union, Optional, List, Literal
 
 class NoOverlapClassifierAbstract(VotingClassifier):
     @abc.abstractmethod
@@ -25,7 +25,7 @@ class NoOverlapClassifierAbstract(VotingClassifier):
     def __init__(
             self,
             estimator,
-            voting: str = 'soft',
+            voting: Literal['hard', 'soft'] = 'soft',
             n_skip_samples: int = 4):
         # List of estimators for all the subsets of data
         estimators = [('clf' + str(i), estimator)
