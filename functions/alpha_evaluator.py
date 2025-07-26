@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 import alphalens as al
 import matplotlib.pyplot as plt
-from typing import Union, Optional
 
 
 class AlphaFactorEvaluator():
