@@ -70,7 +70,7 @@ class YFinanceReader():
             start: Optional[str] = None,
             end: Optional[str] = None,
             period: Optional[str] = None,
-            interval: str = '1d',
+            interval: Optional[str] = '1d',
             auto_adjust: bool = False,
             actions: bool = False):
         if start and end:
