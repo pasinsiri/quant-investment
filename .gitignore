@@ -191,6 +191,10 @@ creds_meta.json
 # results
 res
 
+# UV files
+.python-version
+pyproject.toml
+
 # FINNOMENA data
 */finno/*
 finno*.ipynb
