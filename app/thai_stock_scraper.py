@@ -1,5 +1,7 @@
 import os
 import json
+import sys
+sys.path.append('..')
 from functions.scraper import SiamchartScraper
 
 export_path = os.path.join('content/thai/ticker_list', 'thai_ticker.json')

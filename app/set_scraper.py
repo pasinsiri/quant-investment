@@ -2,6 +2,8 @@ import json
 import datetime as dt
 import logging
 import time
+import sys
+sys.path.append('..')
 from functions.scraper import SETScraper
 
 # INDEXES_URL = {

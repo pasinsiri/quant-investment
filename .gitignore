@@ -194,6 +194,7 @@ res
 # UV files
 .python-version
 pyproject.toml
+uv.lock
 
 # FINNOMENA data
 */finno/*

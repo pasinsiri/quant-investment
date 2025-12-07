@@ -1,8 +1,10 @@
 import pandas as pd
 import datetime as dt
 import os
+import sys
 import argparse
 from dateutil.relativedelta import relativedelta
+sys.path.append('..')
 from functions.indicators import IndicatorExecutor
 
 # TODO: get arguments
