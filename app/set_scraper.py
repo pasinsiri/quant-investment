@@ -2,7 +2,7 @@ import json
 import datetime as dt
 import logging
 import time
-from functions.scraper import SETScraper
+from ..functions.scraper import SETScraper
 
 # INDEXES_URL = {
 #     'set50': 'https://www.set.or.th/th/market/index/set50/overview',
