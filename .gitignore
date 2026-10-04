@@ -184,6 +184,7 @@ data/*
 content/thai/ticker_list
 
 # credentials
+.ssh
 creds.json
 creds_meta.json
 *creds*
